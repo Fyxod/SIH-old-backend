@@ -16,19 +16,23 @@ const expertSchema = new mongoose.Schema({
     },
     mobileNo: {
         type: String,
-        // required: true
+        required: true
     },
     email: {
         type: String,
-        // required: true
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
     },
     currentPosition: {
         type: String,
-        // required: true
+        required: true
     },
     currentDepartment: {
         type: String,
-        // required: true
+        required: true
     },
     skills:[{
         type: String,
@@ -36,6 +40,10 @@ const expertSchema = new mongoose.Schema({
     bio: {
         type: String,
         // required: true
+    },
+    dateOfBirth: {
+        type: Date,
+        required: true
     },
     experience: [{
         department: {

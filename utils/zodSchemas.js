@@ -40,11 +40,16 @@ export const registerAdminSchema = z.object({
 // });
 
 export const expertRegistrationSchema = z.object({
-    name: z.string().min(3, { message: 'Name must be at least 3 characters long.' }).max(50, { message: 'Name must be at most 50 characters long.' }),
+    name: z
+        .string()
+        .min(3, { message: 'Name must be at least 3 characters long.' })
+        .max(50, { message: 'Name must be at most 50 characters long.' })
+        .transform((name) => name.trim().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')),
     email: z.string().email({ message: 'Please enter a valid email address.' }),
     mobileNo: z.string().length(10, { message: 'Mobile number must be 10 digits long.' }).regex(/^[6-9]\d{9}$/, { message: 'Please enter a valid mobile number.' }),
     gender: z.enum(["Male", "Female", "Non-Binary", "Other"], {
-        required_error: "Gender is required.", invalid_type_error: "Invalid gender selection."
+        required_error: "Gender is required.",
+        invalid_type_error: "Invalid gender selection."
     }),
     currentPosition: z
         .string()
@@ -55,12 +60,12 @@ export const expertRegistrationSchema = z.object({
         .min(3, { message: 'Current department must be at least 3 characters long.' })
         .max(50, { message: 'Current department must be at most 50 characters long.' }),
     skills: z.array(
-        z.string())
-        .min(1, { message: 'At least one skill is required.' }),
+        z.string()
+    ).min(1, { message: 'At least one skill is required.' }),
     bio: z
-    .string()
-    .max(500, { message: 'Bio must be at most 500 characters long.' })
-    .optional(),
+        .string()
+        .max(500, { message: 'Bio must be at most 500 characters long.' })
+        .optional(),
     experience: z.array(z.object({
         department: z.string().min(3, { message: 'Department must be at least 3 characters long.' }).max(50, { message: 'Department must be at most 50 characters long.' }),
         position: z.string().min(3, { message: 'Position must be at least 3 characters long.' }).max(50, { message: 'Position must be at most 50 characters long.' }),
@@ -76,4 +81,9 @@ export const expertRegistrationSchema = z.object({
         endDate: z.date(),
     })), //.min(1, { message: 'At least one education is required.' }),
     linkedin: z.string().url({ message: 'Please enter a valid LinkedIn URL.' }).optional(),
+});
+
+export const expertLoginSchema = z.object({
+    email: z.string().email({ message: 'Please enter a valid email address.' }),
+    password: z.string().min(6, { message: 'Password is at least 6 characters long.' }),
 });

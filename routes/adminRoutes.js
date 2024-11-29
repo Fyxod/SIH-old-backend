@@ -25,7 +25,7 @@ router.post('/signup', safeHandler(async (req, res) => {
     }
     const validPassword = await bcrypt.compare(password, admin.password);
     if (!validPassword) {
-        throw new ApiError(404, "Invalid email or password", "INVALID_PASSWORD");
+        throw new ApiError(404, "Invalid email or password", "INVALID_CREDENTIALS");
     }
     const token = generateToken({ id: admin._id, role: admin.role });
     return res.success(200, "Successfully logged in", { token });

@@ -37,6 +37,13 @@ const config = {
         // resetTokenSecret: process.env.RESET_TOKEN_SECRET || 'thisisasecretmaybe',
         // resetTokenExpiration: '1h',
     },
+    paths: {
+        resume:{
+            expert: 'resumes/experts',
+            candidate: 'resumes/candidates',
+            temporary: 'resumes/temp',
+        }
+    },
     //later include more config options for production
 };
 
