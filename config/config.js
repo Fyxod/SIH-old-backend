@@ -15,7 +15,12 @@ const config = {
             useUnifiedTopology: true,
         },
     },
-
+    priority: {
+        candidate: 0,
+        expert: 0,
+        admin: 1,
+        superAdmin: 2,
+    },
     auth: {
         tokenSecret: process.env.ACCESS_TOKEN_SECRET || 'thisbetterbeasecret',
         tokenExpiration: '15m',
