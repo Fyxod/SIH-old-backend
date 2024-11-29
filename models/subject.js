@@ -28,21 +28,28 @@ const subjectSchema = new mongoose.Schema({
         //     "part-time"
         // ]
     },
+    recommendedSkills: [{
+        type: String,
+        required: true
+    }],
     status: {
         type: String,
         required: true,
         enum: [
             "open",
             "closed"
-        ]
+        ],
+        default: "closed"
     },
     applicants: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Candidate'
+        ref: 'Candidate',
+        default: []
     },
     experts: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Expert'
+        ref: 'Expert',
+        default: []
     },
 },
     {

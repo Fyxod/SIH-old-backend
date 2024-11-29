@@ -87,3 +87,12 @@ export const expertLoginSchema = z.object({
     email: z.string().email({ message: 'Please enter a valid email address.' }),
     password: z.string().min(6, { message: 'Password is at least 6 characters long.' }),
 });
+
+export const subjectSchema = z.object({
+    title: z.string().min(3, { message: 'Title must be at least 3 characters long.' }).max(50, { message: 'Title must be at most 50 characters long.' }),
+    description: z.string().min(10, { message: 'Description must be at least 10 characters long.' }).max(500, { message: 'Description must be at most 500 characters long.' }),
+    department: z.string().min(3, { message: 'Department must be at least 3 characters long.' }).max(50, { message: 'Department must be at most 50 characters long.' }),//should we add an enum here?
+    recommendedSkills: z.array(z.string()
+        .max(40, { message: 'Each skill must be at most 40 characters long.' })
+    ).min(1, { message: 'At least one skill is required.' }),
+});
