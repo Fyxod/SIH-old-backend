@@ -17,9 +17,9 @@ const config = {
     },
     priority: {
         candidate: 0,
-        expert: 0,
-        admin: 1,
-        superAdmin: 2,
+        expert: 1,
+        admin: 2,
+        superAdmin: 3,
     },
     auth: {
         tokenSecret: process.env.ACCESS_TOKEN_SECRET || 'thisbetterbeasecret',

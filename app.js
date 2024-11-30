@@ -17,13 +17,12 @@ app.get('/', (req, res) => {
 
 //TEST OUT THIS ERROR JARGON FIRST
 app.use((error, req, res, next) => {
-    if(error.errors && error.errors[0].message) {
+    if(error.errors && error.errors[0].message) { // zod error
         error.message = error.errors[0].message;
         error.statusCode = 400;
         error.isOperational = true;
         error.errorCode = 'VALIDATION_ERROR';
     }
-
     
     if (error.isOperational) {
         const statusCode = error.statusCode || 500;
@@ -48,6 +47,7 @@ app.listen(server.port, () => {
 2. Format all routes
 3. Seperate into controllers
 4. validate all object ids if coming
+5. Add more PATCH routes
 
 /*
 Problem Statement Title:
