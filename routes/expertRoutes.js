@@ -1,5 +1,5 @@
 import express from 'express';
-import checkAuth from '../middlewares/checkAuth.js';
+import checkAuth from '../middlewares/authMiddleware.js';
 import Expert from '../models/expert.js';
 import { safeHandler } from '../middlewares/safeHandler.js';
 import { resumeUpload } from '../utils/multer.js';

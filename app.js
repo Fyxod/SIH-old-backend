@@ -23,10 +23,11 @@ app.use((error, req, res, next) => {
         error.isOperational = true;
         error.errorCode = 'VALIDATION_ERROR';
     }
-    const statusCode = error.statusCode || 500;
-    const message = error.message || 'Internal Server Error';
+
     
     if (error.isOperational) {
+        const statusCode = error.statusCode || 500;
+        const message = error.message || 'Internal Server Error';
         res.error(statusCode, message, error.errorCode, error.data);
     } else {
         //send email
