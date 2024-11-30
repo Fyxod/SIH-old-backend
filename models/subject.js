@@ -41,16 +41,16 @@ const subjectSchema = new mongoose.Schema({
         ],
         default: "closed"
     },
-    applicants: {
+    applicants: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Candidate',
         default: []
-    },
-    experts: {
+    }],
+    experts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Expert',
         default: []
-    },
+    }],
 },
     {
         timestamps: true

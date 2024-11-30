@@ -17,7 +17,7 @@ const candidateSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    dob: {
+    dateOfBirth: {
         type: Date,
         required: true
     },
@@ -109,3 +109,7 @@ const candidateSchema = new mongoose.Schema({
 {
     timestamps: true
 });
+
+const Candidate = mongoose.model('Candidate', candidateSchema);
+
+export default Candidate;
