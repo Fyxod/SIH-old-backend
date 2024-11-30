@@ -4,7 +4,7 @@ import { priority } from '../config/config.js';
 export default function checkAuth(role) { // role = minimum access level required (optional field)
     return (req, res, next) => {
         let token = null
-        if (req.headers['isMobile']) {
+        if (req.headers['isMobile'] === "true") {
             const authHeader = req.headers['authorization'];
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
                 return res.error(401, 'Missing or malformed token', 'UNAUTHORIZED');

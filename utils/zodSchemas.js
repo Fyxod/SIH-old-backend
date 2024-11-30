@@ -89,22 +89,53 @@ export const expertLoginSchema = z.object({
 });
 
 export const subjectSchema = z.object({
-    title: z.string().min(3, { message: 'Title must be at least 3 characters long.' }).max(50, { message: 'Title must be at most 50 characters long.' }),
-    description: z.string().min(10, { message: 'Description must be at least 10 characters long.' }).max(500, { message: 'Description must be at most 500 characters long.' }),
-    department: z.string().min(3, { message: 'Department must be at least 3 characters long.' }).max(50, { message: 'Department must be at most 50 characters long.' }),//should we add an enum here?
-    type: z.enum(["open", "closed"], { required_error: "Type is required." }, { invalid_type_error: "Type must be either 'open' or 'closed'" }),
-    recommendedSkills: z.array(z.string()
-        .max(40, { message: 'Each skill must be at most 40 characters long.' })
+    title: z.string()
+        .min(3, { message: 'Title must be at least 3 characters long.' })
+        .max(50, { message: 'Title must be at most 50 characters long.' }),
+    description: z.string()
+        .min(10, { message: 'Description must be at least 10 characters long.' })
+        .max(500, { message: 'Description must be at most 500 characters long.' }),
+    department: z.string()
+        .min(3, { message: 'Department must be at least 3 characters long.' })
+        .max(50, { message: 'Department must be at most 50 characters long.' }),
+    type: z.enum(["open", "closed"], {
+        required_error: "Type is required.",
+        invalid_type_error: "Type must be either 'open' or 'closed'."
+    }),
+    recommendedSkills: z.array(
+        z.string()
+            .max(40, { message: 'Each skill must be at most 40 characters long.' })
     ).min(1, { message: 'At least one skill is required.' }),
 });
 
 export const subjectUpdateSchema = z.object({
-    title: z.string().min(3, { message: 'Title must be at least 3 characters long.' }).max(50, { message: 'Title must be at most 50 characters long.' }).optional(),
-    description: z.string().min(10, { message: 'Description must be at least 10 characters long.' }).max(500, { message: 'Description must be at most 500 characters long.' }).optional(),
-    department: z.string().min(3, { message: 'Department must be at least 3 characters long.' }).max(50, { message: 'Department must be at most 50 characters long.' }).optional(),
-    type: z.enum(["open", "closed"], { required_error: "Type is required." }, { invalid_type_error: "Type must be either 'open' or 'closed'" }).optional(),
-    recommendedSkills: z.array(z.string()
-        .max(40, { message: 'Each skill must be at most 40 characters long.' })
-    ).min(1, { message: 'At least one skill is required.' }).optional(),
-    status: z.enum(["open", "closed"], { required_error: "Status is required." }).optional(),
+    title: z.string()
+        .trim()
+        .min(3, { message: 'Title must be at least 3 characters long.' })
+        .max(50, { message: 'Title must be at most 50 characters long.' })
+        .optional(),
+    description: z.string()
+        .trim()
+        .min(10, { message: 'Description must be at least 10 characters long.' })
+        .max(500, { message: 'Description must be at most 500 characters long.' })
+        .optional(),
+    department: z.string()
+        .trim()
+        .min(3, { message: 'Department must be at least 3 characters long.' })
+        .max(50, { message: 'Department must be at most 50 characters long.' })
+        .optional(),
+    type: z.enum(["open", "closed"], {
+        required_error: "Type is required.",
+        invalid_type_error: "Type must be either 'open' or 'closed'."
+    }).optional(),
+    recommendedSkills: z.array(
+        z.string()
+            .trim()
+            .max(40, { message: 'Each skill must be at most 40 characters long.' })
+    )
+        .min(1, { message: 'At least one skill is required.' })
+        .optional(),
+    status: z.enum(["open", "closed"], {
+        required_error: "Status is required."
+    }).optional(),
 });

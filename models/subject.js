@@ -41,16 +41,36 @@ const subjectSchema = new mongoose.Schema({
         ],
         default: "closed"
     },
-    applicants: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Candidate',
+    applicants: {
+        type: [{
+            relevancyScore: {
+                type: Number,
+                default: 0
+            },
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Candidate'
+            }
+        }],
         default: []
-    }],
-    experts: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Expert',
-        default: []
-    }],
+    },
+    experts: {
+        type: [{
+                profileScore: {
+                    type: Number,
+                    default: 0,
+                },
+                relevancyScore: {
+                    type: Number,
+                    default: 0,
+                },
+                id: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Expert',
+                },
+            }],
+        default: [],
+    },
 },
     {
         timestamps: true

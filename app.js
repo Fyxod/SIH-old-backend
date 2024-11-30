@@ -45,6 +45,9 @@ app.listen(server.port, () => {
 
 /*things pending:
 1. Decide enums
+2. Format all routes
+3. Seperate into controllers
+4. validate all object ids if coming
 
 /*
 Problem Statement Title:

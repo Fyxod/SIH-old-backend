@@ -11,6 +11,7 @@ import { generateToken, verifyToken } from '../utils/jwtFuncs.js';
 import { expertRegistrationSchema, expertLoginSchema } from '../utils/zodSchemas.js';
 import path from 'path';
 import config from '../config/config.js';
+import getSelectedFields from '../utils/selectFields.js';
 const tempResumeFolder = config.paths.resume.temporary;
 const expertResumeFolder = config.paths.resume.expert;
 
@@ -99,13 +100,8 @@ router.route('/:id')
     .get(checkAuth("expert"), safeHandler(async (req, res) => {
         const { id } = req.params;
         const { education, experience } = req.body;
-        let selectedFields;
-        if (education && experience) selectedFields = "-password";
-        else if (education) selectedFields = "-password -experience";
-        else if (experience) selectedFields = "-password -education";
-        else selectedFields = "-password -education -experience";
 
-        const expert = await Expert.findById(id).select(selectedFields);
+        const expert = await Expert.findById(id).select(getSelectedFields(education, experience));
 
         if (!expert) {
             throw new ApiError(404, "Expert not found", "EXPERT_NOT_FOUND");
