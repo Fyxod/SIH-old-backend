@@ -16,7 +16,7 @@ const tempResumeFolder = config.paths.resume.temporary;
 const expertResumeFolder = config.paths.resume.expert;
 
 const router = express.Router();
-
+// the rout / is being used to do crud of an expert by adminof higher level
 router.route('/')
     .get(checkAuth("admin"), safeHandler(async (req, res) => {
         const experts = await Expert.find();

@@ -39,6 +39,11 @@ export const registerAdminSchema = z.object({
 //     password: z.string().min(6, { message: "Password is atleast 6 characters long" }),
 // });
 
+
+
+//schemas for expert
+
+
 export const expertRegistrationSchema = z.object({
     name: z
         .string()
@@ -87,6 +92,98 @@ export const expertLoginSchema = z.object({
     email: z.string().email({ message: 'Please enter a valid email address.' }),
     password: z.string().min(6, { message: 'Password is at least 6 characters long.' }),
 });
+
+
+//schema for candidate 
+
+export const candidateLoginSchema = z.object({
+    email: z.string().email({ message: 'Enter a valid email address.' }),
+    password: z.string().min(6, { message: 'Password is at least 6 characters long.' }),
+});
+
+
+const candidateRegistrationSchema = z.object({
+    name: z
+        .string()
+        .nonempty({ message: 'Name is required.' })
+        .min(2, { message: 'Name must be at least 2 characters long.' })
+        .max(50, { message: 'Name must not exceed 50 characters.' }),
+    email: z
+        .string()
+        .email({ message: 'Invalid email format.' })
+        .max(100, { message: 'Email must not exceed 100 characters.' }),
+    mobileNo: z
+        .string()
+        .nonempty({ message: 'Mobile number is required.' })
+        .min(10, { message: 'Mobile number must be at least 10 digits.' })
+        .max(15, { message: 'Mobile number must not exceed 15 digits.' }),
+    password: z
+        .string()
+        .nonempty({ message: 'Password is required.' })
+        .min(8, { message: 'Password must be at least 8 characters long.' })
+        .max(128, { message: 'Password must not exceed 128 characters.' }),
+    dateOfBirth: z.date({ message: 'Invalid date of birth.' }),
+    skills: z
+        .array(z.string().max(30, { message: 'Each skill must not exceed 30 characters.' }))
+        .optional(),
+    experience: z
+        .array(
+            z.object({
+                position: z
+                    .string()
+                    .nonempty({ message: 'Position is required.' })
+                    .min(2, { message: 'Position must be at least 2 characters long.' })
+                    .max(50, { message: 'Position must not exceed 50 characters.' }),
+                department: z
+                    .string()
+                    .nonempty({ message: 'Department is required.' })
+                    .min(2, { message: 'Department must be at least 2 characters long.' })
+                    .max(50, { message: 'Department must not exceed 50 characters.' }),
+                startDate: z.date({ message: 'Invalid start date.' }),
+                endDate: z.date({ message: 'Invalid end date.' }).optional(),
+                companyName: z
+                    .string()
+                    .optional()
+                    .max(100, { message: 'Company name must not exceed 100 characters.' }),
+            })
+        )
+        .optional(),
+    education: z
+        .array(
+            z.object({
+                degree: z
+                    .string()
+                    .nonempty({ message: 'Degree is required.' })
+                    .min(2, { message: 'Degree must be at least 2 characters long.' })
+                    .max(50, { message: 'Degree must not exceed 50 characters.' }),
+                institute: z
+                    .string()
+                    .nonempty({ message: 'Institute is required.' })
+                    .min(2, { message: 'Institute must be at least 2 characters long.' })
+                    .max(100, { message: 'Institute must not exceed 100 characters.' }),
+                startDate: z.date({ message: 'Invalid start date.' }),
+                endDate: z.date({ message: 'Invalid end date.' }).optional(),
+            })
+        )
+        .optional(),
+    resume: z.string().optional().max(200, { message: 'Resume path must not exceed 200 characters.' }),
+    subjects: z
+        .array(z.string())
+        .optional(),
+    image: z
+        .string()
+        .nonempty({ message: 'Image is required.' })
+        .max(200, { message: 'Image path must not exceed 200 characters.' }),
+    linkedIn: z
+        .string()
+        .url({ message: 'Invalid LinkedIn URL.' })
+        .max(200, { message: 'LinkedIn URL must not exceed 200 characters.' }),
+    status: z.enum(["active", "inactive"], { message: 'Status must be either "active" or "inactive".' }),
+});
+
+
+// schema for subject
+
 
 export const subjectSchema = z.object({
     title: z.string()
