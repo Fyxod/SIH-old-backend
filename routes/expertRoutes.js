@@ -89,7 +89,8 @@ router.route('/')
 
     }))
 
-    // i think we should not have this route it will deleate all experts which is not good
+    // i think we should not have this route it will deleate all experts which is not good - bugslayer01
+    // I disagree. An API should have all the functionalities - fyxod
 
     .delete(checkAuth("admin"), safeHandler(async (req, res) => {
         const experts = await Expert.deleteMany();

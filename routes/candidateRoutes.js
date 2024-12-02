@@ -21,7 +21,7 @@ router.route('/')
     .get(checkAuth("admin"), safeHandler(async (req, res) => {
         const candidates = await Candidate.find();
         if (!candidates) {
-        throw new ApiError(404, "No candidate was found", "NO_CANIDATE_FOUND");
+        throw new ApiError(404, "No candidate was found", "NO_CANDIDATES_FOUND");
         }
         return res.success(200, "All candidates successfully retrieved", { candidates });
     }))
@@ -106,7 +106,7 @@ router.route('/:id')
         const candidate = await Candidate.findById(id).select(getSelectedFields(education, experience));
 
         if (!candidate) {
-            throw new ApiError(404, "Candidiate not found", "CANDIDATE_NOT_FOUND");
+            throw new ApiError(404, "Candidate not found", "CANDIDATE_NOT_FOUND");
         }
         return res.success(200, "Candidate found", { candidate });
     }))
