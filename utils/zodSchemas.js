@@ -102,7 +102,7 @@ export const candidateLoginSchema = z.object({
 });
 
 
-const candidateRegistrationSchema = z.object({
+export const candidateRegistrationSchema = z.object({
     name: z
         .string()
         .nonempty({ message: 'Name is required.' })

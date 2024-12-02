@@ -16,7 +16,7 @@ const tempResumeFolder = config.paths.resume.temporary;
 const expertResumeFolder = config.paths.resume.expert;
 
 const router = express.Router();
-// the rout / is being used to do crud of an expert by adminof higher level
+// the rout / is being used to do crud of an expert by admin or someone of higher level
 router.route('/')
     .get(checkAuth("admin"), safeHandler(async (req, res) => {
         const experts = await Expert.find();
@@ -88,6 +88,9 @@ router.route('/')
         return res.success(201, "Expert successfully created", { expert: { id: expert._id, email: expert.email, name: expert.name } });
 
     }))
+
+    // i think we should not have this route it will deleate all experts which is not good
+
     .delete(checkAuth("admin"), safeHandler(async (req, res) => {
         const experts = await Expert.deleteMany();
         if (!experts) {
@@ -99,7 +102,7 @@ router.route('/')
 router.route('/:id')
     .get(checkAuth("expert"), safeHandler(async (req, res) => {
         const { id } = req.params;
-        const { education, experience } = req.body;
+        const { education, experience } = req.query;
 
         const expert = await Expert.findById(id).select(getSelectedFields(education, experience));
 
