@@ -72,18 +72,17 @@ const candidateSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    // image is string ?????
     linkedIn: {
         type: String,
         required: true
     },
     status: {
         type: String,
-        required: true,
-        enum: [
-            "active",
-            "inactive"
-        ]
-    },
+        enum: ["active", "inactive"], 
+        default: "active", 
+        // required: true,
+    
     //extra unnecessary fields - may add if time permits
     // isBlocked: {
     //     type: Boolean,

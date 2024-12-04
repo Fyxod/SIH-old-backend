@@ -93,6 +93,7 @@ router.route('/')
 
     // i think we should not have this route it will deleate all experts which is not good - bugslayer01
     // I disagree. An API should have all the functionalities - fyxod
+    // so u should atleast have a fail safe what if this endpoint was hit by mistake you will lose all ur data - bugslayer01
 
     .delete(checkAuth("admin"), safeHandler(async (req, res) => {
         const experts = await Expert.deleteMany();
