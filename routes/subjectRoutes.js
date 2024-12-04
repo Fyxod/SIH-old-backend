@@ -9,6 +9,7 @@ import Candidate from '../models/candidate.js';
 import { isValidObjectId } from 'mongoose';
 import Expert from '../models/expert.js';
 import getSelectedFields from '../utils/selectFields.js';
+import { calculateSingleCandidateScore, calculateSingleExpertScores, updateAllCandidateScores, updateAllExpertScores } from '../utils/updateScores.js';
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.route('/')
     .get(checkAuth('admin'), safeHandler(async (req, res) => {
         const subjects = await Subject.find();
 
-        if (!subjects) {
+        if (!subjects || subjects.length === 0) {
             throw new ApiError(404, 'No subjects found', 'NO_SUBJECTS_FOUND');
         }
         return res.success(200, 'All subjects successfully retrieved', { subjects });
@@ -35,6 +36,18 @@ router.route('/')
         });
 
         return res.success(201, 'Subject successfully created', { subject });
+    }))
+
+    .delete(checkAuth('admin'), safeHandler(async (req, res) => {
+        const subjects = await Subject.deleteMany();
+        if (!subjects) {
+            throw new ApiError(404, 'No subjects found', 'NO_SUBJECTS_FOUND');
+        }
+        await Promise.all([
+            Expert.updateMany({}, { $set: { subjects: [] } }),
+            Candidate.updateMany({}, { $set: { subjects: [] } })
+        ]);
+        return res.success(200, 'All subjects successfully deleted', { subjects });
     }));
 
 router.route('/:id')
@@ -87,19 +100,61 @@ router.route('/:id')
         if (!subject) {
             throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');
         }
+        updateAllCandidateScores(id);
+        updateAllExpertScores(id);
+        return res.success(200, 'Subject updated successfully', { subject });
+    }))
+    .put(checkAuth('admin'), safeHandler(async (req, res) => {
+        const { id } = req.params;
+        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid subject ID', 'INVALID_ID');
+
+        const updates = subjectSchema.parse(req.body);
+
+        const subject = await Subject.findByIdAndUpdate(
+            id,
+            updates,
+            {
+                new: true,
+                runValidators: true
+            }
+        )
+
+        if (!subject) {
+            throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');
+        }
+        updateAllCandidateScores(id);
+        updateAllExpertScores(id);
         return res.success(200, 'Subject updated successfully', { subject });
     }))
 
     .delete(checkAuth('admin'), safeHandler(async (req, res) => {
         const { id } = req.params;
         if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid subject ID', 'INVALID_ID');
-        const subject = await Subject.findByIdAndDelete(id);
 
+        const subject = await Subject.findByIdAndDelete(id);
         if (!subject) {
             throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');
         }
-        return res.success(200, 'Subject deleted successfully', { subject });
+
+        try {
+            await Promise.all([
+                Candidate.updateMany(
+                    { _id: { $in: subject.applicants.map(applicant => applicant.id) } },
+                    { $pull: { subjects: id } }
+                ),
+                Expert.updateMany(
+                    { _id: { $in: subject.experts.map(expert => expert.id) } },
+                    { $pull: { subjects: id } }
+                )
+            ]);
+
+            return res.success(200, 'Subject deleted successfully', { subject });
+        } catch (error) {
+            throw new ApiError(500, 'Failed to update applicants or experts', 'UPDATE_ERROR');
+        }
     }));
+
+
 
 router.route('/:id/candidate')
 
@@ -139,15 +194,16 @@ router.route('/:id/candidate')
             throw new ApiError(404, 'Candidate not found', 'CANDIDATE_NOT_FOUND');
         }
 
-        candidate.appliedSubjects.push(id);
+        candidate.subjects.push(id);
         subject.applicants.push({
             id: req.user.id,
             relevancyScore: 0
         })
 
         await Promise.all([candidate.save(), subject.save()]);
-        //send an axios here request to update the scores of experts and candidates
-        return res.success(200, 'Successfully applied', { subject });
+        res.success(200, 'Successfully applied', { subject });
+        calculateSingleCandidateScore(id, req.user.id);
+        updateAllExpertScores(id);
     }
     ));
 
@@ -170,7 +226,7 @@ router.route('/:id/expert')
         return res.success(200, 'All experts retrieved', { experts: subject.experts });
     }))
 
-    .post(checkAuth('expert'), safeHandler(async (req, res) => {
+    .post(checkAuth('admin'), safeHandler(async (req, res) => {
         const { id } = req.params;
         if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid subject ID', 'INVALID_ID');
 
@@ -181,14 +237,14 @@ router.route('/:id/expert')
         }
         const expertAlreadyAdded = subject.experts.some(expert => expert.id.equals(req.user.id));
         if (expertAlreadyAdded) {
-            throw new ApiError(400, 'Already applied', 'ALREADY_APPLIED');
+            throw new ApiError(400, 'Expert already added the subject', 'ALREADY_ADDED');
         }
         const expert = await Expert.findById(req.user.id);
         if (!expert) {
             throw new ApiError(404, 'Expert not found', 'EXPERT_NOT_FOUND');
         }
 
-        expert.appliedSubjects.push(id);
+        expert.subjects.push(id);
         subject.experts.push({
             id: req.user.id,
             profileScore: 0,
@@ -196,7 +252,7 @@ router.route('/:id/expert')
         });
 
         await Promise.all([expert.save(), subject.save()]);
-        //send an axios here request to update the scores of experts and candidates
+        calculateSingleExpertScores(id, req.user.id);
         return res.success(200, 'Successfully applied', { subject });
     }));
 //not completed yet

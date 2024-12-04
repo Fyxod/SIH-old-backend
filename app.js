@@ -5,7 +5,7 @@ import responseHandler from './middlewares/responseHandler';
 const app = express();
 
 connectMongo();
-
+//checkout populate or whatevr
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(responseHandler);

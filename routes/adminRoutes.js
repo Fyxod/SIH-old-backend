@@ -6,12 +6,13 @@ import { safeHandler } from '../middlewares/safeHandler.js';
 import ApiError from '../utils/errorClass.js';
 import { generateToken } from '../utils/jwtFuncs.js';
 import checkAuth from '../middlewares/authMiddleware.js';
+import { isValidObjectId } from 'mongoose';
 
 const router = express.Router();
 
 router.get('/', checkAuth("superadmin"), safeHandler(async (req, res) => {
     const admins = await Admin.find();
-    if (!admins) {
+    if (!admins || admins.length === 0) {
         throw new ApiError(404, "No admins found", "NO_ADMINS_FOUND");
     }
     return res.success(200, "All admins successfully retrieved", { admins });
@@ -46,6 +47,7 @@ router.post('/signin', safeHandler(async (req, res) => {
 router.route('/:id')
     .get(checkAuth("superadmin"), safeHandler(async (req, res) => {
         const { id } = req.params;
+        if(!isValidObjectId(id)) throw new ApiError(400, "Invalid admin ID", "INVALID_ID");
         const admin = await Admin.findById(id);
         if (!admin) {
             throw new ApiError(404, "Admin not found", "ADMIN_NOT_FOUND");
@@ -54,6 +56,7 @@ router.route('/:id')
     }))
     .put(checkAuth("superadmin"), safeHandler(async (req, res) => {
         const { id } = req.params;
+        if(!isValidObjectId(id)) throw new ApiError(400, "Invalid admin ID", "INVALID_ID");
         const { email, password } = registerAdminSchema.parse(req.body);
         const { emailChange, passwordChange } = req.query; // boolean values
         const updateData = {};
@@ -71,6 +74,7 @@ router.route('/:id')
     }))
     .delete(checkAuth("superadmin"), safeHandler(async (req, res) => {
         const { id } = req.params;
+        if(!isValidObjectId(id)) throw new ApiError(400, "Invalid admin ID", "INVALID_ID");
         const admin = await Admin.findByIdAndDelete(id).select("-password");
         if (!admin) {
             throw new ApiError(404, "Admin not found", "ADMIN_NOT_FOUND");

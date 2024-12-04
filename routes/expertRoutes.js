@@ -12,6 +12,8 @@ import { expertRegistrationSchema, expertLoginSchema } from '../utils/zodSchemas
 import path from 'path';
 import config from '../config/config.js';
 import getSelectedFields from '../utils/selectFields.js';
+import { isValidObjectId } from 'mongoose';
+import Subject from '../models/subject.js';
 const tempResumeFolder = config.paths.resume.temporary;
 const expertResumeFolder = config.paths.resume.expert;
 
@@ -20,7 +22,7 @@ const router = express.Router();
 router.route('/')
     .get(checkAuth("admin"), safeHandler(async (req, res) => {
         const experts = await Expert.find();
-        if (!experts) {
+        if (!experts || experts.length === 0) {
             throw new ApiError(404, "No experts found", "NO_EXPERTS_FOUND");
         }
         return res.success(200, "All experts successfully retrieved", { experts });
@@ -97,12 +99,14 @@ router.route('/')
         if (!experts) {
             throw new ApiError(404, "No experts found", "NO_EXPERTS_FOUND");
         }
+        await Subject.updateMany({}, { $set: { experts: [] } });
         return res.success(200, "All experts successfully deleted", { experts });
     }));
 
 router.route('/:id')
     .get(checkAuth("expert"), safeHandler(async (req, res) => {
         const { id } = req.params;
+        if (!isValidObjectId(id)) throw new ApiError(400, "Invalid expert ID", "INVALID_ID");
         const { education, experience } = req.query;
 
         const expert = await Expert.findById(id).select(getSelectedFields(education, experience));
@@ -115,10 +119,12 @@ router.route('/:id')
 
     .delete(checkAuth("admin"), safeHandler(async (req, res) => {
         const { id } = req.params;
+        if (!isValidObjectId(id)) throw new ApiError(400, "Invalid expert ID", "INVALID_ID");
         const expert = await Expert.findByIdAndDelete(id).select("-password");
         if (!expert) {
             throw new ApiError(404, "Expert not found", "EXPERT_NOT_FOUND");
         }
+        await Subject.updateMany({}, { $pull: { experts: expert._id } });
         return res.success(200, "Expert deleted successfully", { expert });
     }));
 
