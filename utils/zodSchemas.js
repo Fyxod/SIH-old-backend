@@ -178,7 +178,8 @@ export const candidateRegistrationSchema = z.object({
         .string()
         .url({ message: 'Invalid LinkedIn URL.' })
         .max(200, { message: 'LinkedIn URL must not exceed 200 characters.' }),
-    status: z.enum(["active", "inactive"], { message: 'Status must be either "active" or "inactive".' }),
+    status: z.enum(["active", "inactive"], { message: 'Status must be either "active" or "inactive".' })
+        .optional(),
 });
 
 
