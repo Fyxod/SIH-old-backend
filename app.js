@@ -48,6 +48,8 @@ app.listen(server.port, () => {
 3. Seperate into controllers
 4. validate all object ids if coming
 5. Add more PATCH routes
+6. Add Subject opening date and last application date in model and schemas
+7. Add feedbacks for experts
 
 /*
 Problem Statement Title:

@@ -71,6 +71,13 @@ const subjectSchema = new mongoose.Schema({
             }],
         default: [],
     },
+    feedbacks: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Feedback'
+        }],
+        default: []
+    },
 },
     {
         timestamps: true

@@ -84,6 +84,10 @@ const candidateSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Subject'
     }], 
+    feedbacks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Feedback'
+    }],
     image: {
         type: String,
         unique: true
