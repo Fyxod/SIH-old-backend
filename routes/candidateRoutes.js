@@ -13,6 +13,7 @@ import { candidateLoginSchema, candidateRegistrationSchema, candidateUpdateSchem
 import path from 'path';
 import config from '../config/config.js';
 import getSelectedFields from '../utils/selectFields.js';
+import { updateAllExpertsScoresMultipleSubjects } from '../utils/updateScores.js';
 const tempResumeFolder = config.paths.resume.temporary;
 const candidateResumeFolder = config.paths.resume.candidate;
 
@@ -176,6 +177,9 @@ router.route('/:id')
 
                     filteredUpdates.resume = newResumeName;
                 }
+                if(filteredUpdates.skills){
+                    up
+                }
             } catch (error) {
                 console.log("Error processing resume during update", error);
             }
@@ -213,6 +217,7 @@ router.route('/:id')
             }
 
             await Subject.updateMany({ _id: { $in: candidate.subjects } }, { $pull: { candidates: candidate._id } });
+            updateAllExpertsScoresMultipleSubjects(candidate.subjects);
             return res.success(200, "Candidate deleted successfully", { candidate });
         }));
 

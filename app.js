@@ -50,6 +50,9 @@ app.listen(server.port, () => {
 5. Add more PATCH routes
 6. Add Subject opening date and last application date in model and schemas
 7. Add feedbacks for experts
+8. Add routes to remove experts and candidates from subjects
+9. Add routes to remove feedbacks
+10. Add enums for different drdo centres
 
 /*
 Problem Statement Title:
