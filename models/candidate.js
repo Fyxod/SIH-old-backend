@@ -5,13 +5,25 @@ const candidateSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    gender: {
+        type: String,
+        required: true,
+        enum: [
+            "male",
+            "female",
+            "Non-Binary",
+            "other"
+        ]
+    },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     mobileNo: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -24,6 +36,9 @@ const candidateSchema = new mongoose.Schema({
     skills: [{
         type: String
     }],
+    bio: {
+        type: String
+    },
     experience: [{
         position: {
             type: String,
@@ -62,7 +77,8 @@ const candidateSchema = new mongoose.Schema({
         },
     }],
     resume: {
-        type: String
+        type: String,
+        unique: true
     },
     subjects: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -70,18 +86,19 @@ const candidateSchema = new mongoose.Schema({
     }], 
     image: {
         type: String,
-        required: true
+        unique: true
     },
-    // image is string ?????
+    // image is string ????? yes
     linkedIn: {
         type: String,
-        required: true
+        unique: true
     },
-    status: {
-        type: String,
-        enum: ["active", "inactive"], 
-        default: "active", 
-        // required: true,
+    // status: {
+    //     type: String,
+    //     enum: ["active", "inactive"], 
+    //     default: "active", 
+    //     // required: true,
+    // }
     
     //extra unnecessary fields - may add if time permits
     // isBlocked: {

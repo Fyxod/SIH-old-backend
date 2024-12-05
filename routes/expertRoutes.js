@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 import fs from 'fs';
 import FormData from 'form-data';
 import { generateToken, verifyToken } from '../utils/jwtFuncs.js';
-import { expertRegistrationSchema, expertLoginSchema } from '../utils/zodSchemas.js';
+import { expertRegistrationSchema, expertLoginSchema, expertUpdateSchema } from '../utils/zodSchemas.js';
 import path from 'path';
 import config from '../config/config.js';
 import getSelectedFields from '../utils/selectFields.js';
@@ -29,13 +29,15 @@ router.route('/')
     }))
     .post(checkAuth("admin"), safeHandler(async (req, res) => {
         const { name, email, mobileNo, gender, bio, dateOfBirth, education, experience, currentPosition, currentDepartment, skills, linkedin, resumeToken } = expertRegistrationSchema.parse(req.body);
+        // will apply multer for image later
+        const findArray = [
+            { email },
+            { mobileNo }
+        ];
+        if (linkedin) findArray.push({ linkedin });
 
         const expertExists = await Expert.findOne({
-            $or: [
-                { email },
-                { mobileNo },
-                { linkedin }
-            ]
+            $or: findArray
         });
 
         if (expertExists) {
@@ -43,7 +45,7 @@ router.route('/')
 
             if (expertExists.email === email) existingField = 'Email';
             else if (expertExists.mobileNo === mobileNo) existingField = 'Mobile number';
-            else if (expertExists.linkedin === linkedin) existingField = 'Linkedin id';
+            else if (expertExists.linkedIn && expertExists.linkedin === linkedin) existingField = 'Linkedin id';
 
             throw new ApiError(400, `Expert already exists with this ${existingField}`, "EXPERT_ALREADY_EXISTS");
         }
@@ -85,6 +87,7 @@ router.route('/')
             skills,
             linkedin,
             resume: newResumeName
+            // image,
         });
 
         return res.success(201, "Expert successfully created", { expert: { id: expert._id, email: expert.email, name: expert.name } });
@@ -100,7 +103,7 @@ router.route('/')
         if (!experts) {
             throw new ApiError(404, "No experts found", "NO_EXPERTS_FOUND");
         }
-        await Subject.updateMany({}, { $set: { experts: [] } });
+        await Subject.updateMany({}, { $pull: { experts: { $in: experts.map(e => e._id) } } });
         return res.success(200, "All experts successfully deleted", { experts });
     }));
 
@@ -117,19 +120,108 @@ router.route('/:id')
         }
         return res.success(200, "Expert found", { expert });
     }))
+    .patch(checkAuth("expert"), safeHandler(async (req, res) => {
+        const { id } = req.params;
+        if (!isValidObjectId(id)) throw new ApiError(400, "Invalid expert ID", "INVALID_ID");
+        const updates = expertUpdateSchema.parse(req.body);
+
+        const filteredUpdates = Object.fromEntries(
+            Object.entries(updates).filter(([_, value]) => value != null)
+        );
+
+        const uniqueCheck = [];
+        if (filteredUpdates.email) uniqueCheck.push({ email: filteredUpdates.email });
+        if (filteredUpdates.mobileNo) uniqueCheck.push({ mobileNo: filteredUpdates.mobileNo });
+        if (filteredUpdates.linkedin) uniqueCheck.push({ linkedin: filteredUpdates.linkedin });
+
+        if (uniqueCheck.length > 0) {
+            const expertExists = await Expert.findOne({
+                $or: uniqueCheck
+            });
+
+            if (expertExists && expertExists._id.toString() !== id) {
+                let existingField;
+
+                if (expertExists.email === filteredUpdates.email) existingField = 'Email';
+                else if (expertExists.mobileNo === filteredUpdates.mobileNo) existingField = 'Mobile number';
+                else if (expertExists.linkedIn && expertExists.linkedin === filteredUpdates.linkedin) existingField = 'Linkedin id';
+
+                throw new ApiError(400, `Expert already exists with this ${existingField}`, "EXPERT_ALREADY_EXISTS");
+            }
+        }
+
+        if (filteredUpdates.resumeToken) {
+            try {
+                const payload = verifyToken(filteredUpdates.resumeToken);
+                const resumeName = payload.resumeName;
+                const resumePath = path.join(__dirname, `../public/${tempResumeFolder}/${resumeName}`);
+
+                const fileExists = await fs.promises.access(resumePath).then(() => true).catch(() => false);
+
+                if (fileExists) {
+                    const expert = await Expert.findById(id);
+                    if (expert?.resume) {
+                        try {
+                            await fs.promises.unlink(path.join(__dirname, `../public/${expertResumeFolder}/${expert.resume}`));
+                        } catch (error) {
+                            if (error.code === 'ENOENT') {
+                                console.log('File does not exist');
+                            } else {
+                                console.error('An error occurred:', error);
+                            }
+                        }
+                    }
+
+                    const newResumeName = `${expert.name.split(' ')[0]}_resume_${new Date().getTime()}.pdf`;
+                    const destinationFolder = path.join(__dirname, `../public/${expertResumeFolder}`);
+                    const newFilePath = path.join(destinationFolder, newResumeName);
+                    await fs.promises.mkdir(destinationFolder, { recursive: true });
+                    await fs.promises.rename(resumePath, newFilePath);
+
+                    filteredUpdates.resume = newResumeName;
+                }
+            } catch (error) {
+                console.log("Error processing resume during update", error);
+            }
+            
+            delete filteredUpdates.resumeToken;
+
+        }
+
+
+        if (filteredUpdates.password) {
+            filteredUpdates.password = await bcrypt.hash(filteredUpdates.password, 10);
+        }
+
+        const expert = await Expert.findByIdAndUpdate(
+            id,
+            filteredUpdates,
+            {
+                new: true,
+                runValidators: true,
+            }
+        ).select("-password");
+
+        if (!expert) {
+            throw new ApiError(404, "Expert not found", "EXPERT_NOT_FOUND");
+        }
+        return res.success(200, "Expert updated successfully", { expert });
+    }))
 
     .delete(checkAuth("admin"), safeHandler(async (req, res) => {
         const { id } = req.params;
         if (!isValidObjectId(id)) throw new ApiError(400, "Invalid expert ID", "INVALID_ID");
+
         const expert = await Expert.findByIdAndDelete(id).select("-password");
         if (!expert) {
             throw new ApiError(404, "Expert not found", "EXPERT_NOT_FOUND");
         }
-        await Subject.updateMany({}, { $pull: { experts: expert._id } });
+
+        await Subject.updateMany({ _id: { $in: expert.subjects } }, { $pull: { experts: expert._id } });
         return res.success(200, "Expert deleted successfully", { expert });
     }));
 
-router.get('/parse', checkAuth("admin"), resumeUpload.single("resume"), safeHandler(async (req, res) => {
+router.get('/parse', checkAuth("expert"), resumeUpload.single("resume"), safeHandler(async (req, res) => {
     if (!req.file) {
         throw new ApiError(400, "No file uploaded", "NO_FILE_UPLOADED");
     }
@@ -162,12 +254,14 @@ router.post('/signin', safeHandler(async (req, res) => {
     if (!expert) {
         throw new ApiError(404, "Invalid email or password", "INVALID_CREDENTIALS");
     }
+
     const validPassword = await bcrypt.compare(password, expert.password);
     if (!validPassword) {
         throw new ApiError(404, "Invalid email or password", "INVALID_CREDENTIALS");
     }
-    const userToken = generateToken({ id: expert._id, role: expert.role });
-    return res.success(200, "Successfully logged in", { userToken });
+
+    const userToken = generateToken({ id: expert._id, role: "expert" });
+    return res.success(200, "Successfully logged in", { userToken, expert: { id: expert._id, email: expert.email, name: expert.name } });
 }));
 
 export default router;

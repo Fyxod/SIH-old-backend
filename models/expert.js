@@ -11,21 +11,31 @@ const expertSchema = new mongoose.Schema({
         enum: [
             "male",
             "female",
+            "Non-Binary",
             "other"
         ]
     },
-    mobileNo: {
-        type: String,
-        required: true
-    },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
+    },
+    mobileNo: {
+        type: String,
+        required: true,
+        unique: true
     },
     password: {
         type: String,
         required: true
     },
+    dateOfBirth: {
+        type: Date,
+        required: true
+    },
+    skills:[{
+        type: String,
+    }],
     currentPosition: {
         type: String,
         required: true
@@ -34,16 +44,8 @@ const expertSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    skills:[{
-        type: String,
-    }],
     bio: {
         type: String,
-        // required: true
-    },
-    dateOfBirth: {
-        type: Date,
-        required: true
     },
     experience: [{
         department: {
@@ -87,22 +89,23 @@ const expertSchema = new mongoose.Schema({
             type: String,
         },
     }],
-    image: {
-        type: String,
-        // required: true
-    },
     resume: {
         type: String,
-        // required: true
-    },
-    linkedIn: {
-        type: String,
-        // required: true
+        unique: true,
+        // sparse: true, try this if it throws error
     },
     subjects: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Subject'
     }],
+    image: {
+        type: String,
+        unique: true
+    },
+    linkedIn: {
+        type: String,
+        unique: true
+    },
 },
 {
     timestamps: true
