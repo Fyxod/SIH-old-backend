@@ -9,11 +9,7 @@ const config = {
     },
 
     database: {
-        uri: process.env.MONGO_URI || 'mongodb://localhost:27017/blackhansa',
-        options: {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        },
+        uri: process.env.MONGO_URI || 'mongodb://localhost:27017/blackhansa'
     },
     priority: {
         candidate: 0,

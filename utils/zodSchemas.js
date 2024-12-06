@@ -211,8 +211,8 @@ export const candidateRegistrationSchema = z.object({
                 endDate: z.date({ message: 'Invalid end date.' }).optional(),
                 companyName: z
                     .string()
+                    .max(100, { message: 'Company name must not exceed 100 characters.' })
                     .optional()
-                    .max(100, { message: 'Company name must not exceed 100 characters.' }),
             })
         ),
     education: z
@@ -288,8 +288,8 @@ export const candidateUpdateSchema = z.object({
                 endDate: z.date({ message: 'Invalid end date.' }).optional(),
                 companyName: z
                     .string()
+                    .max(100, { message: 'Company name must not exceed 100 characters.' })
                     .optional()
-                    .max(100, { message: 'Company name must not exceed 100 characters.' }),
             })
         )
         .optional(),
@@ -380,3 +380,13 @@ export const subjectUpdateSchema = z.object({
         required_error: "Status is required."
     }).optional(),
 });
+
+export const applicationRegistrationSchema = z.object({
+    date: z.date().optional(),
+    time: z.string().optional(),
+    platform: z.enum(["zoom", "googleMeet", "microsoftTeams", "offline"]).optional(),
+    link: z.string().url().optional(),
+    venue: z.string().optional(),
+    conducted: z.boolean().optional(),
+});
+    

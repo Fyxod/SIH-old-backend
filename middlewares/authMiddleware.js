@@ -1,5 +1,5 @@
 import { verifyToken } from '../utils/jwtFuncs.js';
-import { priority } from '../config/config.js';
+import config from '../config/config.js';
 
 export default function checkAuth(role) { // role = minimum access level required (optional field)
     return (req, res, next) => {
@@ -18,7 +18,7 @@ export default function checkAuth(role) { // role = minimum access level require
         if (!payload) {
             return res.error(401, 'Invalid or expired token', 'UNAUTHORIZED');
         }
-        if (role && (!(payload.role in priority) || priority[payload.role] < priority[role])) {
+        if (role && (!(payload.role in config.priority) || config.priority[payload.role] < config.priority[role])) {
             return res.error(403, 'Unauthorized access', 'FORBIDDEN');
         }
         req.user = payload;

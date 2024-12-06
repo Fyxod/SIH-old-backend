@@ -1,7 +1,7 @@
 import express from 'express';
 import Admin from '../models/admin.js';
 import bcrypt from 'bcrypt';
-import { adminSchema, registerAdminSchema } from '../utils/zodSchemas';
+import { adminSchema, registerAdminSchema } from '../utils/zodSchemas.js';
 import { safeHandler } from '../middlewares/safeHandler.js';
 import ApiError from '../utils/errorClass.js';
 import { generateToken } from '../utils/jwtFuncs.js';

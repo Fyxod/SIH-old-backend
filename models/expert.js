@@ -102,6 +102,10 @@ const expertSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Feedback'
     }],
+    applications: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Application'
+    }],
     image: {
         type: String,
         unique: true

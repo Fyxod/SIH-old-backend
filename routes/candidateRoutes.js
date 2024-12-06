@@ -3,17 +3,17 @@ import checkAuth from '../middlewares/authMiddleware.js';
 import Candidate from '../models/candidate.js';
 import Subject from '../models/subject.js';
 import { safeHandler } from '../middlewares/safeHandler.js';
-import { resumeUpload } from '../utils/multer.js';
 import ApiError from '../utils/errorClass.js';
 import bcrypt from 'bcrypt';
 import fs from 'fs';
-import FormData from 'form-data';
 import { generateToken, verifyToken } from '../utils/jwtFuncs.js';
 import { candidateLoginSchema, candidateRegistrationSchema, candidateUpdateSchema } from '../utils/zodSchemas.js';
 import path from 'path';
 import config from '../config/config.js';
 import getSelectedFields from '../utils/selectFields.js';
-import { updateAllExpertsScoresMultipleSubjects } from '../utils/updateScores.js';
+import { calculateAllExpertsScoresMultipleSubjects } from '../utils/updateScores.js';
+import Application from '../models/application.js';
+import Expert from '../models/expert.js';
 const tempResumeFolder = config.paths.resume.temporary;
 const candidateResumeFolder = config.paths.resume.candidate;
 
@@ -28,7 +28,7 @@ router.route('/')
         return res.success(200, "All candidates successfully retrieved", { candidates });
     }))
 
-    .post(checkAuth("admin"), safeHandler(async (req, res) => {
+    .post(safeHandler(async (req, res) => {
         const { name, email, password, mobileNo, dateOfBirth, education, skills, experience, linkedin, resumeToken } = candidateRegistrationSchema.parse(req.body);
         // will apply multer for image later
 
@@ -98,7 +98,16 @@ router.route('/')
         if (!candidates) {
             throw new ApiError(404, "No candidates found", "NO_CANDIDATES_FOUND");
         }
-        await Subject.updateMany({}, { $pull: { candidates: { $in: candidates.map(c => c._id) } } });
+        await Promise.all([
+            Subject.updateMany({}, { $set: { applications: [], candidates: [] } }),
+            fs.promises.rmdir(path.join(__dirname, `../public/${candidateResumeFolder}`), { recursive: true }),
+            Application.deleteMany(),
+            Expert.updateMany({}, { $set: { applications: [] } }),
+            // Add if remember more
+        ])
+
+        calculateAllExpertsScoresMultipleSubjects(candidates.map(c => c.subjects).flat());
+
         return res.success(200, "All candidates successfully deleted", { candidates });
     }));
 
@@ -177,9 +186,6 @@ router.route('/:id')
 
                     filteredUpdates.resume = newResumeName;
                 }
-                if(filteredUpdates.skills){
-                    // up
-                }
             } catch (error) {
                 console.log("Error processing resume during update", error);
             }
@@ -203,67 +209,47 @@ router.route('/:id')
         if (!candidate) {
             throw new ApiError(404, "Candidate not found", "CANDIDATE_NOT_FOUND");
         }
-
+        if (filteredUpdates.skills) {
+            calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
+        }
         return res.success(200, "Candidate updated successfully", { candidate });
     }))
 
-    .delete (checkAuth("admin"), safeHandler(async (req, res) => {
-            const { id } = req.params;
-            if (!isValidObjectId(id)) throw new ApiError(400, "Invalid candidate ID", "INVALID_ID");
+    .delete(checkAuth("admin"), safeHandler(async (req, res) => {
+        const { id } = req.params;
+        if (!isValidObjectId(id)) throw new ApiError(400, "Invalid candidate ID", "INVALID_ID");
 
-            const candidate = await Candidate.findByIdAndDelete(id).select("-password");
-            if (!candidate) {
-                throw new ApiError(404, "Candidate not found", "CANDIDATE_NOT_FOUND");
-            }
+        const candidate = await Candidate.findByIdAndDelete(id).select("-password");
+        if (!candidate) {
+            throw new ApiError(404, "Candidate not found", "CANDIDATE_NOT_FOUND");
+        }
 
-            await Subject.updateMany({ _id: { $in: candidate.subjects } }, { $pull: { candidates: candidate._id } });
-            updateAllExpertsScoresMultipleSubjects(candidate.subjects);
-            return res.success(200, "Candidate deleted successfully", { candidate });
-        }));
+        await Promise.all([
+        Subject.updateMany({ _id: { $in: candidate.subjects } }, { $pull: { candidates: candidate._id } }),
+        Application.deleteMany({ candidate: candidate._id }),
+        fs.promises.unlink(path.join(__dirname, `../public/${candidateResumeFolder}/${candidate.resume}`))
+        ]);
+        calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
 
-        router.get('/parse', checkAuth("candidate"), resumeUpload.single("resume"), safeHandler(async (req, res) => {
-            if (!req.file) {
-                throw new ApiError(400, "No file uploaded", "NO_FILE_UPLOADED");
-            }
-            const formData = new FormData();
-            formData.append("resume", fs.createReadStream(req.file.path));
+        return res.success(200, "Candidate deleted successfully", { candidate });
+    }));
 
-            try {
-                const response = await axios.post('https://some-link-ig/parse', formData, {
-                    headers: {
-                        ...formData.getHeaders(),
-                    },
-                    timeout: 6000
-                });
-                const resumeToken = generateToken({ name: response.data.name, email: response.data.email, resumeName: "yaha par kaunsa naam daalna hai dekhlo" });
-                res.cookie("resumeToken", resumeToken, { httpOnly: true });
-                res.success(200, "Resume parsed successfully", { name: response.data.name, email: response.data.email, skills: response.data.skills });
-            } catch (error) {
-                if (error.code === 'ECONNABORTED') {
-                    throw new ApiError(504, "Request timed out", "REQUEST_TIMEOUT");
-                } else {
-                    throw new ApiError(500, error.data?.message || "Error parsing resume", "RESUME_PARSE_ERROR");
-                    // throw new ApiError(500, "Error parsing resume", "RESUME_PARSE_ERROR");
-                }
-            }
-        }));
+// there are two diff schema for expert and candidate so we need diff end points
 
-        // there are two diff schema for expert and candidate so we need diff end points
+router.post('/signin', safeHandler(async (req, res) => {
+    const { email, password } = candidateLoginSchema.parse(req.body);
+    const candidate = await Candidate.findOne({ email });
+    if (!candidate) {
+        throw new ApiError(404, "Invalid email or password", "INVALID_CREDENTIALS");
+    }
 
-        router.post('/signin', safeHandler(async (req, res) => {
-            const { email, password } = candidateLoginSchema.parse(req.body);
-            const candidate = await Candidate.findOne({ email });
-            if (!candidate) {
-                throw new ApiError(404, "Invalid email or password", "INVALID_CREDENTIALS");
-            }
+    const validPassword = await bcrypt.compare(password, candidate.password);
+    if (!validPassword) {
+        throw new ApiError(404, "Invalid email or password", "INVALID_CREDENTIALS");
+    }
 
-            const validPassword = await bcrypt.compare(password, candidate.password);
-            if (!validPassword) {
-                throw new ApiError(404, "Invalid email or password", "INVALID_CREDENTIALS");
-            }
+    const userToken = generateToken({ id: candidate._id, role: "candidate" });
+    return res.success(200, "Successfully logged in", { userToken, candidate: { id: candidate._id, email: candidate.email, name: candidate.name } });
+}));
 
-            const userToken = generateToken({ id: candidate._id, role: "candidate" });
-            return res.success(200, "Successfully logged in", { userToken, candidate: { id: candidate._id, email: candidate.email, name: candidate.name } });
-        }));
-
-        export default router;
+export default router;

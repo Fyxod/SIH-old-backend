@@ -1,12 +1,14 @@
 import express from 'express';
 import { safeHandler } from '../middlewares/safeHandler.js';
-import checkAuth from '../middlewares/authMiddleware';
-import Application from '../models/application';
-import Subject from '../models/subject';
-import Candidate from '../models/candidate';
-import ApiError from '../utils/errorClass';
+import checkAuth from '../middlewares/authMiddleware.js';
+import Application from '../models/application.js';
+import Subject from '../models/subject.js';
+import Candidate from '../models/candidate.js';
+import ApiError from '../utils/errorClass.js';
 import { isValidObjectId } from 'mongoose';
 import Feedback from '../models/feedback.js';
+import { applicationRegistrationSchema } from '../utils/zodSchemas.js';
+import { calculateAllExpertScoresSingleSubject, calculateAllExpertsScoresMultipleSubjects, calculateSingleCandidateScoreSingleSubject } from '../utils/updateScores.js';
 // Also place the update functions here at appropriate places
 const router = express.Router();
 
@@ -46,12 +48,17 @@ router.route('/')
         });
 
         candidate.subjects.push(subjectId);
-        const application = new Application({
+        const application = await Application.create({
             subject: subjectId,
             candidate: candidateId,
             status: 'pending'
         });
-        await Promise.all([subject.save(), candidate.save(), application.save()]);
+        subject.applications.push(application._id);
+        candidate.applications.push(application._id);
+
+        await Promise.all([subject.save(), candidate.save()]);
+        calculateSingleCandidateScoreSingleSubject(candidateId, subjectId);
+        calculateAllExpertScoresSingleSubject(subjectId);
 
         return res.success(201, "Application created successfully", { application });
     }))
@@ -137,7 +144,11 @@ router.route('/:id')
         const candidate = await Candidate.findById(application.candidate);
 
         subject.applicants = subject.applicants.filter(applicant => !applicant.id.equals(application.candidate));
+        subject.applications = subject.applications.filter(app => !app.equals(application._id));
         candidate.subjects = candidate.subjects.filter(subject => !subject.equals(application.subject));
+        candidate.applications = candidate.applications.filter(app => !app.equals(application._id));
+
+        calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
 
         await Promise.all([subject.save(), candidate.save()]);
         return res.success(200, "Application deleted successfully", { application });
@@ -277,7 +288,7 @@ router.route('/:id/panel/:expertId/note')
             throw new ApiError(404, 'Panel member not found', 'EXPERT_NOT_FOUND');
         }
 
-        return res.success(200, "Note fetched successfully", { expertNotes: application.expertNotes });
+        return res.success(200, "Note fetched successfully", { expertNotes: application.interviewDetails.expertNotes });
     }))
     .patch(checkAuth('expert'), safeHandler(async (req, res) => {
         const { id, expertIdP } = req.params;
@@ -299,13 +310,13 @@ router.route('/:id/panel/:expertId/note')
             throw new ApiError(404, 'Panel member not found', 'EXPERT_NOT_FOUND');
         }
 
-        application.expertNotes.push({
+        application.interviewDetails.expertNotes.push({
             expert: expertId,
             note
         });
         await application.save();
 
-        return res.success(200, "Note added successfully", { expertNotes: application.expertNotes });
+        return res.success(200, "Note added successfully", { expertNotes: application.interviewDetails.expertNotes });
 
     }));
 
@@ -321,20 +332,33 @@ router.route(':id/interviewdetails')
 
         return res.success(200, "Interview details fetched successfully", { interviewDetails: application.interviewDetails });
     }))
-    // following route to be completed - make a zod schema for the interviewDetails and filter out the empty fields - take reference from patch route of subject/:id - fyxod
-    .patch(checkAuth('admin'), safeHandler(async (req, res) => {
+
+    .patch(checkAuth('expert'), safeHandler(async (req, res) => {
         const { id } = req.params;
         if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');
 
-        const { date, time, platform, link, venue, conducted } = req.body;
+        const updates = applicationRegistrationSchema.parse(req.body);
 
-        const application = await Application.findById(id);
+        const filteredUpdates = Object.fromEntries(
+            Object.entries(updates).filter(([_, value]) => value != null)
+        );
+
+        const application = await Application.findByIdAndUpdate(
+            id,
+            {
+                interviewDetails: filteredUpdates
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+
         if (!application) {
             throw new ApiError(404, 'Application not found', 'APPLICATION_NOT_FOUND');
         }
 
-        application.interviewDetails = { date, time, platform, link, venue, conducted };
-        await application.save();
-
         return res.success(200, "Interview details updated successfully", { interviewDetails: application.interviewDetails });
     }));
+
+export default router;

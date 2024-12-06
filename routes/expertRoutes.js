@@ -14,6 +14,8 @@ import config from '../config/config.js';
 import getSelectedFields from '../utils/selectFields.js';
 import { isValidObjectId } from 'mongoose';
 import Subject from '../models/subject.js';
+import Application from '../models/application.js';
+import { calculateSingleExpertScoresMultipleSubjects } from '../utils/updateScores.js';
 const tempResumeFolder = config.paths.resume.temporary;
 const expertResumeFolder = config.paths.resume.expert;
 
@@ -103,7 +105,13 @@ router.route('/')
         if (!experts) {
             throw new ApiError(404, "No experts found", "NO_EXPERTS_FOUND");
         }
-        await Subject.updateMany({}, { $pull: { experts: { $in: experts.map(e => e._id) } } });
+
+        await Promise.all([
+            Subject.updateMany({}, { $pull: { experts: { $in: experts.map(e => e._id) } } }),
+            fs.promises.rmdir(path.join(__dirname, `../public/${expertResumeFolder}`), { recursive: true }),
+            Application.updateMany({}, { $set: { panel: [] } }),
+        ]);
+
         return res.success(200, "All experts successfully deleted", { experts });
     }));
 
@@ -183,7 +191,7 @@ router.route('/:id')
             } catch (error) {
                 console.log("Error processing resume during update", error);
             }
-            
+
             delete filteredUpdates.resumeToken;
 
         }
@@ -205,6 +213,11 @@ router.route('/:id')
         if (!expert) {
             throw new ApiError(404, "Expert not found", "EXPERT_NOT_FOUND");
         }
+
+        if (filteredUpdates.skills) {
+            calculateSingleExpertScoresMultipleSubjects(expert._id);
+        }
+
         return res.success(200, "Expert updated successfully", { expert });
     }))
 
@@ -216,37 +229,13 @@ router.route('/:id')
         if (!expert) {
             throw new ApiError(404, "Expert not found", "EXPERT_NOT_FOUND");
         }
-
-        await Subject.updateMany({ _id: { $in: expert.subjects } }, { $pull: { experts: expert._id } });
+        await Promise.all([
+            fs.promises.unlink(path.join(__dirname, `../public/${expertResumeFolder}/${expert.resume}`)),
+            Subject.updateMany({ _id: { $in: expert.subjects } }, { $pull: { experts: { id: expert._id } } }),
+            Application.updateMany({ "panel.expert": expert._id }, { $pull: { panel: { expert: expert._id } } })
+        ]);
         return res.success(200, "Expert deleted successfully", { expert });
     }));
-
-router.get('/parse', checkAuth("expert"), resumeUpload.single("resume"), safeHandler(async (req, res) => {
-    if (!req.file) {
-        throw new ApiError(400, "No file uploaded", "NO_FILE_UPLOADED");
-    }
-    const formData = new FormData();
-    formData.append("resume", fs.createReadStream(req.file.path));
-
-    try {
-        const response = await axios.post('https://some-link-ig/parse', formData, {
-            headers: {
-                ...formData.getHeaders(),
-            },
-            timeout: 6000
-        });
-        const resumeToken = generateToken({ name: response.data.name, email: response.data.email, resumeName: "yaha par kaunsa naam daalna hai dekhlo" });
-        res.cookie("resumeToken", resumeToken, { httpOnly: true });
-        res.success(200, "Resume parsed successfully", { name: response.data.name, email: response.data.email, skills: response.data.skills });
-    } catch (error) {
-        if (error.code === 'ECONNABORTED') {
-            throw new ApiError(504, "Request timed out", "REQUEST_TIMEOUT");
-        } else {
-            throw new ApiError(500, error.data?.message || "Error parsing resume", "RESUME_PARSE_ERROR");
-            // throw new ApiError(500, "Error parsing resume", "RESUME_PARSE_ERROR");
-        }
-    }
-}));
 
 router.post('/signin', safeHandler(async (req, res) => {
     const { email, password } = expertLoginSchema.parse(req.body);

@@ -4,12 +4,12 @@ import { safeHandler } from '../middlewares/safeHandler.js';
 import ApiError from '../utils/errorClass.js';
 import Subject from '../models/subject.js';
 import { subjectSchema, subjectUpdateSchema } from '../utils/zodSchemas.js';
-import { priority } from '../config/config.js';
+import config from '../config/config.js';
 import Candidate from '../models/candidate.js';
 import { isValidObjectId } from 'mongoose';
 import Expert from '../models/expert.js';
 import getSelectedFields from '../utils/selectFields.js';
-import { calculateSingleCandidateScore, calculateSingleExpertScores, updateAllCandidateScores, updateAllExpertScores } from '../utils/updateScores.js';
+import { calculateAllCandidateScoresSingleSubject, calculateAllExpertScoresSingleSubject, calculateSingleCandidateScoreSingleSubject,  calculateSingleExpertScoresSingleSubject } from '../utils/updateScores.js';
 import Application from '../models/application.js';
 
 const router = express.Router();
@@ -58,13 +58,13 @@ router.route('/:id')
         const { candidates, experts } = req.query;
 
         let populateOptions = [];
-        if (candidates && priority[req.user.role] >= priority['expert']) {
+        if (candidates && config.priority[req.user.role] >= config.priority['expert']) {
             populateOptions.push({
                 path: 'applicants',
                 select: '-password',
             });
         }
-        if (experts && priority[req.user.role] >= priority['admin']) {
+        if (experts && config.priority[req.user.role] >= config.priority['admin']) {
             populateOptions.push({
                 path: 'experts',
                 select: '-password',
@@ -101,8 +101,10 @@ router.route('/:id')
         if (!subject) {
             throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');
         }
-        updateAllCandidateScores(id);
-        updateAllExpertScores(id);
+        if (filteredUpdates.skills) {
+            calculateAllCandidateScoresSingleSubject(id);
+            calculateAllExpertScoresSingleSubject(id);
+        }
         return res.success(200, 'Subject updated successfully', { subject });
     }))
     .put(checkAuth('admin'), safeHandler(async (req, res) => {
@@ -123,8 +125,10 @@ router.route('/:id')
         if (!subject) {
             throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');
         }
-        updateAllCandidateScores(id);
-        updateAllExpertScores(id);
+
+        calculateAllCandidateScoresSingleSubject(id);
+        calculateAllExpertScoresSingleSubject(id);
+
         return res.success(200, 'Subject updated successfully', { subject });
     }))
 
@@ -146,7 +150,8 @@ router.route('/:id')
                 Expert.updateMany(
                     { _id: { $in: subject.experts.map(expert => expert.id) } },
                     { $pull: { subjects: id } }
-                )
+                ),
+                Application.deleteMany({ subject: id })
             ]);
 
             return res.success(200, 'Subject deleted successfully', { subject });
@@ -196,18 +201,26 @@ router.route('/:id/candidate')
         }
 
         candidate.subjects.push(id);
+
         subject.applicants.push({
             id: req.user.id,
             relevancyScore: 0
         })
 
-        const application = new Application({
+        const application = await Application.create({
             candidate: req.user.id,
             subject: id,
             status: 'pending'
         });
 
-        await Promise.all([candidate.save(), subject.save(), application.save()]);
+        candidate.applications.push(application.id);
+        subject.applications.push(application.id);
+
+        await Promise.all([candidate.save(), subject.save()]);
+
+        calculateSingleCandidateScoreSingleSubject(id, req.user.id);
+        calculateAllExpertScoresSingleSubject(id);
+
         return res.success(200, 'Successfully applied', { subject, application });
     }));
 
@@ -247,7 +260,7 @@ router.route('/:id/expert')
         if (!expert) {
             throw new ApiError(404, 'Expert not found', 'EXPERT_NOT_FOUND');
         }
-        
+
         expert.subjects.push(id);
         subject.experts.push({
             id: req.user.id,
@@ -256,8 +269,8 @@ router.route('/:id/expert')
         });
 
         await Promise.all([expert.save(), subject.save()]);
-        calculateSingleExpertScores(id, req.user.id);
+        calculateSingleExpertScoresSingleSubject(id, req.user.id);
         return res.success(200, 'Successfully applied', { subject });
     }));
-//not completed yet
+
 export default router;

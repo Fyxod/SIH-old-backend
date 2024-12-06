@@ -1,6 +1,6 @@
-import config from "../config/config";
+import config from "../config/config.js";
 import jwt from "jsonwebtoken";
-import ApiError from "./errorClass";
+import ApiError from "./errorClass.js";
 
 export function generateToken(payload) {
     try {

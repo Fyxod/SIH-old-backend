@@ -1,7 +1,14 @@
 import express from 'express';
-import connectMongo from './config/db';
-import { server } from './config/config';
-import responseHandler from './middlewares/responseHandler';
+import connectMongo from './config/db.js';
+import config from './config/config.js';
+import responseHandler from './middlewares/responseHandler.js';
+//routes
+import adminRoutes from './routes/adminRoutes.js';
+import candidateRoutes from './routes/candidateRoutes.js';
+import expertRoutes from './routes/expertRoutes.js';
+import subjectRoutes from './routes/subjectRoutes.js';
+import extraRoutes from './routes/extraRoutes.js';
+import applicationRoutes from './routes/applicationRoutes.js';
 const app = express();
 
 connectMongo();
@@ -13,6 +20,13 @@ app.use(responseHandler);
 app.get('/', (req, res) => {
     res.send('<h1>SIH 2024</h1>');
 });
+
+app.use('/admin', adminRoutes);
+app.use('/candidate', candidateRoutes);
+app.use('/expert', expertRoutes);
+app.use('/subject', subjectRoutes);
+app.use('/', extraRoutes);
+app.use('/application', applicationRoutes);
 
 
 //TEST OUT THIS ERROR JARGON FIRST
@@ -38,8 +52,8 @@ app.use((error, req, res, next) => {
     }
 });
 
-app.listen(server.port, () => {
-    console.log(`Server is running on port ${server.port}`);
+app.listen(config.server.port, () => {
+    console.log(`Server is running on port ${config.server.port}`);
 });
 
 /*things pending:
@@ -54,6 +68,8 @@ app.listen(server.port, () => {
 9. Add routes to remove feedbacks
 10. Add enums for different drdo centres
 11. Add application routes wherever applicable
+12. yet to add delete route for /subject/:id/candidate/ - when a candidate is removed from a subject or when a candidate unapplies for a subject
+13. delete application from experts wherever necessary
 
 /*
 Problem Statement Title:

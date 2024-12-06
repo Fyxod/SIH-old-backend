@@ -96,7 +96,7 @@ export async function calculateSingleExpertScoresMultipleSubjects(expertId) { //
     await Promise.all(scorePromises);
 }
 
-export async function calculateAllExpertScoresSingleSubject(subjectId) { // Calculate the scores of all experts for a single subject ---> when the recommended skills of a subject are updated || when the skills of a candidate are updated || when a new candidate applies for a subject || when a candidate is removed from a subject || when a candidate is deleted from the system
+export async function calculateAllExpertScoresSingleSubject(subjectId) { // Calculate the scores of all experts for a single subject ---> when the recommended skills of a subject are updated ||  when a new candidate applies for a subject || when a candidate is removed from a subject
     const subject = await Subject.findById(subjectId).populate('experts applicants');
     if (!subject) {
         console.log(`Subject not found for id ${subjectId} in calculateAllExpertScoresSingleSubject`);
@@ -148,7 +148,7 @@ export async function calculateAllExpertScoresSingleSubject(subjectId) { // Calc
     await subject.save();
 }
 
-export async function calculateAllExpertsScoresMultipleSubjects(subjectIds) { // Calculate the scores of all experts across multiple subjects ---> when the skills of a candidate are updated || when a candidate is deleted from the system
+export async function calculateAllExpertsScoresMultipleSubjects(subjectIds) { // Calculate the scores of all experts across multiple subjects ---> when the skills of a candidate are updated || when a candidate(s) is deleted from the system
     let subjects;
     if (subjectIds && subjectIds.length != 0) {
         subjects = await Subject.find({ _id: { $in: subjectIds } }).populate('experts applicants');
