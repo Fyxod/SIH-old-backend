@@ -10,6 +10,7 @@ import { isValidObjectId } from 'mongoose';
 import Expert from '../models/expert.js';
 import getSelectedFields from '../utils/selectFields.js';
 import { calculateSingleCandidateScore, calculateSingleExpertScores, updateAllCandidateScores, updateAllExpertScores } from '../utils/updateScores.js';
+import Application from '../models/application.js';
 
 const router = express.Router();
 
@@ -200,12 +201,15 @@ router.route('/:id/candidate')
             relevancyScore: 0
         })
 
-        await Promise.all([candidate.save(), subject.save()]);
-        res.success(200, 'Successfully applied', { subject });
-        calculateSingleCandidateScore(id, req.user.id);
-        updateAllExpertScores(id);
-    }
-    ));
+        const application = new Application({
+            candidate: req.user.id,
+            subject: id,
+            status: 'pending'
+        });
+
+        await Promise.all([candidate.save(), subject.save(), application.save()]);
+        return res.success(200, 'Successfully applied', { subject, application });
+    }));
 
 router.route('/:id/expert')
     .get(checkAuth('admin'), safeHandler(async (req, res) => { //kinda a redundant route since we can get the same data from the subject/:id route with the query parameter (experts=true)
@@ -243,7 +247,7 @@ router.route('/:id/expert')
         if (!expert) {
             throw new ApiError(404, 'Expert not found', 'EXPERT_NOT_FOUND');
         }
-
+        
         expert.subjects.push(id);
         subject.experts.push({
             id: req.user.id,

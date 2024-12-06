@@ -53,6 +53,7 @@ app.listen(server.port, () => {
 8. Add routes to remove experts and candidates from subjects
 9. Add routes to remove feedbacks
 10. Add enums for different drdo centres
+11. Add application routes wherever applicable
 
 /*
 Problem Statement Title:

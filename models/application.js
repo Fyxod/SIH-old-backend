@@ -41,16 +41,13 @@ const applicationSchema = new mongoose.Schema({
     },
     interviewDetails: {
         date: {
-            type: Date,
-            required: true
+            type: Date
         },
         time: {
-            type: String,
-            required: true
+            type: String
         },
         platform: {
             type: String,
-            required: true,
             enum: [
                 "zoom",
                 "googleMeet",
@@ -70,19 +67,22 @@ const applicationSchema = new mongoose.Schema({
             type: Boolean,
             default: false
         },
-        expertNotes: [
-            {
-                expert: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'Expert',
-                    required: true
-                },
-                note: {
-                    type: String,
-                    default: ''
+        expertNotes: {
+            type: [
+                {
+                    expert: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: 'Expert',
+                        required: true
+                    },
+                    note: {
+                        type: String,
+                        default: ''
+                    }
                 }
-            }
-        ]
+            ],
+            default: []
+        }
     }
 }, {
     timestamps: true

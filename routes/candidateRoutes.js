@@ -178,7 +178,7 @@ router.route('/:id')
                     filteredUpdates.resume = newResumeName;
                 }
                 if(filteredUpdates.skills){
-                    up
+                    // up
                 }
             } catch (error) {
                 console.log("Error processing resume during update", error);

@@ -56,19 +56,19 @@ const subjectSchema = new mongoose.Schema({
     },
     experts: {
         type: [{
-                profileScore: {
-                    type: Number,
-                    default: 0,
-                },
-                relevancyScore: {
-                    type: Number,
-                    default: 0,
-                },
-                id: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'Expert',
-                },
-            }],
+            profileScore: {
+                type: Number,
+                default: 0,
+            },
+            relevancyScore: {
+                type: Number,
+                default: 0,
+            },
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Expert',
+            },
+        }],
         default: [],
     },
     feedbacks: {
@@ -78,10 +78,9 @@ const subjectSchema = new mongoose.Schema({
         }],
         default: []
     },
-},
-    {
-        timestamps: true
-    });
+}, {
+    timestamps: true
+});
 
 const Subject = mongoose.model('Subject', subjectSchema);
 
