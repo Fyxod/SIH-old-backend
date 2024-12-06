@@ -10,10 +10,33 @@ export const adminSchema = z.object({
 });
 
 export const registerAdminSchema = z.object({
-    email: z.string()
-        .email({ message: 'Please enter a valid email address.' }),
-    password: z.string().min(6, { message: 'Password must be at least 6 characters long.' }),
-    confirmPassword: z.string().min(6, { message: 'Confirm password must be at least 6 characters long.' }),
+    username: z.string({ message: 'Username is required.' })
+        .min(3, { message: 'Username must be at least 3 characters long.' })
+        .max(50, { message: 'Username must be at most 50 characters long.' }),
+    password: z.string({ message: 'Password is required' })
+        .min(6, { message: 'Password must be at least 6 characters long.' })
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]])[A-Za-z\d!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]]{6,}$/, { message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.' }),
+    confirmPassword: z.string({ message: "Confirm password field is required" })
+        .min(6, { message: 'Confirm password must be at least 6 characters long.' })
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]])[A-Za-z\d!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]]{6,}$/, { message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.' }),
+}).refine(data => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+});
+
+export const updateAdminSchema = z.object({
+    username: z.string({ message: 'Username is required.' })
+        .min(3, { message: 'Username must be at least 3 characters long.' })
+        .max(50, { message: 'Username must be at most 50 characters long.' })
+        .optional(),
+    password: z.string({ message: 'Password is required' })
+        .min(6, { message: 'Password must be at least 6 characters long.' })
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]])[A-Za-z\d!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]]{6,}$/, { message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.' })
+        .optional(),
+    confirmPassword: z.string({ message: "Confirm password field is required" })
+        .min(6, { message: 'Confirm password must be at least 6 characters long.' })
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]])[A-Za-z\d!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]]{6,}$/, { message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.' })
+        .optional(),
 }).refine(data => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
@@ -191,52 +214,56 @@ export const candidateRegistrationSchema = z.object({
     }),
     dateOfBirth: z.date({ message: 'Invalid date of birth.' }),
     skills: z
-        .array(z.string().max(30, { message: 'Each skill must not exceed 30 characters.' })),
+        .array(z.string({}).max(30, { message: 'Each skill must not exceed 30 characters.' }), { message: 'At least one skill is required.' }),
     bio: z
-        .string()
+        .string({ message: 'Bio is required.' })
         .max(500, { message: 'Bio must not exceed 500 characters.' })
         .optional(),
     experience: z
         .array(
             z.object({
                 position: z
-                    .string()
+                    .string({ message: 'Position is required.' })
                     .min(2, { message: 'Position must be at least 2 characters long.' })
                     .max(50, { message: 'Position must not exceed 50 characters.' }),
                 department: z
-                    .string()
+                    .string({ message: 'Department is required.' })
                     .min(2, { message: 'Department must be at least 2 characters long.' })
                     .max(50, { message: 'Department must not exceed 50 characters.' }),
                 startDate: z.date({ message: 'Invalid start date.' }),
                 endDate: z.date({ message: 'Invalid end date.' }).optional(),
                 companyName: z
-                    .string()
+                    .string({ message: 'Company name is required.' })
                     .max(100, { message: 'Company name must not exceed 100 characters.' })
                     .optional()
-            })
+            }),
+            { message: 'At least one experience is required.' }
         ),
     education: z
         .array(
             z.object({
                 degree: z
-                    .string()
+                    .string({ message: 'Degree is required.' })
                     .min(2, { message: 'Degree must be at least 2 characters long.' })
                     .max(50, { message: 'Degree must not exceed 50 characters.' }),
                 institute: z
-                    .string()
+                    .string({ message: 'Institute is required.' })
                     .min(2, { message: 'Institute must be at least 2 characters long.' })
                     .max(100, { message: 'Institute must not exceed 100 characters.' }),
                 startDate: z.date({ message: 'Invalid start date.' }),
                 endDate: z.date({ message: 'Invalid end date.' }),
-            })
+            }),
+            { message: 'At least one education is required.' }
         ),
     linkedIn: z
         .string()
         .url({ message: 'Invalid LinkedIn URL.' })
         .max(200, { message: 'LinkedIn URL must not exceed 200 characters.' })
         .optional(),
-    password: z.string().min(6, { message: 'Password is at least 6 characters long.' }),
-    confirmPassword: z.string().min(6, { message: 'Confirm password is at least 6 characters long.' }),
+    password: z.string().min(6, { message: 'Password is at least 6 characters long.' })
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]])[A-Za-z\d!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]]{6,}$/, { message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.' }),
+    confirmPassword: z.string().min(6, { message: 'Confirm password is at least 6 characters long.' })
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]])[A-Za-z\d!@#$%^&*()_+{}|:;<>,.?/~\-=\[\]]{6,}$/, { message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.' }),
     resumeToken: z.string().optional(),
 })
     .refine(data => data.password === data.confirmPassword, {
@@ -269,7 +296,7 @@ export const candidateUpdateSchema = z.object({
     skills: z
         .array(z.string().max(30, { message: 'Each skill must not exceed 30 characters.' }))
         .optional(),
-        bio: z
+    bio: z
         .string()
         .max(500, { message: 'Bio must not exceed 500 characters.' })
         .optional(),
@@ -389,4 +416,3 @@ export const applicationRegistrationSchema = z.object({
     venue: z.string().optional(),
     conducted: z.boolean().optional(),
 });
-    

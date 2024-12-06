@@ -31,24 +31,21 @@ app.use('/application', applicationRoutes);
 
 //TEST OUT THIS ERROR JARGON FIRST
 app.use((error, req, res, next) => {
-    if(error.errors && error.errors[0].message) { // zod error
-        error.message = error.errors[0].message;
-        error.statusCode = 400;
-        error.isOperational = true;
-        error.errorCode = 'VALIDATION_ERROR';
+    console.log(error); // temp log
+    if(error.errors && error.errors[0].message) {
+        return res.error(400, error.errors[0].message, 'VALIDATION_ERROR');
     }
     
     if (error.isOperational) {
         const statusCode = error.statusCode || 500;
         const message = error.message || 'Internal Server Error';
-        res.error(statusCode, message, error.errorCode, error.data);
+        return res.error(statusCode, message, error.errorCode, error.data);
     } else {
         //send email
         //log in a special way maybe
         console.error("ALERT ALERT ALERT");
         console.error('Unhandled error:', error);
-        res.error(500, 'Internal Server Error', 'UNHANDLED_ERROR');
-        res.status(500).json({ error: 'Something went wrong!' });
+        return res.error(500, 'Internal Server Error', 'UNHANDLED_ERROR');
     }
 });
 

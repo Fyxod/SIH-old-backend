@@ -3,7 +3,7 @@ const responseHandler = (req, res, next) => {
         return res.status(statusCode).json({
             status: "success",
             message,
-            ...data
+            data
         });
     };
 
@@ -12,7 +12,7 @@ const responseHandler = (req, res, next) => {
             status: "error",
             errorCode,
             message,
-            ...data
+            data
         });
     };
 

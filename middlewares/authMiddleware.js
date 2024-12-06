@@ -3,7 +3,7 @@ import config from '../config/config.js';
 
 export default function checkAuth(role) { // role = minimum access level required (optional field)
     return (req, res, next) => {
-        let token = null
+        let token = null;
         if (req.headers['isMobile'] === "true") {
             const authHeader = req.headers['authorization'];
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -11,8 +11,15 @@ export default function checkAuth(role) { // role = minimum access level require
             }
             token = authHeader.split(' ')[1];
         }
+        else if (req.cookies?.userToken) {
+            token = req.cookies?.userToken;
+        }
         else {
-            token = req.cookies?.token;
+            const userToken = req.headers.cookie
+            .split('; ')
+            .find((entry) => entry.startsWith('userToken='))
+            .split('=')[1];
+            token = userToken;
         }
         const payload = verifyToken(token);
         if (!payload) {

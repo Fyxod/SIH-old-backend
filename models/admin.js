@@ -16,7 +16,8 @@ const adminSchema = new mongoose.Schema({
         enum: [
             "admin",
             "superadmin"
-        ]
+        ],
+        default: "admin"
     },
 },
 {

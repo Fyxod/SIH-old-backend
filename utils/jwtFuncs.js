@@ -13,7 +13,7 @@ export function generateToken(payload) {
 
 export function verifyToken(token) {
     try {
-        return jwt.verify(token, config.auth.jwtSecret);
+        return jwt.verify(token, config.auth.tokenSecret);
     } catch (err) {
         console.log("Token verification failed", err);
         return null; //or should it be throw new ApiError(401, "Invalid token", "INVALID_TOKEN")?

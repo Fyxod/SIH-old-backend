@@ -15,11 +15,11 @@ const config = {
         candidate: 0,
         expert: 1,
         admin: 2,
-        superAdmin: 3,
+        superadmin: 3,
     },
     auth: {
         tokenSecret: process.env.ACCESS_TOKEN_SECRET || 'thisbetterbeasecret',
-        tokenExpiration: '15m',
+        tokenExpiration: '6h',
         //wont be using the following for now
         //access token
         // accessTokenSecret: process.env.ACCESS_TOKEN_SECRET || 'thisbetterbeasecret',
