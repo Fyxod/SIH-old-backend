@@ -116,13 +116,20 @@ router.route('/')
         return res.success(200, "All candidates successfully deleted", { candidates });
     }));
 
-router.route('/:id')
+router.route('/:detail')
     .get(checkAuth("candidate"), safeHandler(async (req, res) => {
-        const { id } = req.params;
-        if (!isValidObjectId(id)) throw new ApiError(400, "Invalid candidate ID", "INVALID_ID");
+        const { detail } = req.params;
         const { education, experience } = req.query;
 
-        const candidate = await Candidate.findById(id).select(getSelectedFields({ education, experience }));
+        const candidate = await Candidate.findOne({
+            $or: [
+                { _id: detail },
+                { email: detail },
+                { mobileNo: detail },
+                { name: detail },
+                { linkedin: detail }
+            ]
+        }).select(getSelectedFields({ education, experience }));
 
         if (!candidate) {
             throw new ApiError(404, "Candidate not found", "CANDIDATE_NOT_FOUND");
