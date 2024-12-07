@@ -4,6 +4,7 @@ import config from '../config/config.js';
 export default function checkAuth(role) { // role = minimum access level required (optional field)
     return (req, res, next) => {
         let token = null;
+        console.log(req.headers);
         if (req.headers['ismobile'] === "true" || req.headers['ismobile'] === true) {
             const authHeader = req.headers['authorization'];
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -25,6 +26,7 @@ export default function checkAuth(role) { // role = minimum access level require
                 return res.error(401, 'Missing or malformed token', 'UNAUTHORIZED');
             }
         }
+        console.log(token);
         const payload = verifyToken(token);
         if (!payload) {
             return res.error(401, 'Invalid or expired token', 'UNAUTHORIZED');

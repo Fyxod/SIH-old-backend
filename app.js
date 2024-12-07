@@ -16,7 +16,9 @@ connectMongo();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(responseHandler);
-
+import path from 'path';
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
     res.send('<h1>SIH 2024</h1>');
 });
