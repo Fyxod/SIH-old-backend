@@ -126,14 +126,16 @@ router.route('/:detail')
         const { detail } = req.params;
         const { education, experience } = req.query;
 
+        const valid = isValidObjectId(detail);
+
         const expert = await Expert.findOne({
             $or: [
-                { _id: detail },
+                valid ? { _id: detail } : null,
                 { name: detail },
                 { email: detail },
                 { mobileNo: detail },
                 { linkedin: detail }
-            ]
+            ].filter(Boolean)
         }).select(getSelectedFields({ education, experience }));
 
         if (!expert) {

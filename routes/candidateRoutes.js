@@ -121,14 +121,16 @@ router.route('/:detail')
         const { detail } = req.params;
         const { education, experience } = req.query;
 
+        const valid = isValidObjectId(detail);
+
         const candidate = await Candidate.findOne({
             $or: [
-                { _id: detail },
+                valid ? { _id: detail } : null,
                 { email: detail },
                 { mobileNo: detail },
                 { name: detail },
                 { linkedin: detail }
-            ]
+            ].filter(Boolean)
         }).select(getSelectedFields({ education, experience }));
 
         if (!candidate) {
