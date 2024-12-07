@@ -32,10 +32,10 @@ app.use('/application', applicationRoutes);
 //TEST OUT THIS ERROR JARGON FIRST
 app.use((error, req, res, next) => {
     console.log(error); // temp log
-    if(error.errors && error.errors[0].message) {
+    if (error.errors && error.errors[0].message) {
         return res.error(400, error.errors[0].message, 'VALIDATION_ERROR');
     }
-    
+
     if (error.isOperational) {
         const statusCode = error.statusCode || 500;
         const message = error.message || 'Internal Server Error';
@@ -67,6 +67,7 @@ app.listen(config.server.port, () => {
 11. Add application routes wherever applicable
 12. yet to add delete route for /subject/:id/candidate/ - when a candidate is removed from a subject or when a candidate unapplies for a subject
 13. delete application from experts wherever necessary
+14. Unhandled error or slow server? checkout fs.existsSync in All candidates delete
 
 /*
 Problem Statement Title:

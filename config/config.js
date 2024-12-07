@@ -34,12 +34,13 @@ const config = {
         // resetTokenExpiration: '1h',
     },
     paths: {
-        resume:{
-            expert: 'resumes/experts',
-            candidate: 'resumes/candidates',
+        resume: {
+            expert: 'resumes/expert',
+            candidate: 'resumes/candidate',
             temporary: 'resumes/temp',
         }
     },
+    BASE_URL: process.env.BASE_URL || 'http://localhost:4139',
     //later include more config options for production
 };
 

@@ -11,7 +11,7 @@ const expertSchema = new mongoose.Schema({
         enum: [
             "male",
             "female",
-            "Non-Binary",
+            "non-binary",
             "other"
         ]
     },
@@ -33,7 +33,7 @@ const expertSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    skills:[{
+    skills: [{
         type: String,
     }],
     currentPosition: {
@@ -71,28 +71,24 @@ const expertSchema = new mongoose.Schema({
     education: [{
         degree: {
             type: String,
-            // required: true
         },
         field: {
             type: String,
-            // required: true
         },
         startDate: {
             type: Date,
-            // required: true
         },
         endDate: {
             type: Date,
-            // required: true
         },
-        university: {
+        institute: {
             type: String,
         },
     }],
     resume: {
         type: String,
         unique: true,
-        // sparse: true, try this if it throws error
+        sparse: true
     },
     subjects: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -108,16 +104,18 @@ const expertSchema = new mongoose.Schema({
     }],
     image: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     },
     linkedIn: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     },
 },
-{
-    timestamps: true
-});
+    {
+        timestamps: true
+    });
 
 const Expert = mongoose.model('Expert', expertSchema);
 

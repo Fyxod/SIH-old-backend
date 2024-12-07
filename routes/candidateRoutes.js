@@ -14,14 +14,19 @@ import getSelectedFields from '../utils/selectFields.js';
 import { calculateAllExpertsScoresMultipleSubjects } from '../utils/updateScores.js';
 import Application from '../models/application.js';
 import Expert from '../models/expert.js';
+import { isValidObjectId } from 'mongoose';
 const tempResumeFolder = config.paths.resume.temporary;
 const candidateResumeFolder = config.paths.resume.candidate;
+
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const router = express.Router();
 // the rout / is being used to do crud of an candidate by admin or someone of  higher level
 router.route('/')
     .get(checkAuth("admin"), safeHandler(async (req, res) => {
-        const candidates = await Candidate.find();
+        const candidates = await Candidate.find().select("-password");
         if (!candidates || candidates.length === 0) {
             throw new ApiError(404, "No candidate was found", "NO_CANDIDATES_FOUND");
         }
@@ -29,14 +34,15 @@ router.route('/')
     }))
 
     .post(safeHandler(async (req, res) => {
-        const { name, email, password, mobileNo, dateOfBirth, education, skills, experience, linkedin, resumeToken } = candidateRegistrationSchema.parse(req.body);
+        const fields = candidateRegistrationSchema.parse(req.body);
+        // { name, email, password, mobileNo, dateOfBirth, education, skills, experience, linkedin, resumeToken, gender }
         // will apply multer for image later
 
         const findArray = [
-            { email },
-            { mobileNo }
+            { email: fields.email },
+            { mobileNo: fields.mobileNo }
         ];
-        if (linkedin) findArray.push({ linkedin });
+        if (fields.linkedIn) findArray.push({ linkedin: fields.linkedIn });
 
         const candidateExists = await Candidate.findOne({
             $or: findArray
@@ -45,66 +51,65 @@ router.route('/')
         if (candidateExists) {
             let existingField;
 
-            if (candidateExists.email === email) existingField = 'Email';
-            else if (candidateExists.mobileNo === mobileNo) existingField = 'Mobile number';
-            else if (candidateExists.linkedIn && candidateExists.linkedin === linkedin) existingField = 'Linkedin id';
+            if (candidateExists.email === fields.email) existingField = 'Email';
+            else if (candidateExists.mobileNo === fields.mobileNo) existingField = 'Mobile number';
+            else if (candidateExists.linkedIn && candidateExists.linkedin === fields.linkedin) existingField = 'Linkedin id';
 
             throw new ApiError(400, `Candidate already exists with this ${existingField}`, "CANDIDATE_ALREADY_EXISTS");
         }
         let newResumeName = null;
 
-        if (resumeToken) {
+        if (fields.resumeToken) {
             try {
-                const payload = verifyToken(resumeToken);
+                const payload = verifyToken(fields.resumeToken);
                 const resumeName = payload.resumeName;
                 const resumePath = path.join(__dirname, `../public/${tempResumeFolder}/${resumeName}`);
 
                 const fileExists = await fs.promises.access(resumePath).then(() => true).catch(() => false);
 
                 if (fileExists) {
-                    newResumeName = `${name.split(' ')[0]}_resume_${new Date().getTime()}.pdf`;
+                    newResumeName = `${fields.name.split(' ')[0]}_resume_${new Date().getTime()}.pdf`;
                     const destinationFolder = path.join(__dirname, `../public/${candidateResumeFolder}`);
                     const newFilePath = path.join(destinationFolder, newResumeName);
                     await fs.promises.mkdir(destinationFolder, { recursive: true });
                     await fs.promises.rename(resumePath, newFilePath);
+                    fields.resume = newResumeName;
                 }
+                delete fields.resumeToken; // try removing this if any error occurs
             } catch (error) {
                 console.log("Error processing resume during registration", error);
             }
         }
 
-        const hash = await bcrypt.hash(password, 10);
-        const candidate = await Candidate.create({
-            password: hash,
-            resume: newResumeName,
-            name,
-            email,
-            mobileNo,
-            dateOfBirth,
-            education,
-            skills,
-            experience,
-            linkedin,
-            // image,
-            gender
-        });
+        fields.password = await bcrypt.hash(fields.password, 10);
+        const candidate = await Candidate.create(fields);
 
         return res.success(201, "candidate successfully created", { candidate: { id: candidate._id, email: candidate.email, name: candidate.name } });
 
     }))
 
     .delete(checkAuth("admin"), safeHandler(async (req, res) => {
-        const candidates = await Candidate.deleteMany();
-        if (!candidates) {
+        const candidates = await Candidate.find().select("-password");
+        if (!candidates || candidates.length === 0) {
             throw new ApiError(404, "No candidates found", "NO_CANDIDATES_FOUND");
         }
+        await Candidate.deleteMany();
+        console.log("Deleting all candidates", candidates)
         await Promise.all([
             Subject.updateMany({}, { $set: { applications: [], candidates: [] } }),
-            fs.promises.rmdir(path.join(__dirname, `../public/${candidateResumeFolder}`), { recursive: true }),
+            (async () => {
+                const folderPath = path.join(__dirname, `../public/${candidateResumeFolder}`);
+                try {
+                    await fs.promises.access(folderPath);
+                    await fs.promises.rmdir(folderPath, { recursive: true });
+                } catch (error) {
+                    console.error(`Failed to remove directory: ${folderPath}`, error);
+                }
+            })(),
             Application.deleteMany(),
             Expert.updateMany({}, { $set: { applications: [] } }),
             // Add if remember more
-        ])
+        ]);
 
         calculateAllExpertsScoresMultipleSubjects(candidates.map(c => c.subjects).flat());
 
@@ -115,9 +120,9 @@ router.route('/:id')
     .get(checkAuth("candidate"), safeHandler(async (req, res) => {
         const { id } = req.params;
         if (!isValidObjectId(id)) throw new ApiError(400, "Invalid candidate ID", "INVALID_ID");
-        const { education, experience } = req.body;
+        const { education, experience } = req.query;
 
-        const candidate = await Candidate.findById(id).select(getSelectedFields(education, experience));
+        const candidate = await Candidate.findById(id).select(getSelectedFields({ education, experience }));
 
         if (!candidate) {
             throw new ApiError(404, "Candidate not found", "CANDIDATE_NOT_FOUND");
@@ -166,7 +171,7 @@ router.route('/:id')
 
                 if (fileExists) {
                     const candidate = await Candidate.findById(id);
-                    if (candidate.resume) {
+                    if (candidate?.resume) {
                         try {
                             await fs.promises.unlink(path.join(__dirname, `../public/${candidateResumeFolder}/${candidate.resume}`));
                         } catch (error) {
@@ -225,16 +230,25 @@ router.route('/:id')
         }
 
         await Promise.all([
-        Subject.updateMany({ _id: { $in: candidate.subjects } }, { $pull: { candidates: candidate._id } }),
-        Application.deleteMany({ candidate: candidate._id }),
-        fs.promises.unlink(path.join(__dirname, `../public/${candidateResumeFolder}/${candidate.resume}`))
+            Subject.updateMany({ _id: { $in: candidate.subjects } }, { $pull: { candidates: { id: candidate._id } } }),
+            Application.deleteMany({ candidate: candidate._id }),
+            (async () => {
+                const filePath = path.join(__dirname, `../public/${candidateResumeFolder}/${candidate.resume}`);
+                try {
+                    await fs.promises.access(filePath, fs.constants.F_OK);
+                    await fs.promises.unlink(filePath);
+                } catch (error) {
+                    if (error.code !== 'ENOENT') {
+                        console.error(`Failed to delete file: ${filePath}`, error);
+                    }
+                }
+            })()
         ]);
+
         calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
 
         return res.success(200, "Candidate deleted successfully", { candidate });
     }));
-
-// there are two diff schema for expert and candidate so we need diff end points
 
 router.post('/signin', safeHandler(async (req, res) => {
     const { email, password } = candidateLoginSchema.parse(req.body);
@@ -249,6 +263,7 @@ router.post('/signin', safeHandler(async (req, res) => {
     }
 
     const userToken = generateToken({ id: candidate._id, role: "candidate" });
+    res.cookie("userToken", userToken, { httpOnly: true });
     return res.success(200, "Successfully logged in", { userToken, candidate: { id: candidate._id, email: candidate.email, name: candidate.name } });
 }));
 

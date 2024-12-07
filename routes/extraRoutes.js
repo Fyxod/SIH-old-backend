@@ -37,7 +37,7 @@ router.get('/parse', resumeUpload.single("resume"), safeHandler(async (req, res)
         //     filteredData.email = filteredData.email.toLowerCase();
         // }
         // if(filteredData.college_name) {
-        //     filteredData.university = filteredData.college_name;
+        //     filteredData.institute = filteredData.college_name;
         //     delete filteredData.college_name;
         // }
         // if(filteredData.company_name){

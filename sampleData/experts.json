@@ -1,0 +1,401 @@
+[
+    {
+        "name": "Abhishek Pal",
+        "email": "abhishek.pal@gmail.com",
+        "mobileNo": "6392316025",
+        "gender": "male",
+        "dateOfBirth": "1978-07-15",
+        "skills": [
+            "Physics",
+            "javascript",
+            "django",
+            "python",
+            "mongodb",
+            "express"
+        ],
+        "currentPosition": "Assistant Professor",
+        "currentDepartment": "Ministery of education",
+        "experience": [
+            {
+                "position": "Research Assistant",
+                "department": "NA",
+                "startDate": "2023-04-25",
+                "endDate": "2023-08-24",
+                "companyName": "Calcutta University"
+            },
+            {
+                "position": "High School Teacher",
+                "department": "Electrical",
+                "startDate": "2023-10-20",
+                "endDate": "2024-02-15",
+                "companyName": "NA"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BE",
+                "field": "Electrical Engineering",
+                "startDate": "1996-07-03",
+                "endDate": "2000-06-15",
+                "institute": "Kalinga University"
+            },
+            {
+                "degree": "MTech",
+                "field": "Computer Science",
+                "startDate": "2020-07-20",
+                "endDate": "2022-06-19",
+                "institute": "Chitkara University"
+            },
+            {
+                "degree": "PhD",
+                "field": "Electronics",
+                "startDate": "2022-08-20",
+                "endDate": "2023-10-05",
+                "institute": "IIT Kanpur"
+            }
+        ]
+    },
+    {
+        "name": "Radhika Sharma",
+        "email": "radhika.sharma@example.com",
+        "mobileNo": "9876543210",
+        "gender": "female",
+        "dateOfBirth": "1990-05-12",
+        "skills": [
+            "Machine Learning",
+            "Data Analysis",
+            "React",
+            "Node.js",
+            "PostgreSQL",
+            "AWS"
+        ],
+        "currentPosition": "Data Scientist",
+        "currentDepartment": "Analytics",
+        "experience": [
+            {
+                "position": "Data Analyst",
+                "department": "Business Intelligence",
+                "startDate": "2018-06-01",
+                "endDate": "2020-12-31",
+                "companyName": "Infosys"
+            },
+            {
+                "position": "Machine Learning Engineer",
+                "department": "R&D",
+                "startDate": "2021-01-15",
+                "endDate": "2023-06-30",
+                "companyName": "Tech Solutions Inc."
+            }
+        ],
+        "education": [
+            {
+                "degree": "BSc",
+                "field": "Computer Science",
+                "startDate": "2008-07-15",
+                "endDate": "2011-05-10",
+                "institute": "Delhi University"
+            },
+            {
+                "degree": "MSc",
+                "field": "Data Science",
+                "startDate": "2012-08-10",
+                "endDate": "2014-07-25",
+                "institute": "IIT Delhi"
+            },
+            {
+                "degree": "PhD",
+                "field": "Artificial Intelligence",
+                "startDate": "2015-09-01",
+                "endDate": "2019-05-30",
+                "institute": "MIT"
+            }
+        ]
+    },
+    {
+        "name": "Arjun Mehta",
+        "email": "arjun.mehta@outlook.com",
+        "mobileNo": "9123456789",
+        "gender": "male",
+        "dateOfBirth": "1985-03-28",
+        "skills": [
+            "Cloud Computing",
+            "DevOps",
+            "Kubernetes",
+            "Docker",
+            "Java",
+            "SQL"
+        ],
+        "currentPosition": "Senior DevOps Engineer",
+        "currentDepartment": "Infrastructure",
+        "experience": [
+            {
+                "position": "System Administrator",
+                "department": "IT",
+                "startDate": "2008-01-15",
+                "endDate": "2012-06-30",
+                "companyName": "Tata Consultancy Services"
+            },
+            {
+                "position": "Cloud Engineer",
+                "department": "Cloud Solutions",
+                "startDate": "2013-02-01",
+                "endDate": "2018-09-15",
+                "companyName": "HCL Technologies"
+            },
+            {
+                "position": "DevOps Lead",
+                "department": "Engineering",
+                "startDate": "2019-01-10",
+                "endDate": "2023-11-30",
+                "companyName": "Amazon Web Services"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BTech",
+                "field": "Information Technology",
+                "startDate": "2003-07-10",
+                "endDate": "2007-05-20",
+                "institute": "VIT University"
+            },
+            {
+                "degree": "MTech",
+                "field": "Software Engineering",
+                "startDate": "2008-08-05",
+                "endDate": "2010-06-15",
+                "institute": "Anna University"
+            },
+            {
+                "degree": "Postgraduate Diploma",
+                "field": "Cloud Computing",
+                "startDate": "2011-01-10",
+                "endDate": "2012-12-10",
+                "institute": "University of Melbourne"
+            }
+        ]
+    },
+    {
+        "name": "Sneha Kapoor",
+        "email": "sneha.kapoor@gmail.com",
+        "mobileNo": "9988776655",
+        "gender": "female",
+        "dateOfBirth": "1992-11-05",
+        "skills": [
+            "UI/UX Design",
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "Adobe Photoshop",
+            "Figma"
+        ],
+        "currentPosition": "Product Designer",
+        "currentDepartment": "Design",
+        "experience": [
+            {
+                "position": "Junior UI Designer",
+                "department": "Web Development",
+                "startDate": "2015-03-20",
+                "endDate": "2018-04-30",
+                "companyName": "Wipro"
+            },
+            {
+                "position": "UX Designer",
+                "department": "Mobile Applications",
+                "startDate": "2018-06-15",
+                "endDate": "2022-08-31",
+                "companyName": "Accenture"
+            },
+            {
+                "position": "Lead Product Designer",
+                "department": "E-Commerce",
+                "startDate": "2022-09-01",
+                "endDate": "2024-12-07",
+                "companyName": "Flipkart"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BA",
+                "field": "Visual Communication",
+                "startDate": "2010-08-01",
+                "endDate": "2013-05-10",
+                "institute": "Loyola College"
+            },
+            {
+                "degree": "MA",
+                "field": "Interaction Design",
+                "startDate": "2014-09-01",
+                "endDate": "2016-06-30",
+                "institute": "National Institute of Design"
+            },
+            {
+                "degree": "Certification",
+                "field": "Human-Computer Interaction",
+                "startDate": "2020-01-15",
+                "endDate": "2020-06-15",
+                "institute": "Stanford University"
+            }
+        ]
+    },
+    {
+        "name": "Ravi Verma",
+        "email": "ravi.verma@yahoo.com",
+        "mobileNo": "9012345678",
+        "gender": "male",
+        "dateOfBirth": "1995-04-10",
+        "skills": [
+            "Android Development",
+            "Kotlin",
+            "Java",
+            "Firebase",
+            "REST APIs",
+            "Git"
+        ],
+        "currentPosition": "Mobile App Developer",
+        "currentDepartment": "Software Development",
+        "experience": [
+            {
+                "position": "Junior Android Developer",
+                "department": "Mobile Apps",
+                "startDate": "2017-01-15",
+                "endDate": "2019-12-31",
+                "companyName": "Tech Mahindra"
+            },
+            {
+                "position": "Android Developer",
+                "department": "Development",
+                "startDate": "2020-02-01",
+                "endDate": "2023-05-31",
+                "companyName": "Infosys"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BCA",
+                "field": "Computer Applications",
+                "startDate": "2012-08-01",
+                "endDate": "2015-05-15",
+                "institute": "Amity University"
+            },
+            {
+                "degree": "MCA",
+                "field": "Computer Applications",
+                "startDate": "2016-08-01",
+                "endDate": "2018-05-15",
+                "institute": "Manipal University"
+            }
+        ]
+    },
+    {
+        "name": "Pooja Desai",
+        "email": "pooja.desai@gmail.com",
+        "mobileNo": "8765432109",
+        "gender": "female",
+        "dateOfBirth": "1988-12-15",
+        "skills": [
+            "Project Management",
+            "Agile Methodologies",
+            "Scrum",
+            "JIRA",
+            "MS Project",
+            "Communication"
+        ],
+        "currentPosition": "Project Manager",
+        "currentDepartment": "IT Services",
+        "experience": [
+            {
+                "position": "Software Developer",
+                "department": "Development",
+                "startDate": "2010-06-01",
+                "endDate": "2014-03-31",
+                "companyName": "Cognizant"
+            },
+            {
+                "position": "Team Lead",
+                "department": "Software Development",
+                "startDate": "2014-04-01",
+                "endDate": "2018-09-30",
+                "companyName": "IBM"
+            },
+            {
+                "position": "Project Manager",
+                "department": "IT Services",
+                "startDate": "2018-10-01",
+                "endDate": "2024-12-07",
+                "companyName": "Capgemini"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BSc",
+                "field": "Information Technology",
+                "startDate": "2006-07-01",
+                "endDate": "2009-05-15",
+                "institute": "St. Xavier's College"
+            },
+            {
+                "degree": "MBA",
+                "field": "IT Management",
+                "startDate": "2009-08-01",
+                "endDate": "2011-06-30",
+                "institute": "IIM Bangalore"
+            }
+        ]
+    },
+    {
+        "name": "Karan Gupta",
+        "email": "karan.gupta@live.com",
+        "mobileNo": "7894561230",
+        "gender": "male",
+        "dateOfBirth": "1990-09-05",
+        "skills": [
+            "Full Stack Development",
+            "React",
+            "Node.js",
+            "MongoDB",
+            "GraphQL",
+            "TypeScript"
+        ],
+        "currentPosition": "Full Stack Developer",
+        "currentDepartment": "Product Engineering",
+        "experience": [
+            {
+                "position": "Frontend Developer",
+                "department": "Web Applications",
+                "startDate": "2014-05-01",
+                "endDate": "2017-12-31",
+                "companyName": "Wipro"
+            },
+            {
+                "position": "Full Stack Developer",
+                "department": "Development",
+                "startDate": "2018-02-01",
+                "endDate": "2022-11-30",
+                "companyName": "Zoho"
+            },
+            {
+                "position": "Senior Full Stack Developer",
+                "department": "Engineering",
+                "startDate": "2023-01-01",
+                "endDate": "2024-12-07",
+                "companyName": "Freshworks"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BE",
+                "field": "Computer Science",
+                "startDate": "2008-07-01",
+                "endDate": "2012-06-15",
+                "institute": "PES University"
+            },
+            {
+                "degree": "MSc",
+                "field": "Software Engineering",
+                "startDate": "2013-08-01",
+                "endDate": "2015-06-30",
+                "institute": "University of Glasgow"
+            }
+        ]
+    }
+]

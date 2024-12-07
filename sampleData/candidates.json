@@ -1,0 +1,210 @@
+[
+    {
+        "name": "devansh",
+        "email": "devansh@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9125984473",
+        "dateOfBirth": "2004-11-04",
+        "gender": "male",
+        "skills": [
+            "javascript",
+            "react"
+        ],
+        "experience": [
+            {
+                "position": "Junior Developer",
+                "department": "Frontend",
+                "startDate": "2023-04-25",
+                "endDate": "2023-08-24",
+                "companyName": "Google"
+            },
+            {
+                "position": "Senior Developer",
+                "department": "Backend",
+                "startDate": "2023-10-20",
+                "endDate": "2024-02-15",
+                "companyName": "Microsoft"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BE",
+                "field": "Civil Engineering",
+                "startDate": "2016-02-15",
+                "endDate": "2020-02-16",
+                "institute": "Thapar University"
+            },
+            {
+                "degree": "MTech",
+                "field": "Computer Science",
+                "startDate": "2020-07-20",
+                "endDate": "2022-06-19",
+                "institute": "Chitkara University"
+            }
+        ]
+    },
+    {
+        "name": "Aarav Sharma",
+        "email": "aarav.sharma@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9876543210",
+        "dateOfBirth": "1998-07-15",
+        "gender": "male",
+        "skills": [
+            "python",
+            "django",
+            "aws"
+        ],
+        "experience": [
+            {
+                "position": "Software Engineer",
+                "department": "Backend",
+                "startDate": "2021-03-01",
+                "endDate": "2022-12-31",
+                "companyName": "Microsoft"
+            },
+            {
+                "position": "DevOps Engineer",
+                "department": "DevOps",
+                "startDate": "2023-01-15",
+                "endDate": "2024-06-30",
+                "companyName": "Amazon"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BTech",
+                "field": "Information Technology",
+                "startDate": "2015-08-10",
+                "endDate": "2019-05-15",
+                "institute": "Delhi Technological University"
+            },
+            {
+                "degree": "MTech",
+                "field": "Data Science",
+                "startDate": "2020-07-01",
+                "endDate": "2022-06-30",
+                "institute": "IIT Bombay"
+            }
+        ]
+    },
+    {
+        "name": "Isha Kapoor",
+        "email": "isha.kapoor@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9123456789",
+        "dateOfBirth": "2000-09-22",
+        "gender": "female",
+        "skills": [
+            "java",
+            "spring",
+            "microservices"
+        ],
+        "experience": [
+            {
+                "position": "Backend Developer",
+                "department": "Engineering",
+                "startDate": "2022-01-10",
+                "endDate": "2023-03-15",
+                "companyName": "Infosys"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BTech",
+                "field": "Computer Science",
+                "startDate": "2018-08-01",
+                "endDate": "2022-05-31",
+                "institute": "VIT University"
+            }
+        ]
+    },
+    {
+        "name": "Rohan Verma",
+        "email": "rohan.verma@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9123456776",
+        "dateOfBirth": "1995-12-12",
+        "gender": "male",
+        "skills": [
+            "c++",
+            "algorithms",
+            "data structures"
+        ],
+        "experience": [
+            {
+                "position": "Algorithm Specialist",
+                "department": "R&D",
+                "startDate": "2018-09-01",
+                "endDate": "2021-12-31",
+                "companyName": "TCS"
+            },
+            {
+                "position": "Lead Software Engineer",
+                "department": "AI/ML",
+                "startDate": "2022-01-10",
+                "endDate": "2024-02-15",
+                "companyName": "Google"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BE",
+                "field": "Electronics and Communication",
+                "startDate": "2013-08-01",
+                "endDate": "2017-06-30",
+                "institute": "Anna University"
+            },
+            {
+                "degree": "MS",
+                "field": "Artificial Intelligence",
+                "startDate": "2018-01-10",
+                "endDate": "2020-05-15",
+                "institute": "Stanford University"
+            }
+        ]
+    },
+    {
+        "name": "Priya Mehta",
+        "email": "priya.mehta@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9876543298",
+        "dateOfBirth": "1997-03-17",
+        "gender": "female",
+        "skills": [
+            "react",
+            "node.js",
+            "mongodb"
+        ],
+        "experience": [
+            {
+                "position": "Full-Stack Developer",
+                "department": "Technology",
+                "startDate": "2020-06-01",
+                "endDate": "2022-12-31",
+                "companyName": "Flipkart"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BCA",
+                "field": "Computer Applications",
+                "startDate": "2015-07-01",
+                "endDate": "2018-06-30",
+                "institute": "Amity University"
+            },
+            {
+                "degree": "MCA",
+                "field": "Software Engineering",
+                "startDate": "2018-08-01",
+                "endDate": "2021-07-30",
+                "institute": "BITS Pilani"
+            }
+        ]
+    }
+]

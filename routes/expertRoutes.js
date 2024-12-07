@@ -19,24 +19,29 @@ import { calculateSingleExpertScoresMultipleSubjects } from '../utils/updateScor
 const tempResumeFolder = config.paths.resume.temporary;
 const expertResumeFolder = config.paths.resume.expert;
 
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 const router = express.Router();
 // the rout / is being used to do crud of an expert by admin or someone of higher level
 router.route('/')
     .get(checkAuth("admin"), safeHandler(async (req, res) => {
-        const experts = await Expert.find();
+        const experts = await Expert.find().select("-password");
         if (!experts || experts.length === 0) {
             throw new ApiError(404, "No experts found", "NO_EXPERTS_FOUND");
         }
         return res.success(200, "All experts successfully retrieved", { experts });
     }))
     .post(checkAuth("admin"), safeHandler(async (req, res) => {
-        const { name, email, mobileNo, gender, bio, dateOfBirth, education, experience, currentPosition, currentDepartment, skills, linkedin, resumeToken } = expertRegistrationSchema.parse(req.body);
+        const fields = expertRegistrationSchema.parse(req.body);
+        // { name, email, mobileNo, gender, bio, dateOfBirth, education, experience, currentPosition, currentDepartment, skills, linkedin, resumeToken }
         // will apply multer for image later
         const findArray = [
-            { email },
-            { mobileNo }
+            { email: fields.email },
+            { mobileNo: fields.mobileNo }
         ];
-        if (linkedin) findArray.push({ linkedin });
+        if (fields.linkedin) findArray.push({ linkedin: fields.linkedin });
 
         const expertExists = await Expert.findOne({
             $or: findArray
@@ -45,52 +50,40 @@ router.route('/')
         if (expertExists) {
             let existingField;
 
-            if (expertExists.email === email) existingField = 'Email';
-            else if (expertExists.mobileNo === mobileNo) existingField = 'Mobile number';
-            else if (expertExists.linkedIn && expertExists.linkedin === linkedin) existingField = 'Linkedin id';
+            if (expertExists.email === fields.email) existingField = 'Email';
+            else if (expertExists.mobileNo === fields.mobileNo) existingField = 'Mobile number';
+            else if (expertExists.linkedIn && expertExists.linkedin === fields.linkedin) existingField = 'Linkedin id';
 
             throw new ApiError(400, `Expert already exists with this ${existingField}`, "EXPERT_ALREADY_EXISTS");
         }
         let newResumeName = null;
 
-        if (resumeToken) {
+        if (fields.resumeToken) {
             try {
-                const payload = verifyToken(resumeToken);
+                const payload = verifyToken(fields.resumeToken);
                 const resumeName = payload.resumeName;
                 const resumePath = path.join(__dirname, `../public/${tempResumeFolder}/${resumeName}`);
 
                 const fileExists = await fs.promises.access(resumePath).then(() => true).catch(() => false);
 
                 if (fileExists) {
-                    newResumeName = `${name.split(' ')[0]}_resume_${new Date().getTime()}.pdf`;
+                    newResumeName = `${fields.name.split(' ')[0]}_resume_${new Date().getTime()}.pdf`;
                     const destinationFolder = path.join(__dirname, `../public/${expertResumeFolder}`);
                     const newFilePath = path.join(destinationFolder, newResumeName);
                     await fs.promises.mkdir(destinationFolder, { recursive: true });
                     await fs.promises.rename(resumePath, newFilePath);
+                    fields.resume = newResumeName;
                 }
+                delete fields.resumeToken;
             } catch (error) {
                 console.log("Error processing resume during registration", error);
             }
         }
 
-        const password = `${name.split(' ')[0].toUpperCase()}@${new Date(dateOfBirth).getFullYear()}`;
-        const hash = await bcrypt.hash(password, 10);
-        const expert = await Expert.create({
-            name,
-            email,
-            password: hash,
-            mobileNo,
-            gender,
-            bio,
-            education,
-            experience,
-            currentPosition,
-            currentDepartment,
-            skills,
-            linkedin,
-            resume: newResumeName
-            // image,
-        });
+        const password = `${fields.name.split(' ')[0].toUpperCase()}@${new Date(fields.dateOfBirth).getFullYear()}`;
+        console.log(password);
+        fields.password = await bcrypt.hash(password, 10);
+        const expert = await Expert.create(fields);
 
         return res.success(201, "Expert successfully created", { expert: { id: expert._id, email: expert.email, name: expert.name } });
 
@@ -101,15 +94,28 @@ router.route('/')
     // so u should atleast have a fail safe what if this endpoint was hit by mistake you will lose all ur data - bugslayer01
 
     .delete(checkAuth("admin"), safeHandler(async (req, res) => {
-        const experts = await Expert.deleteMany();
+        const experts = await Expert.find().select("-password");
+        if (!experts || experts.length === 0) {
+            throw new ApiError(404, "No experts found", "NO_EXPERTS_FOUND");
+        }
+        await Expert.deleteMany();
         if (!experts) {
             throw new ApiError(404, "No experts found", "NO_EXPERTS_FOUND");
         }
 
         await Promise.all([
-            Subject.updateMany({}, { $pull: { experts: { $in: experts.map(e => e._id) } } }),
-            fs.promises.rmdir(path.join(__dirname, `../public/${expertResumeFolder}`), { recursive: true }),
+            Subject.updateMany({}, { $pull: { experts: { $in: experts.map(e => e._id) } } }), // change this to $set if it doesn't work
+            (async () => {
+                const folderPath = path.join(__dirname, `../public/${expertResumeFolder}`);
+                try {
+                    await fs.promises.access(folderPath);
+                    await fs.promises.rmdir(folderPath, { recursive: true }); // change this to async later
+                } catch (error) {
+                    console.error(`Failed to remove directory: ${folderPath}`, error);
+                }
+            })(),
             Application.updateMany({}, { $set: { panel: [] } }),
+            // Add if remember more
         ]);
 
         return res.success(200, "All experts successfully deleted", { experts });
@@ -121,16 +127,18 @@ router.route('/:id')
         if (!isValidObjectId(id)) throw new ApiError(400, "Invalid expert ID", "INVALID_ID");
         const { education, experience } = req.query;
 
-        const expert = await Expert.findById(id).select(getSelectedFields(education, experience));
+        const expert = await Expert.findById(id).select(getSelectedFields({ education, experience }));
 
         if (!expert) {
             throw new ApiError(404, "Expert not found", "EXPERT_NOT_FOUND");
         }
         return res.success(200, "Expert found", { expert });
     }))
+
     .patch(checkAuth("expert"), safeHandler(async (req, res) => {
         const { id } = req.params;
         if (!isValidObjectId(id)) throw new ApiError(400, "Invalid expert ID", "INVALID_ID");
+
         const updates = expertUpdateSchema.parse(req.body);
 
         const filteredUpdates = Object.fromEntries(
@@ -193,9 +201,7 @@ router.route('/:id')
             }
 
             delete filteredUpdates.resumeToken;
-
         }
-
 
         if (filteredUpdates.password) {
             filteredUpdates.password = await bcrypt.hash(filteredUpdates.password, 10);
@@ -230,7 +236,17 @@ router.route('/:id')
             throw new ApiError(404, "Expert not found", "EXPERT_NOT_FOUND");
         }
         await Promise.all([
-            fs.promises.unlink(path.join(__dirname, `../public/${expertResumeFolder}/${expert.resume}`)),
+            (async () => {
+                const filePath = path.join(__dirname, `../public/${expertResumeFolder}/${expert.resume}`);
+                try {
+                    await fs.promises.access(filePath, fs.constants.F_OK);
+                    await fs.promises.unlink(filePath);
+                } catch (error) {
+                    if (error.code !== 'ENOENT') {
+                        console.error(`Failed to delete file: ${filePath}`, error);
+                    }
+                }
+            })(),
             Subject.updateMany({ _id: { $in: expert.subjects } }, { $pull: { experts: { id: expert._id } } }),
             Application.updateMany({ "panel.expert": expert._id }, { $pull: { panel: { expert: expert._id } } })
         ]);
@@ -250,6 +266,7 @@ router.post('/signin', safeHandler(async (req, res) => {
     }
 
     const userToken = generateToken({ id: expert._id, role: "expert" });
+    res.cookie('userToken', userToken, { httpOnly: true });
     return res.success(200, "Successfully logged in", { userToken, expert: { id: expert._id, email: expert.email, name: expert.name } });
 }));
 

@@ -11,7 +11,7 @@ const candidateSchema = new mongoose.Schema({
         enum: [
             "male",
             "female",
-            "Non-Binary",
+            "non-binary",
             "other"
         ]
     },
@@ -61,29 +61,30 @@ const candidateSchema = new mongoose.Schema({
     }],
     education: [{
         degree: {
-            type: String,
-            required: true
+            type: String
         },
-        institute: {
-            type: String,
-            required: true
+        field: {
+            type: String
         },
         startDate: {
-            type: Date,
-            required: true
+            type: Date
         },
         endDate: {
             type: Date
         },
+        institute: {
+            type: String
+        },
     }],
     resume: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     },
     subjects: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Subject'
-    }], 
+    }],
     feedbacks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Feedback'
@@ -94,12 +95,14 @@ const candidateSchema = new mongoose.Schema({
     }],
     image: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     },
     // image is string ????? yes
     linkedIn: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     },
     // status: {
     //     type: String,
@@ -107,7 +110,7 @@ const candidateSchema = new mongoose.Schema({
     //     default: "active", 
     //     // required: true,
     // }
-    
+
     //extra unnecessary fields - may add if time permits
     // isBlocked: {
     //     type: Boolean,
@@ -130,9 +133,9 @@ const candidateSchema = new mongoose.Schema({
     //     default: null
     // }
 },
-{
-    timestamps: true
-});
+    {
+        timestamps: true
+    });
 
 const Candidate = mongoose.model('Candidate', candidateSchema);
 

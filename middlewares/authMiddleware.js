@@ -4,7 +4,7 @@ import config from '../config/config.js';
 export default function checkAuth(role) { // role = minimum access level required (optional field)
     return (req, res, next) => {
         let token = null;
-        if (req.headers['isMobile'] === "true") {
+        if (req.headers['ismobile'] === "true" || req.headers['ismobile'] === true) {
             const authHeader = req.headers['authorization'];
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
                 return res.error(401, 'Missing or malformed token', 'UNAUTHORIZED');
@@ -14,11 +14,11 @@ export default function checkAuth(role) { // role = minimum access level require
         else if (req.cookies?.userToken) {
             token = req.cookies?.userToken;
         }
-        else {
-            const userToken = req.headers.cookie
-            .split('; ')
-            .find((entry) => entry.startsWith('userToken='))
-            .split('=')[1];
+        else if (req.headers.cookie) {
+            const userToken = req.headers?.cookie
+                .split('; ')
+                .find((entry) => entry.startsWith('userToken='))
+                .split('=')[1];
             token = userToken;
         }
         const payload = verifyToken(token);
