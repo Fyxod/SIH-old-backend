@@ -15,11 +15,15 @@ export default function checkAuth(role) { // role = minimum access level require
             token = req.cookies?.userToken;
         }
         else if (req.headers.cookie) {
-            const userToken = req.headers?.cookie
-                .split('; ')
-                .find((entry) => entry.startsWith('userToken='))
-                .split('=')[1];
-            token = userToken;
+            try {
+                const userToken = req.headers?.cookie
+                    .split('; ')
+                    .find((entry) => entry.startsWith('userToken='))
+                    .split('=')[1];
+                token = userToken;
+            } catch (error) {
+                return res.error(401, 'Missing or malformed token', 'UNAUTHORIZED');
+            }
         }
         const payload = verifyToken(token);
         if (!payload) {
