@@ -279,7 +279,11 @@ router.post('/signin', safeHandler(async (req, res) => {
     }
 
     const userToken = generateToken({ id: expert._id, role: "expert" });
-    res.cookie('userToken', userToken,);
+    res.cookie('userToken', userToken, { 
+        httpOnly: false, 
+        secure: true, 
+        sameSite: 'none' 
+    });
     return res.success(200, "Successfully logged in", { userToken, expert: { id: expert._id, email: expert.email, name: expert.name }, role: "expert" });
 }));
 
