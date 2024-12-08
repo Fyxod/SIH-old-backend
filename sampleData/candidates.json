@@ -206,5 +206,700 @@
                 "institute": "BITS Pilani"
             }
         ]
+    },
+    {
+        "name": "Nisha Gupta",
+        "email": "nisha.gupta@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9123467890",
+        "dateOfBirth": "2002-02-28",
+        "gender": "female",
+        "skills": [
+            "html",
+            "css",
+            "bootstrap",
+            "angular"
+        ],
+        "experience": [
+            {
+                "position": "UI/UX Intern",
+                "department": "Design",
+                "startDate": "2022-06-01",
+                "endDate": "2022-11-30",
+                "companyName": "Zomato"
+            },
+            {
+                "position": "Frontend Engineer",
+                "department": "Development",
+                "startDate": "2023-01-01",
+                "endDate": "2024-06-30",
+                "companyName": "Swiggy"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BSc",
+                "field": "Information Technology",
+                "startDate": "2019-07-15",
+                "endDate": "2022-05-15",
+                "institute": "Christ University"
+            },
+            {
+                "degree": "MSc",
+                "field": "Web Development",
+                "startDate": "2022-08-01",
+                "endDate": "2024-07-15",
+                "institute": "Manipal University"
+            }
+        ]
+    },
+    {
+        "name": "Ankit Sharma",
+        "email": "ankit.sharma@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9988776655",
+        "dateOfBirth": "1994-01-15",
+        "gender": "male",
+        "skills": [
+            "java",
+            "kotlin",
+            "android development"
+        ],
+        "experience": [
+            {
+                "position": "Android Developer",
+                "department": "Mobile Development",
+                "startDate": "2019-03-01",
+                "endDate": "2022-12-31",
+                "companyName": "Paytm"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BTech",
+                "field": "Computer Science",
+                "startDate": "2014-08-01",
+                "endDate": "2018-05-31",
+                "institute": "IIT Delhi"
+            }
+        ]
+    },
+    {
+        "name": "Meera Nair",
+        "email": "meera.nair@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "8877665544",
+        "dateOfBirth": "1997-12-10",
+        "gender": "female",
+        "skills": [
+            "python",
+            "data analysis",
+            "machine learning"
+        ],
+        "experience": [
+            {
+                "position": "Data Analyst",
+                "department": "Analytics",
+                "startDate": "2021-01-01",
+                "endDate": "2023-06-30",
+                "companyName": "KPMG"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BSc",
+                "field": "Statistics",
+                "startDate": "2015-07-01",
+                "endDate": "2018-06-30",
+                "institute": "St. Xavier's College"
+            },
+            {
+                "degree": "MSc",
+                "field": "Data Science",
+                "startDate": "2018-08-01",
+                "endDate": "2020-06-30",
+                "institute": "IIT Madras"
+            }
+        ]
+    },
+    {
+        "name": "Ravi Kumar",
+        "email": "ravi.kumar@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "7766554433",
+        "dateOfBirth": "1995-05-10",
+        "gender": "male",
+        "skills": [
+            "sql",
+            "oracle",
+            "data warehousing"
+        ],
+        "experience": [
+            {
+                "position": "Database Administrator",
+                "department": "IT",
+                "startDate": "2020-01-10",
+                "endDate": "2023-05-15",
+                "companyName": "HDFC Bank"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BCA",
+                "field": "Computer Applications",
+                "startDate": "2013-07-01",
+                "endDate": "2016-05-31",
+                "institute": "Amity University"
+            }
+        ]
+    },
+    {
+        "name": "Sneha Roy",
+        "email": "sneha.roy@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9876543201",
+        "dateOfBirth": "1998-09-18",
+        "gender": "female",
+        "skills": [
+            "ui design",
+            "adobe xd",
+            "figma"
+        ],
+        "experience": [
+            {
+                "position": "UI Designer",
+                "department": "Design",
+                "startDate": "2020-02-01",
+                "endDate": "2023-02-01",
+                "companyName": "Adobe"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BA",
+                "field": "Graphic Design",
+                "startDate": "2016-08-01",
+                "endDate": "2019-06-30",
+                "institute": "National Institute of Design"
+            }
+        ]
+    },
+    {
+        "name": "Aman Joshi",
+        "email": "aman.joshi@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9988002211",
+        "dateOfBirth": "1993-04-10",
+        "gender": "male",
+        "skills": [
+            "aws",
+            "kubernetes",
+            "terraform"
+        ],
+        "experience": [
+            {
+                "position": "DevOps Engineer",
+                "department": "Cloud Services",
+                "startDate": "2018-07-15",
+                "endDate": "2023-06-30",
+                "companyName": "Infosys"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BTech",
+                "field": "Information Technology",
+                "startDate": "2011-08-01",
+                "endDate": "2015-06-30",
+                "institute": "IIIT Hyderabad"
+            }
+        ]
+    },
+    {
+        "name": "Pooja Mehta",
+        "email": "pooja.mehta@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9123456798",
+        "dateOfBirth": "1996-11-25",
+        "gender": "female",
+        "skills": [
+            "flutter",
+            "firebase",
+            "dart"
+        ],
+        "experience": [
+            {
+                "position": "Mobile App Developer",
+                "department": "Mobile Development",
+                "startDate": "2019-08-01",
+                "endDate": "2023-04-01",
+                "companyName": "Swiggy"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BTech",
+                "field": "Computer Science",
+                "startDate": "2014-07-15",
+                "endDate": "2018-06-30",
+                "institute": "Thapar University"
+            }
+        ]
+    },
+    {
+        "name": "Karan Arora",
+        "email": "karan.arora@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9876543287",
+        "dateOfBirth": "1992-06-15",
+        "gender": "male",
+        "skills": [
+            "c#",
+            ".net",
+            "azure"
+        ],
+        "experience": [
+            {
+                "position": "Software Engineer",
+                "department": "Backend",
+                "startDate": "2017-10-01",
+                "endDate": "2023-03-31",
+                "companyName": "TCS"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BSc",
+                "field": "Computer Science",
+                "startDate": "2012-07-01",
+                "endDate": "2015-05-31",
+                "institute": "Mumbai University"
+            }
+        ]
+    },
+    {
+        "name": "Aditi Malhotra",
+        "email": "aditi.malhotra@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "8877665543",
+        "dateOfBirth": "1998-03-22",
+        "gender": "female",
+        "skills": [
+            "php",
+            "laravel",
+            "mysql"
+        ],
+        "experience": [
+            {
+                "position": "Web Developer",
+                "department": "Frontend",
+                "startDate": "2020-01-10",
+                "endDate": "2023-05-01",
+                "companyName": "Zoho"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BCA",
+                "field": "Computer Applications",
+                "startDate": "2015-08-01",
+                "endDate": "2018-07-31",
+                "institute": "Lovely Professional University"
+            }
+        ]
+    },
+    {
+        "name": "Ishaan Gupta",
+        "email": "ishaan.gupta@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "8765432109",
+        "dateOfBirth": "1993-09-09",
+        "gender": "male",
+        "skills": [
+            "golang",
+            "grpc",
+            "kubernetes"
+        ],
+        "experience": [
+            {
+                "position": "Backend Engineer",
+                "department": "Engineering",
+                "startDate": "2018-04-10",
+                "endDate": "2023-08-15",
+                "companyName": "Flipkart"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BTech",
+                "field": "Information Technology",
+                "startDate": "2010-07-15",
+                "endDate": "2014-06-30",
+                "institute": "PES University"
+            }
+        ]
+    },
+    {
+        "name": "Naina Kapoor",
+        "email": "naina.kapoor@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9123456734",
+        "dateOfBirth": "2000-01-01",
+        "gender": "female",
+        "skills": [
+            "seo",
+            "digital marketing",
+            "content writing"
+        ],
+        "experience": [
+            {
+                "position": "Digital Marketing Associate",
+                "department": "Marketing",
+                "startDate": "2022-02-01",
+                "endDate": "2023-12-01",
+                "companyName": "Google"
+            }
+        ],
+        "education": [
+            {
+                "degree": "MBA",
+                "field": "Marketing",
+                "startDate": "2020-07-15",
+                "endDate": "2022-05-31",
+                "institute": "IIM Ahmedabad"
+            }
+        ]
+    },
+    {
+        "name": "Rohit Verma",
+        "email": "rohit.verma@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9876543210",
+        "dateOfBirth": "1995-08-15",
+        "gender": "male",
+        "skills": [
+            "java",
+            "spring",
+            "hibernate"
+        ],
+        "experience": [
+            {
+                "position": "Backend Developer",
+                "department": "IT",
+                "startDate": "2018-07-01",
+                "endDate": "2022-06-30",
+                "companyName": "TCS"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BTech",
+                "field": "Computer Science",
+                "startDate": "2013-07-01",
+                "endDate": "2017-06-30",
+                "institute": "IIT Kanpur"
+            }
+        ]
+    },
+    {
+        "name": "Priya Sharma",
+        "email": "priya.sharma@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9123456789",
+        "dateOfBirth": "1997-11-22",
+        "gender": "female",
+        "skills": [
+            "python",
+            "django",
+            "rest api"
+        ],
+        "experience": [
+            {
+                "position": "Software Developer",
+                "department": "Backend",
+                "startDate": "2020-01-01",
+                "endDate": "2023-03-31",
+                "companyName": "Infosys"
+            }
+        ],
+        "education": [
+            {
+                "degree": "MTech",
+                "field": "Computer Science",
+                "startDate": "2018-07-01",
+                "endDate": "2020-06-30",
+                "institute": "IIT Bombay"
+            }
+        ]
+    },
+    {
+        "name": "Ajay Singh",
+        "email": "ajay.singh@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "8989898989",
+        "dateOfBirth": "1992-03-15",
+        "gender": "male",
+        "skills": [
+            "aws",
+            "terraform",
+            "kubernetes"
+        ],
+        "experience": [
+            {
+                "position": "Cloud Engineer",
+                "department": "DevOps",
+                "startDate": "2017-09-15",
+                "endDate": "2023-09-15",
+                "companyName": "Amazon"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BCA",
+                "field": "Computer Applications",
+                "startDate": "2010-07-01",
+                "endDate": "2013-06-30",
+                "institute": "Delhi University"
+            }
+        ]
+    },
+    {
+        "name": "Nisha Kumari",
+        "email": "nisha.kumari@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9988776655",
+        "dateOfBirth": "1998-12-01",
+        "gender": "female",
+        "skills": [
+            "html",
+            "css",
+            "javascript",
+            "angular"
+        ],
+        "experience": [
+            {
+                "position": "Frontend Developer",
+                "department": "Web Development",
+                "startDate": "2021-01-15",
+                "endDate": "2024-01-15",
+                "companyName": "Flipkart"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BSc",
+                "field": "Information Technology",
+                "startDate": "2016-07-15",
+                "endDate": "2019-05-30",
+                "institute": "Christ University"
+            }
+        ]
+    },
+    {
+        "name": "Rahul Das",
+        "email": "rahul.das@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9876543211",
+        "dateOfBirth": "1993-07-20",
+        "gender": "male",
+        "skills": [
+            "php",
+            "laravel",
+            "mysql"
+        ],
+        "experience": [
+            {
+                "position": "Web Developer",
+                "department": "IT",
+                "startDate": "2016-10-01",
+                "endDate": "2021-12-31",
+                "companyName": "Zoho"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BCA",
+                "field": "Computer Applications",
+                "startDate": "2011-07-01",
+                "endDate": "2014-06-30",
+                "institute": "JNU"
+            }
+        ]
+    },
+    {
+        "name": "Sakshi Mehta",
+        "email": "sakshi.mehta@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9988223344",
+        "dateOfBirth": "1995-10-10",
+        "gender": "female",
+        "skills": [
+            "seo",
+            "content marketing",
+            "social media management"
+        ],
+        "experience": [
+            {
+                "position": "Digital Marketer",
+                "department": "Marketing",
+                "startDate": "2018-04-01",
+                "endDate": "2023-02-28",
+                "companyName": "Google"
+            }
+        ],
+        "education": [
+            {
+                "degree": "MBA",
+                "field": "Marketing",
+                "startDate": "2016-07-01",
+                "endDate": "2018-06-30",
+                "institute": "IIM Bangalore"
+            }
+        ]
+    },
+    {
+        "name": "Vikram Raj",
+        "email": "vikram.raj@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9234567890",
+        "dateOfBirth": "1994-05-05",
+        "gender": "male",
+        "skills": [
+            "python",
+            "flask",
+            "sqlalchemy"
+        ],
+        "experience": [
+            {
+                "position": "Backend Developer",
+                "department": "Engineering",
+                "startDate": "2017-08-01",
+                "endDate": "2022-07-31",
+                "companyName": "IBM"
+            }
+        ],
+        "education": [
+            {
+                "degree": "MTech",
+                "field": "Computer Science",
+                "startDate": "2015-07-01",
+                "endDate": "2017-06-30",
+                "institute": "IIT Hyderabad"
+            }
+        ]
+    },
+    {
+        "name": "Anjali Gupta",
+        "email": "anjali.gupta@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9321654987",
+        "dateOfBirth": "1999-03-15",
+        "gender": "female",
+        "skills": [
+            "react",
+            "node.js",
+            "graphql"
+        ],
+        "experience": [
+            {
+                "position": "Full Stack Developer",
+                "department": "Engineering",
+                "startDate": "2022-01-01",
+                "endDate": "2024-12-01",
+                "companyName": "Microsoft"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BTech",
+                "field": "Software Engineering",
+                "startDate": "2017-08-01",
+                "endDate": "2021-06-30",
+                "institute": "BITS Pilani"
+            }
+        ]
+    },
+    {
+        "name": "Manoj Thakur",
+        "email": "manoj.thakur@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9823456712",
+        "dateOfBirth": "1990-12-12",
+        "gender": "male",
+        "skills": [
+            "c++",
+            "algorithms",
+            "system design"
+        ],
+        "experience": [
+            {
+                "position": "System Architect",
+                "department": "Development",
+                "startDate": "2012-07-01",
+                "endDate": "2023-07-01",
+                "companyName": "Oracle"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BTech",
+                "field": "Computer Engineering",
+                "startDate": "2008-07-01",
+                "endDate": "2012-06-30",
+                "institute": "NIT Trichy"
+            }
+        ]
+    },
+    {
+        "name": "Asha Rao",
+        "email": "asha.rao@gmail.com",
+        "password": "Pass@123",
+        "confirmPassword": "Pass@123",
+        "mobileNo": "9865321478",
+        "dateOfBirth": "1996-04-20",
+        "gender": "female",
+        "skills": [
+            "content writing",
+            "editing",
+            "copywriting"
+        ],
+        "experience": [
+            {
+                "position": "Content Writer",
+                "department": "Media",
+                "startDate": "2019-07-01",
+                "endDate": "2023-07-01",
+                "companyName": "The Times Group"
+            }
+        ],
+        "education": [
+            {
+                "degree": "BA",
+                "field": "English Literature",
+                "startDate": "2014-07-01",
+                "endDate": "2017-06-30",
+                "institute": "Delhi University"
+            }
+        ]
     }
 ]

@@ -1,0 +1,561 @@
+[
+    {
+        "title": "Frontend Developer",
+        "description": "Frontend Developer needed with 3 years of experience, proficient in React, JavaScript, and CSS.",
+        "department": "Ministry of Education",
+        "type": "full-time",
+        "locationType": "remote",
+        "location": "New Delhi, India",
+        "duration": "6 months",
+        "recommendedSkills": [
+            "React",
+            "JavaScript",
+            "CSS",
+            "HTML",
+            "Redux",
+            "TypeScript"
+        ]
+    },
+    {
+        "title": "Data Scientist",
+        "description": "Data Scientist required to work on machine learning projects with a focus on Python, pandas, and scikit-learn.",
+        "department": "Ministry of Health",
+        "type": "project",
+        "locationType": "onsite",
+        "location": "Mumbai, Maharashtra",
+        "duration": "12 months",
+        "recommendedSkills": [
+            "Python",
+            "pandas",
+            "scikit-learn",
+            "TensorFlow",
+            "SQL",
+            "Data Visualization"
+        ]
+    },
+    {
+        "title": "Backend Developer",
+        "description": "Backend Developer needed with 5 years of experience preferably experienced in Java, springboot, kafka, docker.",
+        "department": "Ministry of Defense",
+        "type": "Internship",
+        "locationType": "hybrid",
+        "location": "Bengaluru, Karnataka",
+        "recommendedSkills": [
+            "Java",
+            "Sping",
+            "Springboot",
+            "kafka",
+            "Docker",
+            "AWS"
+        ]
+    },
+    {
+        "title": "DevOps Engineer",
+        "description": "DevOps Engineer with experience in CI/CD pipelines, Docker, Kubernetes, and cloud platforms required.",
+        "department": "Ministry of Technology",
+        "type": "internship",
+        "locationType": "hybrid",
+        "location": "Chennai, Tamil Nadu",
+        "duration": "4 months",
+        "recommendedSkills": [
+            "CI/CD",
+            "Docker",
+            "Kubernetes",
+            "AWS",
+            "Terraform",
+            "Shell Scripting"
+        ]
+    },
+    {
+        "title": "Cybersecurity Analyst",
+        "description": "Cybersecurity Analyst needed to analyze and mitigate security threats with expertise in firewalls, SIEM, and penetration testing.",
+        "department": "Ministry of Home Affairs",
+        "type": "full-time",
+        "locationType": "remote",
+        "recommendedSkills": [
+            "Firewalls",
+            "SIEM",
+            "Penetration Testing",
+            "Incident Response",
+            "Networking",
+            "Encryption"
+        ]
+    },
+    {
+        "title": "Research Fellow in AI",
+        "description": "Research fellow needed for AI-driven computational biology projects. Must have a strong research background.",
+        "department": "Ministry of Science",
+        "type": "research",
+        "locationType": "onsite",
+        "location": "Bangalore, Karnataka",
+        "duration": "2 years",
+        "recommendedSkills": [
+            "Artificial Intelligence",
+            "Python",
+            "Deep Learning",
+            "Bioinformatics",
+            "R",
+            "Data Analysis"
+        ]
+    },
+    {
+        "title": "Content Writer",
+        "description": "Content Writer required to create engaging technical and non-technical articles with SEO expertise.",
+        "department": "Ministry of Information",
+        "type": "part-time",
+        "locationType": "remote",
+        "duration": "3 months",
+        "recommendedSkills": [
+            "Content Writing",
+            "SEO",
+            "Copywriting",
+            "WordPress",
+            "Social Media Marketing"
+        ]
+    },
+    {
+        "title": "AI/ML Engineer",
+        "description": "AI/ML Engineer required to develop predictive models and optimize AI pipelines using Python and TensorFlow.",
+        "department": "Ministry of Innovation",
+        "type": "fellowship",
+        "locationType": "hybrid",
+        "location": "Pune, Maharashtra",
+        "duration": "18 months",
+        "recommendedSkills": [
+            "Machine Learning",
+            "Deep Learning",
+            "Python",
+            "TensorFlow",
+            "NLP",
+            "Cloud Computing"
+        ]
+    },
+    {
+        "title": "Database Administrator",
+        "description": "Database Administrator needed to manage and optimize relational and non-relational databases for enterprise systems.",
+        "department": "Ministry of Finance",
+        "type": "full-time",
+        "locationType": "onsite",
+        "location": "Kolkata, West Bengal",
+        "recommendedSkills": [
+            "SQL",
+            "NoSQL",
+            "Database Optimization",
+            "Backup and Recovery",
+            "PostgreSQL",
+            "MongoDB"
+        ]
+    },
+    {
+        "title": "Mechanical Design Engineer",
+        "description": "Mechanical Design Engineer required to design and prototype systems for defense applications using CAD tools.",
+        "department": "Ministry of Defense",
+        "type": "project",
+        "locationType": "onsite",
+        "location": "Hyderabad, Telangana",
+        "duration": "9 months",
+        "recommendedSkills": [
+            "AutoCAD",
+            "SolidWorks",
+            "Finite Element Analysis",
+            "Prototyping",
+            "Material Science"
+        ]
+    },
+    {
+        "title": "Cloud Solutions Architect",
+        "description": "Cloud Solutions Architect with expertise in designing scalable cloud-based solutions required.",
+        "department": "Ministry of IT",
+        "type": "internship",
+        "locationType": "remote",
+        "duration": "6 months",
+        "recommendedSkills": [
+            "AWS",
+            "Azure",
+            "Cloud Security",
+            "DevOps",
+            "Microservices",
+            "Networking"
+        ]
+    },
+    {
+        "title": "Graphic Designer",
+        "description": "Graphic Designer needed to create visual assets for promotional campaigns using Adobe Creative Suite.",
+        "department": "Ministry of Culture",
+        "type": "part-time",
+        "locationType": "remote",
+        "duration": "3 months",
+        "recommendedSkills": [
+            "Adobe Photoshop",
+            "Illustrator",
+            "InDesign",
+            "UI/UX Design",
+            "Creativity",
+            "Typography"
+        ]
+    },
+    {
+        "title": "Renewable Energy Consultant",
+        "description": "Renewable Energy Consultant required to assist in evaluating solar and wind energy projects.",
+        "department": "Ministry of Environment",
+        "type": "consultancy",
+        "locationType": "hybrid",
+        "location": "Jaipur, Rajasthan",
+        "duration": "1 year",
+        "recommendedSkills": [
+            "Renewable Energy",
+            "Project Management",
+            "Energy Modeling",
+            "Sustainability Analysis",
+            "Stakeholder Engagement"
+        ]
+    },
+    {
+        "title": "Biomedical Engineer",
+        "description": "Biomedical Engineer required to develop and maintain healthcare equipment and solutions.",
+        "department": "Ministry of Health",
+        "type": "scholarship",
+        "locationType": "onsite",
+        "location": "Lucknow, Uttar Pradesh",
+        "duration": "2 years",
+        "recommendedSkills": [
+            "Biomedical Engineering",
+            "Equipment Maintenance",
+            "Data Analysis",
+            "Regulatory Compliance",
+            "Prototyping"
+        ]
+    },
+    {
+        "title": "UX/UI Designer",
+        "description": "UX/UI Designer needed to create intuitive user interfaces and engaging user experiences for web and mobile applications.",
+        "department": "Ministry of Technology",
+        "type": "full-time",
+        "locationType": "remote",
+        "duration": "permanent",
+        "recommendedSkills": [
+            "User Experience Design",
+            "User Interface Design",
+            "Wireframing",
+            "Prototyping",
+            "Usability Testing",
+            "Adobe XD"
+        ]
+    },
+    {
+        "title": "Machine Learning Engineer",
+        "description": "Engineer required to build and deploy machine learning models for predictive analytics.",
+        "department": "Ministry of Analytics",
+        "type": "full-time",
+        "locationType": "remote",
+        "duration": "1 year",
+        "recommendedSkills": [
+            "Python",
+            "Scikit-learn",
+            "TensorFlow",
+            "Data Visualization",
+            "ML Ops"
+        ]
+    },
+    {
+        "title": "Electrical Engineer",
+        "description": "Electrical Engineer needed to design circuits and manage power systems for new projects.",
+        "department": "Ministry of Energy",
+        "type": "internship",
+        "locationType": "onsite",
+        "location": "Ahmedabad, Gujarat",
+        "duration": "6 months",
+        "recommendedSkills": [
+            "Circuit Design",
+            "MATLAB",
+            "Power Systems",
+            "Embedded Systems",
+            "Renewable Energy"
+        ]
+    },
+    {
+        "title": "Game Developer",
+        "description": "Game Developer required to design immersive games with advanced graphics and AI.",
+        "department": "Ministry of Entertainment",
+        "type": "project",
+        "locationType": "hybrid",
+        "location": "Bangalore, Karnataka",
+        "duration": "9 months",
+        "recommendedSkills": [
+            "Unity",
+            "Unreal Engine",
+            "C#",
+            "Game AI",
+            "3D Modeling"
+        ]
+    },
+    {
+        "title": "Civil Engineer",
+        "description": "Civil Engineer required for urban infrastructure projects including roads and bridges.",
+        "department": "Ministry of Infrastructure",
+        "type": "full-time",
+        "locationType": "onsite",
+        "location": "Delhi, India",
+        "duration": "2 years",
+        "recommendedSkills": [
+            "AutoCAD",
+            "Structural Analysis",
+            "Project Management",
+            "Construction Materials"
+        ]
+    },
+    {
+        "title": "Technical Writer",
+        "description": "Technical Writer needed to create comprehensive documentation for software solutions.",
+        "department": "Ministry of Information",
+        "type": "part-time",
+        "locationType": "remote",
+        "duration": "4 months",
+        "recommendedSkills": [
+            "Technical Writing",
+            "Markdown",
+            "API Documentation",
+            "SEO",
+            "Git"
+        ]
+    },
+    {
+        "title": "UI/UX Designer",
+        "description": "UI/UX Designer required to design intuitive interfaces for web and mobile apps.",
+        "department": "Ministry of Digital Transformation",
+        "type": "internship",
+        "locationType": "remote",
+        "duration": "5 months",
+        "recommendedSkills": [
+            "Figma",
+            "Adobe XD",
+            "User Research",
+            "Prototyping",
+            "Interaction Design"
+        ]
+    },
+    {
+        "title": "Robotics Engineer",
+        "description": "Engineer needed to develop autonomous robots for industrial applications.",
+        "department": "Ministry of Robotics",
+        "type": "research",
+        "locationType": "onsite",
+        "location": "Pune, Maharashtra",
+        "duration": "3 years",
+        "recommendedSkills": [
+            "ROS",
+            "Python",
+            "C++",
+            "Sensor Integration",
+            "Mechanical Design"
+        ]
+    },
+    {
+        "title": "Marketing Specialist",
+        "description": "Marketing Specialist needed to execute campaigns and analyze customer trends.",
+        "department": "Ministry of Commerce",
+        "type": "consultancy",
+        "locationType": "hybrid",
+        "location": "Mumbai, Maharashtra",
+        "duration": "8 months",
+        "recommendedSkills": [
+            "Marketing Strategy",
+            "Google Analytics",
+            "Content Marketing",
+            "CRM Tools",
+            "SEO"
+        ]
+    },
+    {
+        "title": "Biotechnologist",
+        "description": "Biotechnologist needed for research on sustainable agricultural techniques.",
+        "department": "Ministry of Agriculture",
+        "type": "scholarship",
+        "locationType": "onsite",
+        "location": "Lucknow, Uttar Pradesh",
+        "duration": "2 years",
+        "recommendedSkills": [
+            "Biotechnology",
+            "Genetics",
+            "Laboratory Skills",
+            "Data Analysis",
+            "Bioinformatics"
+        ]
+    },
+    {
+        "title": "Software Tester",
+        "description": "Tester required to ensure the quality of software applications using manual and automated testing.",
+        "department": "Ministry of Technology",
+        "type": "internship",
+        "locationType": "hybrid",
+        "location": "Hyderabad, Telangana",
+        "duration": "6 months",
+        "recommendedSkills": [
+            "Test Automation",
+            "Selenium",
+            "Manual Testing",
+            "Bug Tracking",
+            "Performance Testing"
+        ]
+    },
+    {
+        "title": "AI Research Scientist",
+        "description": "AI Research Scientist required to lead research on innovative AI algorithms for healthcare solutions.",
+        "department": "Ministry of Science and Technology",
+        "type": "research",
+        "locationType": "hybrid",
+        "location": "Delhi, India",
+        "duration": "3 years",
+        "recommendedSkills": [
+            "Artificial Intelligence",
+            "Machine Learning",
+            "Deep Learning",
+            "NLP",
+            "Python",
+            "Research Methodologies"
+        ]
+    },
+    {
+        "title": "Blockchain Developer",
+        "description": "Blockchain Developer required to design decentralized applications and manage smart contracts.",
+        "department": "Ministry of Finance",
+        "type": "full-time",
+        "locationType": "remote",
+        "recommendedSkills": [
+            "Blockchain",
+            "Ethereum",
+            "Solidity",
+            "Cryptography",
+            "Decentralized Applications"
+        ]
+    },
+    {
+        "title": "Environmental Consultant",
+        "description": "Environmental Consultant needed to assist in implementing sustainable practices for energy projects.",
+        "department": "Ministry of Environment",
+        "type": "consultancy",
+        "locationType": "onsite",
+        "location": "Jaipur, Rajasthan",
+        "duration": "1 year",
+        "recommendedSkills": [
+            "Environmental Science",
+            "Project Management",
+            "Energy Modeling",
+            "Data Analysis",
+            "Sustainability"
+        ]
+    },
+    {
+        "title": "Android Developer",
+        "description": "Android Developer needed to build scalable mobile applications for e-commerce platforms.",
+        "department": "Ministry of Commerce",
+        "type": "internship",
+        "locationType": "remote",
+        "duration": "6 months",
+        "recommendedSkills": [
+            "Android",
+            "Java",
+            "Kotlin",
+            "UI/UX",
+            "Firebase",
+            "REST APIs"
+        ]
+    },
+    {
+        "title": "Data Engineer",
+        "description": "Data Engineer required to design and optimize data pipelines for large-scale analytics.",
+        "department": "Ministry of Analytics",
+        "type": "project",
+        "locationType": "hybrid",
+        "location": "Bangalore, Karnataka",
+        "duration": "1 year",
+        "recommendedSkills": [
+            "Big Data",
+            "ETL",
+            "Spark",
+            "Hadoop",
+            "SQL",
+            "Python"
+        ]
+    },
+    {
+        "title": "Cloud Engineer",
+        "description": "Cloud Engineer needed to deploy and maintain infrastructure on AWS and Azure platforms.",
+        "department": "Ministry of IT",
+        "type": "full-time",
+        "locationType": "onsite",
+        "location": "Hyderabad, Telangana",
+        "duration": "2 years",
+        "recommendedSkills": [
+            "AWS",
+            "Azure",
+            "Cloud Security",
+            "DevOps",
+            "Docker",
+            "Kubernetes"
+        ]
+    },
+    {
+        "title": "Product Manager",
+        "description": "Product Manager required to oversee the development and launch of innovative software products.",
+        "department": "Ministry of Innovation",
+        "type": "full-time",
+        "locationType": "hybrid",
+        "location": "Mumbai, Maharashtra",
+        "recommendedSkills": [
+            "Product Management",
+            "Agile Methodology",
+            "Market Research",
+            "UI/UX",
+            "Roadmap Planning"
+        ]
+    },
+    {
+        "title": "Economist",
+        "description": "Economist required to analyze and predict market trends for policy development.",
+        "department": "Ministry of Economics",
+        "type": "research",
+        "locationType": "onsite",
+        "location": "Kolkata, West Bengal",
+        "duration": "3 years",
+        "recommendedSkills": [
+            "Economic Modeling",
+            "Data Analysis",
+            "Policy Analysis",
+            "Market Research",
+            "Statistical Tools"
+        ]
+    },
+    {
+        "title": "Full Stack Developer",
+        "description": "Full Stack Developer required to design and maintain web applications using MERN stack.",
+        "department": "Ministry of Digital Transformation",
+        "type": "project",
+        "locationType": "remote",
+        "duration": "8 months",
+        "recommendedSkills": [
+            "React",
+            "Node.js",
+            "MongoDB",
+            "Express",
+            "JavaScript",
+            "API Development"
+        ]
+    },
+    {
+        "title": "AI Ethics Specialist",
+        "description": "AI Ethics Specialist required to evaluate AI systems for fairness, accountability, and transparency.",
+        "department": "Ministry of Justice",
+        "type": "consultancy",
+        "locationType": "onsite",
+        "location": "Chennai, Tamil Nadu",
+        "duration": "9 months",
+        "recommendedSkills": [
+            "AI Ethics",
+            "Policy Development",
+            "Data Privacy",
+            "Bias Detection",
+            "Stakeholder Engagement"
+        ]
+    }
+]

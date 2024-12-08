@@ -9,24 +9,40 @@ const subjectSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // location: {
-    //     type: String,
-    //     required: true
-    // },
     department: {
         type: String,
         required: true,
-        // enum:[ // please decide enum later
-
-        // ]
     },
     type: {
         type: String,
         required: true,
-        // enum: [ //please decide enum later
-        //     "full-time",
-        //     "part-time"
-        // ]
+        enum: [
+            "full-time",
+            "part-time",
+            "research",
+            "teaching",
+            "project",
+            "scholarship",
+            "internship",
+            "fellowship",
+            "consultancy",
+            "others"
+        ]
+    },
+    locationType: {
+        type: String,
+        required: true,
+        enum: [
+            "remote",
+            "onsite",
+            "hybrid"
+        ]
+    },
+    location: {
+        type: String
+    },
+    duration: {
+        type: String
     },
     recommendedSkills: [{
         type: String,
@@ -41,7 +57,7 @@ const subjectSchema = new mongoose.Schema({
         ],
         default: "closed"
     },
-    applicants: {
+    candidates: {
         type: [{
             relevancyScore: {
                 type: Number,

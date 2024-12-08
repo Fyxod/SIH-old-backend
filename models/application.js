@@ -39,6 +39,11 @@ const applicationSchema = new mongoose.Schema({
         ],
         default: "pending"
     },
+    appliedOn: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
     interviewDetails: {
         date: {
             type: Date

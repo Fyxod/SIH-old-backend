@@ -11,7 +11,7 @@ import { candidateLoginSchema, candidateRegistrationSchema, candidateUpdateSchem
 import path from 'path';
 import config from '../config/config.js';
 import getSelectedFields from '../utils/selectFields.js';
-import { calculateAllExpertsScoresMultipleSubjects } from '../utils/updateScores.js';
+import { calculateAllCandidatesScoresMultipleSubjects, calculateAllExpertsScoresMultipleSubjects, calculateSingleCandidateScoreMultipleSubjects } from '../utils/updateScores.js';
 import Application from '../models/application.js';
 import Expert from '../models/expert.js';
 import { isValidObjectId } from 'mongoose';
@@ -85,7 +85,6 @@ router.route('/')
         const candidate = await Candidate.create(fields);
 
         return res.success(201, "candidate successfully created", { candidate: { id: candidate._id, email: candidate.email, name: candidate.name } });
-
     }))
 
     .delete(checkAuth("admin"), safeHandler(async (req, res) => {
@@ -148,6 +147,10 @@ router.route('/:detail')
         const filteredUpdates = Object.fromEntries(
             Object.entries(updates).filter(([_, value]) => value != null)
         );
+
+        if (Object.keys(filteredUpdates).length === 0) {
+            throw new ApiError(400, 'No updates provided', 'NO_UPDATES_PROVIDED');
+        }
 
         const uniqueCheck = [];
         if (filteredUpdates.email) uniqueCheck.push({ email: filteredUpdates.email });
@@ -224,6 +227,7 @@ router.route('/:detail')
             throw new ApiError(404, "Candidate not found", "CANDIDATE_NOT_FOUND");
         }
         if (filteredUpdates.skills) {
+            calculateSingleCandidateScoreMultipleSubjects(candidate._id);
             calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
         }
         return res.success(200, "Candidate updated successfully", { candidate });
@@ -237,22 +241,25 @@ router.route('/:detail')
         if (!candidate) {
             throw new ApiError(404, "Candidate not found", "CANDIDATE_NOT_FOUND");
         }
-
-        await Promise.all([
-            Subject.updateMany({ _id: { $in: candidate.subjects } }, { $pull: { candidates: { id: candidate._id } } }),
-            Application.deleteMany({ candidate: candidate._id }),
-            (async () => {
-                const filePath = path.join(__dirname, `../public/${candidateResumeFolder}/${candidate.resume}`);
-                try {
-                    await fs.promises.access(filePath, fs.constants.F_OK);
-                    await fs.promises.unlink(filePath);
-                } catch (error) {
-                    if (error.code !== 'ENOENT') {
-                        console.error(`Failed to delete file: ${filePath}`, error);
+        try {
+            await Promise.all([
+                Subject.updateMany({ _id: { $in: candidate.subjects } }, { $pull: { candidates: { id: candidate._id } } }),
+                Application.deleteMany({ candidate: candidate._id }),
+                (async () => {
+                    const filePath = path.join(__dirname, `../public/${candidateResumeFolder}/${candidate.resume}`);
+                    try {
+                        await fs.promises.access(filePath, fs.constants.F_OK);
+                        await fs.promises.unlink(filePath);
+                    } catch (error) {
+                        if (error.code !== 'ENOENT') {
+                            console.error(`Failed to delete file: ${filePath}`, error);
+                        }
                     }
-                }
-            })()
-        ]);
+                })()
+            ]);
+        } catch (error) {
+            console.error('Error occurred while deleting candidate', error);
+        }
 
         calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
 
@@ -273,7 +280,7 @@ router.post('/signin', safeHandler(async (req, res) => {
 
     const userToken = generateToken({ id: candidate._id, role: "candidate" });
     res.cookie("userToken", userToken, { httpOnly: true });
-    return res.success(200, "Successfully logged in", { userToken, candidate: { id: candidate._id, email: candidate.email, name: candidate.name } });
+    return res.success(200, "Successfully logged in", { userToken, candidate: { id: candidate._id, email: candidate.email, name: candidate.name }, role: "candidate" });
 }));
 
 export default router;

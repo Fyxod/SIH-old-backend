@@ -30,7 +30,7 @@ router.post('/signin', safeHandler(async (req, res) => {
     }
     const userToken = generateToken({ id: admin._id, role: admin.role });
     res.cookie("userToken", userToken, { httpOnly: true });
-    return res.success(200, "Successfully logged in", { userToken, id: admin._id });
+    return res.success(200, "Successfully logged in", { userToken, id: admin._id, role: admin.role });
 }));
 
 router.post('/signup', safeHandler(async (req, res) => {

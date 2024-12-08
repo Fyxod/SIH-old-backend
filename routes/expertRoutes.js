@@ -154,6 +154,10 @@ router.route('/:detail')
             Object.entries(updates).filter(([_, value]) => value != null)
         );
 
+        if (Object.keys(filteredUpdates).length === 0) {
+            throw new ApiError(400, 'No updates provided', 'NO_UPDATES_PROVIDED');
+        }
+
         const uniqueCheck = [];
         if (filteredUpdates.email) uniqueCheck.push({ email: filteredUpdates.email });
         if (filteredUpdates.mobileNo) uniqueCheck.push({ mobileNo: filteredUpdates.mobileNo });
@@ -276,7 +280,7 @@ router.post('/signin', safeHandler(async (req, res) => {
 
     const userToken = generateToken({ id: expert._id, role: "expert" });
     res.cookie('userToken', userToken, { httpOnly: true });
-    return res.success(200, "Successfully logged in", { userToken, expert: { id: expert._id, email: expert.email, name: expert.name } });
+    return res.success(200, "Successfully logged in", { userToken, expert: { id: expert._id, email: expert.email, name: expert.name }, role: "expert" });
 }));
 
 export default router;

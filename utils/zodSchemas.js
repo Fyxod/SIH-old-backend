@@ -446,22 +446,44 @@ export const candidateUpdateSchema = z.object({
 // schema for subject
 
 
-export const subjectSchema = z.object({
-    title: z.string()
+export const subjectRegistrationSchema = z.object({
+    title: z.string({ required_error: 'Title is required.', invalid_type_error: 'Invalid title.' })
+        .trim()
         .min(3, { message: 'Title must be at least 3 characters long.' })
         .max(50, { message: 'Title must be at most 50 characters long.' }),
-    description: z.string()
+    
+    description: z.string({ required_error: 'Description is required.', invalid_type_error: 'Invalid description.' })
+        .trim()
         .min(10, { message: 'Description must be at least 10 characters long.' })
         .max(500, { message: 'Description must be at most 500 characters long.' }),
-    department: z.string()
+    
+    department: z.string({ required_error: 'Department is required.', invalid_type_error: 'Invalid department.' })
+        .trim()
         .min(3, { message: 'Department must be at least 3 characters long.' })
         .max(50, { message: 'Department must be at most 50 characters long.' }),
-    type: z.enum(["open", "closed"], {
-        required_error: "Type is required.",
-        invalid_type_error: "Type must be either 'open' or 'closed'."
-    }),
+    
+    type: z.preprocess(
+        (val) => (typeof val === "string" ? val.trim().toLowerCase() : val),
+        z.enum(["full-time", "part-time", "research", "teaching", "project", "scholarship", "internship", "fellowship", "consultancy", "others"], {
+            required_error: "Type is required.",
+            invalid_type_error:
+                "Type must be either 'full-time', 'part-time', 'research', 'teaching', 'project', 'scholarship', 'internship', 'fellowship', or 'others'.",
+        })
+    ),
+    
+    locationType: z.preprocess(
+        (val) => (typeof val === "string" ? val.trim().toLowerCase() : val),
+        z.enum(["remote", "onsite", "hybrid"], {
+            required_error: "Location type is required.",
+            invalid_type_error: "Location type must be either 'remote', 'onsite', or 'hybrid'.",
+        })
+    ),
+    
+    location: z.string().optional(),
+    duration: z.string().optional(),
+    
     recommendedSkills: z.array(
-        z.string()
+        z.string({ required_error: 'Skill is required.', invalid_type_error: 'Invalid skill type.' })
             .max(40, { message: 'Each skill must be at most 40 characters long.' })
     ).min(1, { message: 'At least one skill is required.' }),
 });
@@ -472,20 +494,24 @@ export const subjectUpdateSchema = z.object({
         .min(3, { message: 'Title must be at least 3 characters long.' })
         .max(50, { message: 'Title must be at most 50 characters long.' })
         .optional(),
+
     description: z.string()
         .trim()
         .min(10, { message: 'Description must be at least 10 characters long.' })
         .max(500, { message: 'Description must be at most 500 characters long.' })
         .optional(),
+
     department: z.string()
         .trim()
         .min(3, { message: 'Department must be at least 3 characters long.' })
         .max(50, { message: 'Department must be at most 50 characters long.' })
         .optional(),
+
     type: z.enum(["open", "closed"], {
         required_error: "Type is required.",
         invalid_type_error: "Type must be either 'open' or 'closed'."
     }).optional(),
+
     recommendedSkills: z.array(
         z.string()
             .trim()
@@ -493,6 +519,7 @@ export const subjectUpdateSchema = z.object({
             .max(40, { message: 'Each skill must be at most 40 characters long.' })
     ).min(1, { message: 'At least one skill is required.' })
         .optional(),
+
     status: z.enum(["open", "closed"], {
         required_error: "Status is required."
     }).optional(),

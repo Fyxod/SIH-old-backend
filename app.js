@@ -2,6 +2,7 @@ import express from 'express';
 import connectMongo from './config/db.js';
 import config from './config/config.js';
 import responseHandler from './middlewares/responseHandler.js';
+import cors from 'cors';
 //routes
 import adminRoutes from './routes/adminRoutes.js';
 import candidateRoutes from './routes/candidateRoutes.js';
@@ -13,12 +14,13 @@ const app = express();
 
 connectMongo();
 //checkout populate or whatevr
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(responseHandler);
 import path from 'path';
 const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
 app.get('/', (req, res) => {
     res.send('<h1>SIH 2024</h1>');
 });

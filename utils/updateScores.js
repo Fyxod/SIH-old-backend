@@ -5,7 +5,8 @@ import Candidate from "../models/candidate.js";
 // The Api calls can be separated into two different functions for better readability but I don't want to risk messing with the logic
 
 export async function calculateSingleExpertScoresSingleSubject(subjectId, expertId) { // Calculate the scores of a single expert for a single subject ---> when a new expert is added to a subject
-    const [subject, expert] = await Promises.all[Subject.findById(subjectId).populate('applicants'), Expert.findById(expertId)];
+    console.log("inside calculateSingleExpertScoresSingleSubject");
+    const [subject, expert] = await Promise.all([Subject.findById(subjectId).populate('candidates'), Expert.findById(expertId)]);
     if (!subject) {
         console.log(`Subject not found for id ${subjectId} in calculateSingleExpertScoresSingleSubject`);
         return;
@@ -14,7 +15,7 @@ export async function calculateSingleExpertScoresSingleSubject(subjectId, expert
         console.log(`Expert not found for ${expertId} in calculateSingleExpertScoresSingleSubject`);
         return;
     }
-    const candidates = subject.applicants;
+    const candidates = subject.candidates;
     const candidateData = candidates.map(candidate => ({
         name: candidate.name,
         skills: candidate.skills
@@ -29,7 +30,8 @@ export async function calculateSingleExpertScoresSingleSubject(subjectId, expert
     };
     let profileScore, relevancyScore;
     try {
-        const response = await axios.post('https://some-link-ig/compare', { candidateData, expertData, subjectData });
+        // const response = await axios.post('https://some-link-ig/compare', { candidateData, expertData, subjectData });
+        const response = {data: {profileScore: 1, relevancyScore: 2}}; // Dummy data
         const { data } = response;
         profileScore = data.profileScore;
         relevancyScore = data.relevancyScore;
@@ -46,10 +48,11 @@ export async function calculateSingleExpertScoresSingleSubject(subjectId, expert
 }
 
 export async function calculateSingleExpertScoresMultipleSubjects(expertId) { // Calculate the scores of a single expert across multiple subjects ---> when the expert's skills are updated
+    console.log("inside calculateSingleExpertScoresMultipleSubjects");
     const expert = await Expert.findById(expertId).populate({
         path: 'subjects',
         populate: {
-            path: 'applicants',
+            path: 'candidates',
         },
     });
 
@@ -67,7 +70,7 @@ export async function calculateSingleExpertScoresMultipleSubjects(expertId) { //
         skills: expert.skills
     };
     const scorePromises = subjects.map(async subject => {
-        const candidates = subject.applicants;
+        const candidates = subject.candidates;
         const candidateData = candidates.map(candidate => ({
             name: candidate.name,
             skills: candidate.skills
@@ -78,7 +81,8 @@ export async function calculateSingleExpertScoresMultipleSubjects(expertId) { //
         };
         let profileScore, relevancyScore;
         try {
-            const response = await axios.post('https://some-link-ig/compare', { candidateData, expertData, subjectData });
+            // const response = await axios.post('https://some-link-ig/compare', { candidateData, expertData, subjectData });
+            const response = {data: {profileScore: 1, relevancyScore: 2}}; // Dummy data
             const { data } = response;
             profileScore = data.profileScore;
             relevancyScore = data.relevancyScore;
@@ -97,13 +101,14 @@ export async function calculateSingleExpertScoresMultipleSubjects(expertId) { //
 }
 
 export async function calculateAllExpertScoresSingleSubject(subjectId) { // Calculate the scores of all experts for a single subject ---> when the recommended skills of a subject are updated ||  when a new candidate applies for a subject || when a candidate is removed from a subject
-    const subject = await Subject.findById(subjectId).populate('experts applicants');
+    
+    const subject = await Subject.findById(subjectId).populate('experts candidates');
     if (!subject) {
         console.log(`Subject not found for id ${subjectId} in calculateAllExpertScoresSingleSubject`);
         return;
     }
 
-    const candidates = subject.applicants;
+    const candidates = subject.candidates;
     const candidateData = candidates.map(candidate => ({
         name: candidate.name,
         skills: candidate.skills,
@@ -126,7 +131,8 @@ export async function calculateAllExpertScoresSingleSubject(subjectId) { // Calc
         };
 
         try {
-            const response = await axios.post('https://some-link-ig/compare', { candidateData, expertData, subjectData });
+            // const response = await axios.post('https://some-link-ig/compare', { candidateData, expertData, subjectData });
+            const response = {data: {profileScore: 2, relevancyScore: 4}}; // Dummy data
             const { profileScore, relevancyScore } = response.data;
             return { expertId: expert.id._id, profileScore, relevancyScore };
         } catch (error) {
@@ -151,10 +157,10 @@ export async function calculateAllExpertScoresSingleSubject(subjectId) { // Calc
 export async function calculateAllExpertsScoresMultipleSubjects(subjectIds) { // Calculate the scores of all experts across multiple subjects ---> when the skills of a candidate are updated || when a candidate(s) is deleted from the system
     let subjects;
     if (subjectIds && subjectIds.length != 0) {
-        subjects = await Subject.find({ _id: { $in: subjectIds } }).populate('experts applicants');
+        subjects = await Subject.find({ _id: { $in: subjectIds } }).populate('experts candidates');
     }
     else {
-        subjects = await Subject.find().populate('experts applicants');
+        subjects = await Subject.find().populate('experts candidates');
     }
 
     if (!subjects || subjects.length === 0) {
@@ -163,7 +169,7 @@ export async function calculateAllExpertsScoresMultipleSubjects(subjectIds) { //
     }
 
     const subjectPromises = subjects.map(async subject => {
-        const candidates = subject.applicants;
+        const candidates = subject.candidates
         const candidateData = candidates.map(candidate => ({
             name: candidate.name,
             skills: candidate.skills,
@@ -186,7 +192,8 @@ export async function calculateAllExpertsScoresMultipleSubjects(subjectIds) { //
             };
 
             try {
-                const response = await axios.post('https://some-link-ig/compare', { candidateData, expertData, subjectData });
+                // const response = await axios.post('https://some-link-ig/compare', { candidateData, expertData, subjectData });
+                const response = {data: {profileScore: 1, relevancyScore: 2}}; // Dummy data
                 const { profileScore, relevancyScore } = response.data;
                 return { expertId: expert.id._id, profileScore, relevancyScore };
             } catch (error) {
@@ -217,7 +224,7 @@ export async function calculateAllExpertsScoresMultipleSubjects(subjectIds) { //
 }
 
 export async function calculateSingleCandidateScoreSingleSubject(subjectId, candidateId) { // Calculate the score of a single candidate for a single subject ---> when a new candidate applies for a subject
-    const [subject, candidate] = await Promises.all[Subject.findById(subjectId), Candidate.findById(candidateId)];
+    const [subject, candidate] = await Promise.all([Subject.findById(subjectId), Candidate.findById(candidateId)]);
     if (!subject) {
         console.log(`Subject not found for subject id ${subjectId} in calculateSingleCandidateScoreSingleSubject`);
         return;
@@ -236,15 +243,16 @@ export async function calculateSingleCandidateScoreSingleSubject(subjectId, cand
     };
     let relevancyScore;
     try {
-        const response = await axios.post('https://some-link-ig/compare', { candidateData, subjectData });
+        // const response = await axios.post('https://some-link-ig/compare', { candidateData, subjectData });
+        const response = {data: {relevancyScore: 5}}; // Dummy data
         const { data } = response;
         relevancyScore = data.relevancyScore;
     } catch (error) {
         console.error(`Error calculating score for candidate ${candidateId}:`, error);
     }
-    subject.applicants.forEach(applicant => {
-        if (applicant.id.equals(candidateId)) {
-            applicant.relevancyScore = relevancyScore || applicant.relevancyScore || 0;
+    subject.candidates.forEach(candidate => {
+        if (candidate.id.equals(candidateId)) {
+            candidate.relevancyScore = relevancyScore || candidate.relevancyScore || 0;
         }
     });
     await subject.save();
@@ -272,15 +280,16 @@ export async function calculateSingleCandidateScoreMultipleSubjects(candidateId)
         };
         let relevancyScore;
         try {
-            const response = await axios.post('https://some-link-ig/compare', { candidateData, subjectData });
+            // const response = await axios.post('https://some-link-ig/compare', { candidateData, subjectData });
+            const response = {data: {relevancyScore: 5}}; // Dummy data
             const { data } = response;
             relevancyScore = data.relevancyScore;
         } catch (error) {
             console.error(`Error calculating score for candidate ${candidateId}:`, error);
         }
-        subject.applicants.forEach(applicant => {
-            if (applicant.id.equals(candidateId)) {
-                applicant.relevancyScore = relevancyScore || applicant.relevancyScore || 0;
+        subject.candidates.forEach(candidate => {
+            if (candidate.id.equals(candidateId)) {
+                candidate.relevancyScore = relevancyScore || candidate.relevancyScore || 0;
             }
         });
         await subject.save();
@@ -289,13 +298,13 @@ export async function calculateSingleCandidateScoreMultipleSubjects(candidateId)
 }
 
 export async function calculateAllCandidateScoresSingleSubject(subjectId) { // Calculate the scores of all candidates for a single subject ---> when the recommended skills of a subject are updated
-    const subject = await Subject.findById(subjectId).populate('applicants');
+    const subject = await Subject.findById(subjectId).populate('candidates');
     if (!subject) {
         console.log(`Subject not found for id ${subjectId} in calculateAllCandidateScoresSingleSubject`);
         return;
     }
 
-    const candidates = subject.applicants;
+    const candidates = subject.candidates;
     if (!candidates || candidates.length === 0) {
         console.log(`No candidates found for subject ${subjectId} in calculateAllCandidateScoresSingleSubject`);
         return;
@@ -313,7 +322,8 @@ export async function calculateAllCandidateScoresSingleSubject(subjectId) { // C
         };
 
         try {
-            const response = await axios.post('https://some-link-ig/compare', { candidateData, subjectData });
+            // const response = await axios.post('https://some-link-ig/compare', { candidateData, subjectData });
+            const response = {data: {relevancyScore: 5}}; // Dummy data
             const { relevancyScore } = response.data;
             return { candidateId: candidate.id._id, relevancyScore };
         } catch (error) {
@@ -337,10 +347,10 @@ export async function calculateAllCandidateScoresSingleSubject(subjectId) { // C
 export async function calculateAllCandidatesScoresMultipleSubjects(subjectIds) { // Calculate the scores of all candidates across multiple subjects ---> cause why not (might be handy in the future)
     let subjects;
     if (subjectIds && subjectIds.length != 0) {
-        subjects = await Subject.find({ _id: { $in: subjectIds } }).populate('applicants');
+        subjects = await Subject.find({ _id: { $in: subjectIds } }).populate('candidates');
     }
     else {
-        subjects = await Subject.find().populate('applicants');
+        subjects = await Subject.find().populate('candidates');
     }
 
     if (!subjects || subjects.length === 0) {
@@ -349,7 +359,7 @@ export async function calculateAllCandidatesScoresMultipleSubjects(subjectIds) {
     }
 
     const subjectPromises = subjects.map(async subject => {
-        const candidates = subject.applicants;
+        const candidates = subject.candidates;
         const subjectData = {
             title: subject.title,
             recommendedSkills: subject.recommendedSkills,
@@ -362,7 +372,8 @@ export async function calculateAllCandidatesScoresMultipleSubjects(subjectIds) {
             };
 
             try {
-                const response = await axios.post('https://some-link-ig/compare', { candidateData, subjectData });
+                // const response = await axios.post('https://some-link-ig/compare', { candidateData, subjectData });
+                const response = {data: {relevancyScore: 5}}; // Dummy data
                 const { relevancyScore } = response.data;
                 return { candidateId: candidate.id._id, relevancyScore };
             } catch (error) {

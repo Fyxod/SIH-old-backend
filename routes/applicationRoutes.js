@@ -37,12 +37,12 @@ router.route('/')
             throw new ApiError(404, 'Candidate not found', 'CANDIDATE_NOT_FOUND');
         }
 
-        const alreadyApplied = subject.applicants.some(applicant => applicant.id.equals(candidateId));
+        const alreadyApplied = subject.candidates.some(candidate => candidate.id.equals(candidateId));
         if (alreadyApplied) {
             throw new ApiError(400, 'Already applied', 'ALREADY_APPLIED');
         }
 
-        subject.applicants.push({
+        subject.candidates.push({
             id: candidateId,
             relevancyScore: 0
         });
@@ -73,7 +73,7 @@ router.route('/')
 //     const subject = await Subject.findById(application.subject);
 //     const candidate = await Candidate.findById(application.candidate);
 
-//     subject.applicants = subject.applicants.filter(applicant => !applicant.id.equals(application.candidate));
+//     subject.candidates = subject.candidates.filter(applicant => !applicant.id.equals(application.candidate));
 //     candidate.subjects = candidate.subjects.filter(subject => !subject.equals(application.subject));
 
 //     await Promise.all([subject.save(), candidate.save(), application.delete()]);
@@ -122,7 +122,7 @@ router.route('/:id')
             const subject = await Subject.findById(application.subject);
             const candidate = await Candidate.findById(application.candidate);
 
-            subject.applicants = subject.applicants.filter(applicant => !applicant.id.equals(application.candidate));
+            subject.candidates = subject.candidates.filter(applicant => !applicant.id.equals(application.candidate));
             candidate.subjects = candidate.subjects.filter(subject => !subject.equals(application.subject));
 
             await Promise.all([subject.save(), candidate.save()]);
@@ -143,7 +143,7 @@ router.route('/:id')
         const subject = await Subject.findById(application.subject);
         const candidate = await Candidate.findById(application.candidate);
 
-        subject.applicants = subject.applicants.filter(applicant => !applicant.id.equals(application.candidate));
+        subject.candidates = subject.candidates.filter(applicant => !applicant.id.equals(application.candidate));
         subject.applications = subject.applications.filter(app => !app.equals(application._id));
         candidate.subjects = candidate.subjects.filter(subject => !subject.equals(application.subject));
         candidate.applications = candidate.applications.filter(app => !app.equals(application._id));
