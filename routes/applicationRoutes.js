@@ -17,10 +17,10 @@ router.route('/')
         const { candidate, subject, panel, feedback } = req.query; // Boolean fields
 
         const populateFields = [];
-        if (candidate) populateFields.push('candidate');
-        if (subject) populateFields.push('subject');
-        if (panel) populateFields.push('panel.expert');
-        if (feedback) populateFields.push('panel.feedback');
+        if (candidate === "true" || candidate === true) populateFields.push('candidate');
+        if (subject === "true" || subject === true) populateFields.push('subject');
+        if (panel === "true" || panel === true) populateFields.push('panel.expert');
+        if (feedback === "true" || feedback === true) populateFields.push('panel.feedback');
 
         const applications = await Application.find().populate(populateFields);
         return res.success(200, "Applications fetched successfully", { applications });
@@ -28,6 +28,8 @@ router.route('/')
 
     .post(checkAuth('admin'), safeHandler(async (req, res) => {
         const { subjectId, candidateId } = req.body;
+        if (!isValidObjectId(subjectId)) throw new ApiError(400, 'Invalid subject id', 'INVALID_ID');
+        if (!isValidObjectId(candidateId)) throw new ApiError(400, 'Invalid candidate id', 'INVALID_ID');
         const [subject, candidate] = await Promise.all([Subject.findById(subjectId), Candidate.findById(candidateId)]);
 
         if (!subject) {
@@ -57,27 +59,14 @@ router.route('/')
         candidate.applications.push(application._id);
 
         await Promise.all([subject.save(), candidate.save()]);
-        calculateSingleCandidateScoreSingleSubject(candidateId, subjectId);
+        calculateSingleCandidateScoreSingleSubject(subjectId, candidateId);
         calculateAllExpertScoresSingleSubject(subjectId);
 
         return res.success(201, "Application created successfully", { application });
     }))
 
 // .delete(checkAuth('admin'), safeHandler(async (req, res) => {
-//     const { applicationId } = req.body;
-//     const application = await Application.findById(applicationId);
-//     if (!application) {
-//         throw new ApiError(404, 'Application not found', 'APPLICATION_NOT_FOUND');
-//     }
 
-//     const subject = await Subject.findById(application.subject);
-//     const candidate = await Candidate.findById(application.candidate);
-
-//     subject.candidates = subject.candidates.filter(applicant => !applicant.id.equals(application.candidate));
-//     candidate.subjects = candidate.subjects.filter(subject => !subject.equals(application.subject));
-
-//     await Promise.all([subject.save(), candidate.save(), application.delete()]);
-//     return res.success(200, "Application deleted successfully");
 // }));
 
 
@@ -91,10 +80,10 @@ router.route('/:id')
         const { candidate, subject, panel, feedback } = req.query; // Boolean fields
 
         const populateFields = [];
-        if (candidate) populateFields.push('candidate');
-        if (subject) populateFields.push('subject');
-        if (panel) populateFields.push('panel.expert');
-        if (feedback) populateFields.push('panel.feedback');
+        if (candidate === "true" || candidate === true) populateFields.push('candidate');
+        if (subject === "true" || subject === true) populateFields.push('subject');
+        if (panel === "true" || panel === true) populateFields.push('panel.expert');
+        if (feedback === "true" || feedback === true) populateFields.push('panel.feedback');
 
         const application = await Application.findById(id).populate(populateFields);
         if (!application) {
@@ -113,20 +102,22 @@ router.route('/:id')
         if (!['pending', 'shortlisted', 'rejected', 'accepted'].includes(status)) {
             throw new ApiError(400, 'Invalid status', 'INVALID_STATUS');
         }
+
         const application = await Application.findById(id);
-        if (req.user.role !== 'expert' || !application.panel.some(expert => expert.expert.equals(req.user.id))) {
+        if (req.user.role === 'expert' && !application.panel.some(expert => expert.expert.equals(req.user.id))) {
             throw new ApiError(403, 'Unauthorized', 'UNAUTHORIZED');
         }
+
         application.status = status;
-        if (status === 'rejected' || status === 'accepted') {
-            const subject = await Subject.findById(application.subject);
-            const candidate = await Candidate.findById(application.candidate);
+        // if (status === 'rejected' || status === 'accepted') {
+        //     const subject = await Subject.findById(application.subject);
+        //     const candidate = await Candidate.findById(application.candidate);
 
-            subject.candidates = subject.candidates.filter(applicant => !applicant.id.equals(application.candidate));
-            candidate.subjects = candidate.subjects.filter(subject => !subject.equals(application.subject));
+        //     subject.candidates = subject.candidates.filter(applicant => !applicant.id.equals(application.candidate));
+        //     candidate.subjects = candidate.subjects.filter(subject => !subject.equals(application.subject));
 
-            await Promise.all([subject.save(), candidate.save()]);
-        }
+        //     await Promise.all([subject.save(), candidate.save()]);
+        // }
         await application.save();
         return res.success(200, "Application updated successfully", { application });
     }))
@@ -140,19 +131,26 @@ router.route('/:id')
             throw new ApiError(404, 'Application not found', 'APPLICATION_NOT_FOUND');
         }
 
-        const subject = await Subject.findById(application.subject);
-        const candidate = await Candidate.findById(application.candidate);
+        await Subject.findByIdAndUpdate(application.subject, {
+            $pull: {
+                candidates: { id: application.candidate },
+                applications: application._id
+            }
+        });
 
-        subject.candidates = subject.candidates.filter(applicant => !applicant.id.equals(application.candidate));
-        subject.applications = subject.applications.filter(app => !app.equals(application._id));
-        candidate.subjects = candidate.subjects.filter(subject => !subject.equals(application.subject));
-        candidate.applications = candidate.applications.filter(app => !app.equals(application._id));
+        const candidate = await Candidate.findByIdAndUpdate(application.candidate, {
+            $pull: {
+                subjects: application.subject,
+                applications: application._id
+            }
+        });
 
         calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
 
-        await Promise.all([subject.save(), candidate.save()]);
         return res.success(200, "Application deleted successfully", { application });
     }));
+
+// following routes left to be reviewed
 
 router.route('/:id/panel')
     .get(checkAuth('admin'), safeHandler(async (req, res) => {

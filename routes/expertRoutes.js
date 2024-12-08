@@ -121,22 +121,13 @@ router.route('/')
         return res.success(200, "All experts successfully deleted", { experts });
     }));
 
-router.route('/:detail')
+router.route('/:id')
     .get(checkAuth("expert"), safeHandler(async (req, res) => {
-        const { detail } = req.params;
+        const { id } = req.params;
+        if (!isValidObjectId(id)) throw new ApiError(400, "Invalid expert ID", "INVALID_ID");
         const { education, experience } = req.query;
 
-        const valid = isValidObjectId(detail);
-
-        const expert = await Expert.findOne({
-            $or: [
-                valid ? { _id: detail } : null,
-                { name: detail },
-                { email: detail },
-                { mobileNo: detail },
-                { linkedin: detail }
-            ].filter(Boolean)
-        }).select(getSelectedFields({ education, experience }));
+        const expert = await Expert.findById(id).select(getSelectedFields({ education, experience }));
 
         if (!expert) {
             throw new ApiError(404, "Expert not found", "EXPERT_NOT_FOUND");

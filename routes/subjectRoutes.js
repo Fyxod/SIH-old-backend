@@ -15,7 +15,7 @@ import Application from '../models/application.js';
 const router = express.Router();
 
 router.route('/')
-    .get(checkAuth('admin'), safeHandler(async (req, res) => {
+    .get(checkAuth('candidate'), safeHandler(async (req, res) => {
         const subjects = await Subject.find();
 
         if (!subjects || subjects.length === 0) {
@@ -236,8 +236,8 @@ router.route('/:id/candidate')
             status: 'pending'
         });
 
-        candidate.applications.push(application.id);
-        subject.applications.push(application.id);
+        candidate.applications.push(application._id);
+        subject.applications.push(application._id);
 
         await Promise.all([candidate.save(), subject.save()]);
 

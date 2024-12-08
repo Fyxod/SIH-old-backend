@@ -3,6 +3,7 @@ import connectMongo from './config/db.js';
 import config from './config/config.js';
 import responseHandler from './middlewares/responseHandler.js';
 import cors from 'cors';
+import path from 'path';
 //routes
 import adminRoutes from './routes/adminRoutes.js';
 import candidateRoutes from './routes/candidateRoutes.js';
@@ -11,6 +12,7 @@ import subjectRoutes from './routes/subjectRoutes.js';
 import extraRoutes from './routes/extraRoutes.js';
 import applicationRoutes from './routes/applicationRoutes.js';
 const app = express();
+const __dirname = path.resolve();
 
 connectMongo();
 //checkout populate or whatevr
@@ -30,9 +32,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(responseHandler);
-import path from 'path';
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
     res.send('<h1>SIH 2024</h1>');
 });
@@ -69,7 +69,11 @@ app.listen(config.server.port, () => {
     console.log(`Server is running on port ${config.server.port}`);
 });
 
-/*things pending:
+/*
+things to remember:
+1. An application is linked with an expert only when the expert is added to the panel
+
+things pending:
 1. Decide enums
 2. Format all routes
 3. Seperate into controllers
@@ -81,9 +85,13 @@ app.listen(config.server.port, () => {
 9. Add routes to remove feedbacks
 10. Add enums for different drdo centres
 11. Add application routes wherever applicable
-12. yet to add delete route for /subject/:id/candidate/ - when a candidate is removed from a subject or when a candidate unapplies for a subject
+12. yet to add delete route for /subject/:id/candidate/ - when a candidate is removed from a subject or when a candidate unapplies for a subject - so the same in application routes in application/:id DELETE - same for expert
 13. delete application from experts wherever necessary
 14. Unhandled error or slow server? checkout fs.existsSync in All candidates delete
+15. Add a route to get all applications for a subject
+16. Add a route to get all applications for a candidate
+17. Add a route to get all applications for an expert
+18. Do that encrypted pdf mail to expert thingy with password
 
 /*
 Problem Statement Title:

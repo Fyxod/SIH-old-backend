@@ -11,7 +11,7 @@ import { candidateLoginSchema, candidateRegistrationSchema, candidateUpdateSchem
 import path from 'path';
 import config from '../config/config.js';
 import getSelectedFields from '../utils/selectFields.js';
-import { calculateAllCandidatesScoresMultipleSubjects, calculateAllExpertsScoresMultipleSubjects, calculateSingleCandidateScoreMultipleSubjects } from '../utils/updateScores.js';
+import { calculateAllExpertsScoresMultipleSubjects, calculateSingleCandidateScoreMultipleSubjects } from '../utils/updateScores.js';
 import Application from '../models/application.js';
 import Expert from '../models/expert.js';
 import { isValidObjectId } from 'mongoose';
@@ -115,22 +115,13 @@ router.route('/')
         return res.success(200, "All candidates successfully deleted", { candidates });
     }));
 
-router.route('/:detail')
+router.route('/:id')
     .get(checkAuth("candidate"), safeHandler(async (req, res) => {
-        const { detail } = req.params;
+        const { id } = req.params;
+        if (!isValidObjectId(id)) throw new ApiError(400, "Invalid candidate ID", "INVALID_ID");
         const { education, experience } = req.query;
 
-        const valid = isValidObjectId(detail);
-
-        const candidate = await Candidate.findOne({
-            $or: [
-                valid ? { _id: detail } : null,
-                { email: detail },
-                { mobileNo: detail },
-                { name: detail },
-                { linkedin: detail }
-            ].filter(Boolean)
-        }).select(getSelectedFields({ education, experience }));
+        const candidate = await Candidate.findById(id).select(getSelectedFields({ education, experience }));
 
         if (!candidate) {
             throw new ApiError(404, "Candidate not found", "CANDIDATE_NOT_FOUND");
