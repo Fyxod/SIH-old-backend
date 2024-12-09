@@ -32,6 +32,9 @@ export default function checkAuth(role) { // role = minimum access level require
             }
             token = authHeader.split(' ')[1];
         }
+
+        console.log("Token printing here: ",token);
+
         const payload = verifyToken(token);
         if (!payload) {
             return res.error(401, 'Invalid or expired token', 'UNAUTHORIZED');
