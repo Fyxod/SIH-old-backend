@@ -92,7 +92,8 @@ things pending:
 16. Add a route to get all applications for a candidate
 17. Add a route to get all applications for an expert
 18. Do that encrypted pdf mail to expert thingy with password
-
+19. Add all experts to all subjects
+20. Update update schemas
 /*
 Problem Statement Title:
 Determining expert relevance with respect to interview board subject and candidates’ area of expertise

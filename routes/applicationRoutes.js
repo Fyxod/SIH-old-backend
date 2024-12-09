@@ -4,6 +4,7 @@ import checkAuth from '../middlewares/authMiddleware.js';
 import Application from '../models/application.js';
 import Subject from '../models/subject.js';
 import Candidate from '../models/candidate.js';
+import Expert from '../models/expert.js';
 import ApiError from '../utils/errorClass.js';
 import { isValidObjectId } from 'mongoose';
 import Feedback from '../models/feedback.js';
@@ -164,41 +165,63 @@ router.route('/:id/panel')
 
         return res.success(200, "Panel fetched successfully", { panel: application.panel });
     }))
+
     .post(checkAuth('admin'), safeHandler(async (req, res) => {
         const { id } = req.params;
         const { expertId } = req.body;
-        if (!isValidObjectId(id) || !isValidObjectId(expertId)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');
+        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
+        if (!isValidObjectId(expertId)) throw new ApiError(400, 'Invalid expert id', 'INVALID_ID');
 
         const application = await Application.findById(id);
         if (!application) {
             throw new ApiError(404, 'Application not found', 'APPLICATION_NOT_FOUND');
+        }
+
+        const alreadyAdded = application.panel.some(panel => panel.expert.equals(expertId));
+        if (alreadyAdded) {
+            throw new ApiError(400, 'Expert already added', 'EXPERT_ALREADY_ADDED');
+        }
+
+        const expert = await Expert.findById(expertId);
+        if (!expert) {
+            throw new ApiError(404, 'Expert not found', 'EXPERT_NOT_FOUND');
         }
 
         application.panel.push({ expert: expertId, feedback: null });
-        await application.save();
+        expert.applications.push(id);
+        await Promise.all([application.save(), expert.save()]);
 
-        return res.success(201, "Panel updated successfully", { panel: application.panel });
+        return res.success(201, "Panel member added successfully", { panel: application.panel });
     }))
+
     .delete(checkAuth('admin'), safeHandler(async (req, res) => {
         const { id } = req.params;
         const { expertId } = req.body;
-        if (!isValidObjectId(id) || !isValidObjectId(expertId)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');
+        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
+        if (!isValidObjectId(expertId)) throw new ApiError(400, 'Invalid expert id', 'INVALID_ID');
 
         const application = await Application.findById(id);
         if (!application) {
             throw new ApiError(404, 'Application not found', 'APPLICATION_NOT_FOUND');
         }
 
+        const expert = await Expert.findById(expertId);
+        if (!expert) {
+            throw new ApiError(404, 'Expert not found', 'EXPERT_NOT_FOUND');
+        }
+
         application.panel = application.panel.filter(panel => !panel.expert.equals(expertId));
-        await application.save();
+        expert.applications = expert.applications.filter(appId => !appId.equals(id));
+        await Promise.all([application.save(), expert.save()]);
 
         return res.success(200, "Panel member removed successfully", { panel: application.panel });
     }));
 
 router.route('/:id/panel/:expertId')
-    .get(checkAuth('admin'), safeHandler(async (req, res) => { // can't trust as fully written by copilot
+    .get(checkAuth('admin'), safeHandler(async (req, res) => { // sorry that I am fetching all the expert Data uneccessarily But I dont have time to optimize it rn
         const { id, expertId } = req.params;
-        if (!isValidObjectId(id) || !isValidObjectId(expertId)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');
+        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
+        if (!isValidObjectId(expertId)) throw new ApiError(400, 'Invalid expert id', 'INVALID_ID');
 
         const application = await Application.findById(id).populate('panel.expert panel.feedback');
         if (!application) {
@@ -212,11 +235,18 @@ router.route('/:id/panel/:expertId')
 
         return res.success(200, "Panel member fetched successfully", { panelMember });
     }))
+
     .patch(checkAuth('candidate'), safeHandler(async (req, res) => {
         const { id, expertId } = req.params;
-        if (!isValidObjectId(id) || !isValidObjectId(expertId)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');
+        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
+        if (!isValidObjectId(expertId)) throw new ApiError(400, 'Invalid expert id', 'INVALID_ID');
 
         const { feedback } = req.body; // { score, content }
+        if (!feedback || !feedback.score || !feedback.content) {
+            throw new ApiError(400, 'Feedback not provided', 'FEEDBACK_NOT_PROVIDED');
+        }
+
+        feedback.score = parseInt(feedback.score);
 
         const application = await Application.findById(id);
         if (!application) {
@@ -227,8 +257,25 @@ router.route('/:id/panel/:expertId')
         if (!panelMember) {
             throw new ApiError(404, 'Panel member not found', 'EXPERT_NOT_FOUND');
         };
+
+        const expert = await Expert.findById(expertId);
+        if (!expert) {
+            throw new ApiError(404, 'Expert not found', 'EXPERT_NOT_FOUND');
+        }
+        const subject = await Subject.findById(application.subject);
+        if (!subject) {
+            throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');  
+        }
+        const candidate = await Candidate.findById(application.candidate);
+        if (!candidate) {
+            throw new ApiError(404, 'Candidate not found', 'CANDIDATE_NOT_FOUND');
+        }
+
         if (panelMember.feedback) {
             const oldFeedback = await Feedback.findById(panelMember.feedback);
+            if (!oldFeedback) {
+                throw new ApiError(404, 'Feedback not found', 'FEEDBACK_NOT_FOUND');
+            }
             oldFeedback.score = feedback.score;
             oldFeedback.content = feedback.content;
             await oldFeedback.save();
@@ -244,11 +291,15 @@ router.route('/:id/panel/:expertId')
             });
 
             panelMember.feedback = newFeedback._id;
-            await application.save();
+            expert.feedbacks.push(newFeedback._id);
+            subject.feedbacks.push(newFeedback._id);
+            candidate.feedbacks.push(newFeedback._id);
+            await Promise.all[application.save(), expert.save(), subject.save(), candidate.save()];
         }
-        return res.success(200, "Feedback updated successfully", { panel: application.panel });
-    }))
 
+        return res.success(200, "Feedback added/updated successfully", { panel: application.panel });
+    }))
+ //following left
     .delete(checkAuth('candidate'), safeHandler(async (req, res) => {
         const { id, expertId } = req.params;
         if (!isValidObjectId(id) || !isValidObjectId(expertId)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');

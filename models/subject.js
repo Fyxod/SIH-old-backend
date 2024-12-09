@@ -45,8 +45,13 @@ const subjectSchema = new mongoose.Schema({
         type: String
     },
     recommendedSkills: [{
-        type: String,
-        required: true
+        skill: {
+            type: String,
+            required: true
+        },
+        description: {
+            type: String
+        }
     }],
     status: {
         type: String,

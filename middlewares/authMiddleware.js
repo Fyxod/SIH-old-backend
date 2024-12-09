@@ -25,6 +25,13 @@ export default function checkAuth(role) { // role = minimum access level require
                 return res.error(401, 'Missing or malformed token', 'UNAUTHORIZED');
             }
         }
+        else if (req.headers['authorization']) {
+            const authHeader = req.headers['authorization'];
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                return res.error(401, 'Missing or malformed token', 'UNAUTHORIZED');
+            }
+            token = authHeader.split(' ')[1];
+        }
         const payload = verifyToken(token);
         if (!payload) {
             return res.error(401, 'Invalid or expired token', 'UNAUTHORIZED');

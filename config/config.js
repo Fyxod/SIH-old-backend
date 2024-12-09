@@ -38,7 +38,11 @@ const config = {
             expert: 'resumes/expert',
             candidate: 'resumes/candidate',
             temporary: 'resumes/temp',
-        }
+        },
+        image: {
+            expert: 'images/expert',
+            candidate: 'images/candidate'
+        },
     },
     BASE_URL: process.env.BASE_URL || 'http://localhost:4139',
     //later include more config options for production

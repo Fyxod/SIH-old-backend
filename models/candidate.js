@@ -34,7 +34,13 @@ const candidateSchema = new mongoose.Schema({
         required: true
     },
     skills: [{
-        type: String
+        skill: {
+            type: String,
+            required: true
+        },
+        duration: {
+            type: Number
+        }
     }],
     bio: {
         type: String

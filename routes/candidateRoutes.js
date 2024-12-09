@@ -19,6 +19,7 @@ const tempResumeFolder = config.paths.resume.temporary;
 const candidateResumeFolder = config.paths.resume.candidate;
 
 import { fileURLToPath } from 'url';
+import { candidateImageUpload } from '../utils/multer.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -33,7 +34,7 @@ router.route('/')
         return res.success(200, "All candidates successfully retrieved", { candidates });
     }))
 
-    .post(safeHandler(async (req, res) => {
+    .post(candidateImageUpload.single('image'), safeHandler(async (req, res) => {
         const fields = candidateRegistrationSchema.parse(req.body);
         // { name, email, password, mobileNo, dateOfBirth, education, skills, experience, linkedin, resumeToken, gender }
         // will apply multer for image later

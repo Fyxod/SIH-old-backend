@@ -34,7 +34,13 @@ const expertSchema = new mongoose.Schema({
         required: true
     },
     skills: [{
-        type: String,
+        skill: {
+            type: String,
+            required: true
+        },
+        duration: {
+            type: Number
+        }
     }],
     currentPosition: {
         type: String,

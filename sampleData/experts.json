@@ -6,12 +6,30 @@
         "gender": "male",
         "dateOfBirth": "1978-07-15",
         "skills": [
-            "Physics",
-            "javascript",
-            "django",
-            "python",
-            "mongodb",
-            "express"
+            {
+                "skill": "Physics",
+                "duration": 15778800000
+            },
+            {
+                "skill": "javascript",
+                "duration": 94608000000
+            },
+            {
+                "skill": "django",
+                "duration": 31557600000
+            },
+            {
+                "skill": "python",
+                "duration": 126230400000
+            },
+            {
+                "skill": "mongodb",
+                "duration": 15778800000
+            },
+            {
+                "skill": "express",
+                "duration": 9460800000
+            }
         ],
         "currentPosition": "Assistant Professor",
         "currentDepartment": "Ministery of education",
@@ -62,12 +80,30 @@
         "gender": "female",
         "dateOfBirth": "1990-05-12",
         "skills": [
-            "Machine Learning",
-            "Data Analysis",
-            "React",
-            "Node.js",
-            "PostgreSQL",
-            "AWS"
+            {
+                "skill": "Machine Learning",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Data Analysis",
+                "duration": 15778800000
+            },
+            {
+                "skill": "React",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Node.js",
+                "duration": 126230400000
+            },
+            {
+                "skill": "PostgreSQL",
+                "duration": 31557600000
+            },
+            {
+                "skill": "AWS",
+                "duration": 15778800000
+            }
         ],
         "currentPosition": "Data Scientist",
         "currentDepartment": "Analytics",
@@ -118,12 +154,30 @@
         "gender": "male",
         "dateOfBirth": "1985-03-28",
         "skills": [
-            "Cloud Computing",
-            "DevOps",
-            "Kubernetes",
-            "Docker",
-            "Java",
-            "SQL"
+            {
+                "skill": "Cloud Computing",
+                "duration": 31557600000
+            },
+            {
+                "skill": "DevOps",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Kubernetes",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Docker",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Java",
+                "duration": 126230400000
+            },
+            {
+                "skill": "SQL",
+                "duration": 31557600000
+            }
         ],
         "currentPosition": "Senior DevOps Engineer",
         "currentDepartment": "Infrastructure",
@@ -181,12 +235,30 @@
         "gender": "female",
         "dateOfBirth": "1992-11-05",
         "skills": [
-            "UI/UX Design",
-            "HTML",
-            "CSS",
-            "JavaScript",
-            "Adobe Photoshop",
-            "Figma"
+            {
+                "skill": "UI/UX Design",
+                "duration": 31557600000
+            },
+            {
+                "skill": "HTML",
+                "duration": 9460800000
+            },
+            {
+                "skill": "CSS",
+                "duration": 15778800000
+            },
+            {
+                "skill": "JavaScript",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Adobe Photoshop",
+                "duration": 126230400000
+            },
+            {
+                "skill": "Figma",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "Product Designer",
         "currentDepartment": "Design",
@@ -244,12 +316,30 @@
         "gender": "male",
         "dateOfBirth": "1995-04-10",
         "skills": [
-            "Android Development",
-            "Kotlin",
-            "Java",
-            "Firebase",
-            "REST APIs",
-            "Git"
+            {
+                "skill": "Android Development",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Kotlin",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Java",
+                "duration": 94608000000
+            },
+            {
+                "skill": "Firebase",
+                "duration": 3155760000
+            },
+            {
+                "skill": "REST APIs",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Git",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "Mobile App Developer",
         "currentDepartment": "Software Development",
@@ -293,12 +383,30 @@
         "gender": "female",
         "dateOfBirth": "1988-12-15",
         "skills": [
-            "Project Management",
-            "Agile Methodologies",
-            "Scrum",
-            "JIRA",
-            "MS Project",
-            "Communication"
+            {
+                "skill": "Project Management",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Agile Methodologies",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Scrum",
+                "duration": 9460800000
+            },
+            {
+                "skill": "JIRA",
+                "duration": 63072000000
+            },
+            {
+                "skill": "MS Project",
+                "duration": 126230400000
+            },
+            {
+                "skill": "Communication",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "Project Manager",
         "currentDepartment": "IT Services",
@@ -349,12 +457,30 @@
         "gender": "male",
         "dateOfBirth": "1990-09-05",
         "skills": [
-            "Full Stack Development",
-            "React",
-            "Node.js",
-            "MongoDB",
-            "GraphQL",
-            "TypeScript"
+            {
+                "skill": "Full Stack Development",
+                "duration": 31557600000
+            },
+            {
+                "skill": "React",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Node.js",
+                "duration": 15778800000
+            },
+            {
+                "skill": "MongoDB",
+                "duration": 63072000000
+            },
+            {
+                "skill": "GraphQL",
+                "duration": 3155760000
+            },
+            {
+                "skill": "TypeScript",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "Full Stack Developer",
         "currentDepartment": "Product Engineering",
@@ -405,12 +531,30 @@
         "gender": "male",
         "dateOfBirth": "1993-08-21",
         "skills": [
-            "Java",
-            "Spring Boot",
-            "MySQL",
-            "AWS",
-            "REST APIs",
-            "Git"
+            {
+                "skill": "Java",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Spring Boot",
+                "duration": 15778800000
+            },
+            {
+                "skill": "MySQL",
+                "duration": 9460800000
+            },
+            {
+                "skill": "AWS",
+                "duration": 63072000000
+            },
+            {
+                "skill": "REST APIs",
+                "duration": 3155760000
+            },
+            {
+                "skill": "Git",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "Backend Developer",
         "currentDepartment": "Software Engineering",
@@ -447,12 +591,30 @@
         "gender": "female",
         "dateOfBirth": "1990-11-11",
         "skills": [
-            "Python",
-            "Data Science",
-            "Pandas",
-            "NumPy",
-            "Machine Learning",
-            "SQL"
+            {
+                "skill": "Python",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Data Science",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Pandas",
+                "duration": 9460800000
+            },
+            {
+                "skill": "NumPy",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Machine Learning",
+                "duration": 126230400000
+            },
+            {
+                "skill": "SQL",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "Data Scientist",
         "currentDepartment": "Analytics",
@@ -496,12 +658,30 @@
         "gender": "male",
         "dateOfBirth": "1987-05-15",
         "skills": [
-            "Cloud Computing",
-            "Azure",
-            "Terraform",
-            "Docker",
-            "Kubernetes",
-            "Linux"
+            {
+                "skill": "Cloud Computing",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Azure",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Terraform",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Docker",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Kubernetes",
+                "duration": 3155760000
+            },
+            {
+                "skill": "Linux",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "Cloud Architect",
         "currentDepartment": "Infrastructure",
@@ -538,12 +718,30 @@
         "gender": "female",
         "dateOfBirth": "1995-09-25",
         "skills": [
-            "UI/UX Design",
-            "Figma",
-            "Adobe XD",
-            "Sketch",
-            "HTML",
-            "CSS"
+            {
+                "skill": "UI/UX Design",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Figma",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Adobe XD",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Sketch",
+                "duration": 3155760000
+            },
+            {
+                "skill": "HTML",
+                "duration": 63072000000
+            },
+            {
+                "skill": "CSS",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "UI/UX Designer",
         "currentDepartment": "Design",
@@ -580,12 +778,30 @@
         "gender": "male",
         "dateOfBirth": "1980-03-10",
         "skills": [
-            "Project Management",
-            "Agile",
-            "Scrum",
-            "JIRA",
-            "Risk Management",
-            "Leadership"
+            {
+                "skill": "Project Management",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Agile",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Scrum",
+                "duration": 9460800000
+            },
+            {
+                "skill": "JIRA",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Risk Management",
+                "duration": 126230400000
+            },
+            {
+                "skill": "Leadership",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "Project Manager",
         "currentDepartment": "Operations",
@@ -622,12 +838,30 @@
         "gender": "female",
         "dateOfBirth": "1992-01-14",
         "skills": [
-            "Marketing",
-            "SEO",
-            "Google Analytics",
-            "Content Writing",
-            "Brand Strategy",
-            "Social Media"
+            {
+                "skill": "Marketing",
+                "duration": 31557600000
+            },
+            {
+                "skill": "SEO",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Google Analytics",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Content Writing",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Brand Strategy",
+                "duration": 126230400000
+            },
+            {
+                "skill": "Social Media",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "Marketing Manager",
         "currentDepartment": "Marketing",
@@ -671,12 +905,30 @@
         "gender": "male",
         "dateOfBirth": "1989-07-20",
         "skills": [
-            "Cybersecurity",
-            "Network Security",
-            "Penetration Testing",
-            "Ethical Hacking",
-            "Firewalls",
-            "Incident Response"
+            {
+                "skill": "Cybersecurity",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Network Security",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Penetration Testing",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Ethical Hacking",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Firewalls",
+                "duration": 3155760000
+            },
+            {
+                "skill": "Incident Response",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "Cybersecurity Analyst",
         "currentDepartment": "IT Security",
@@ -713,12 +965,30 @@
         "gender": "female",
         "dateOfBirth": "1994-02-11",
         "skills": [
-            "HR Management",
-            "Recruitment",
-            "Employee Relations",
-            "Payroll",
-            "Training",
-            "Compliance"
+            {
+                "skill": "HR Management",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Recruitment",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Employee Relations",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Payroll",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Training",
+                "duration": 3155760000
+            },
+            {
+                "skill": "Compliance",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "HR Manager",
         "currentDepartment": "Human Resources",
@@ -755,12 +1025,30 @@
         "gender": "male",
         "dateOfBirth": "1985-10-12",
         "skills": [
-            "Finance",
-            "Risk Management",
-            "Auditing",
-            "Compliance",
-            "Taxation",
-            "Financial Analysis"
+            {
+                "skill": "Finance",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Risk Management",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Auditing",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Compliance",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Taxation",
+                "duration": 3155760000
+            },
+            {
+                "skill": "Financial Analysis",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "Financial Analyst",
         "currentDepartment": "Finance",
@@ -797,12 +1085,30 @@
         "gender": "female",
         "dateOfBirth": "1990-06-15",
         "skills": [
-            "Full Stack Development",
-            "JavaScript",
-            "Node.js",
-            "Angular",
-            "MongoDB",
-            "AWS"
+            {
+                "skill": "Full Stack Development",
+                "duration": 31557600000
+            },
+            {
+                "skill": "JavaScript",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Node.js",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Angular",
+                "duration": 6307200000
+            },
+            {
+                "skill": "MongoDB",
+                "duration": 31557600000
+            },
+            {
+                "skill": "AWS",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "Software Engineer",
         "currentDepartment": "Development",
@@ -839,12 +1145,30 @@
         "gender": "male",
         "dateOfBirth": "1988-04-18",
         "skills": [
-            "Java",
-            "Hibernate",
-            "Microservices",
-            "Spring Boot",
-            "Kafka",
-            "MySQL"
+            {
+                "skill": "Java",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Hibernate",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Microservices",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Spring Boot",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Kafka",
+                "duration": 3155760000
+            },
+            {
+                "skill": "MySQL",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "Senior Software Engineer",
         "currentDepartment": "Development",
@@ -881,12 +1205,30 @@
         "gender": "female",
         "dateOfBirth": "1991-09-25",
         "skills": [
-            "Digital Marketing",
-            "Google Ads",
-            "SEO",
-            "Email Marketing",
-            "Content Strategy",
-            "Web Analytics"
+            {
+                "skill": "Digital Marketing",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Google Ads",
+                "duration": 15778800000
+            },
+            {
+                "skill": "SEO",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Email Marketing",
+                "duration": 6307200000
+            },
+            {
+                "skill": "Content Strategy",
+                "duration": 126230400000
+            },
+            {
+                "skill": "Web Analytics",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "Digital Marketing Specialist",
         "currentDepartment": "Marketing",
@@ -930,12 +1272,30 @@
         "gender": "male",
         "dateOfBirth": "1984-02-17",
         "skills": [
-            "Accounting",
-            "Taxation",
-            "Financial Analysis",
-            "Auditing",
-            "Payroll",
-            "Compliance"
+            {
+                "skill": "Accounting",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Taxation",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Financial Analysis",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Auditing",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Payroll",
+                "duration": 3155760000
+            },
+            {
+                "skill": "Compliance",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "Senior Accountant",
         "currentDepartment": "Finance",
@@ -972,12 +1332,30 @@
         "gender": "female",
         "dateOfBirth": "1993-03-22",
         "skills": [
-            "Machine Learning",
-            "Deep Learning",
-            "Python",
-            "TensorFlow",
-            "Natural Language Processing",
-            "Data Visualization"
+            {
+                "skill": "Machine Learning",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Deep Learning",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Python",
+                "duration": 9460800000
+            },
+            {
+                "skill": "TensorFlow",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Natural Language Processing",
+                "duration": 3155760000
+            },
+            {
+                "skill": "Data Visualization",
+                "duration": 126230400000
+            }
         ],
         "currentPosition": "AI Researcher",
         "currentDepartment": "AI Lab",
@@ -1014,12 +1392,30 @@
         "gender": "male",
         "dateOfBirth": "1990-07-12",
         "skills": [
-            "Embedded Systems",
-            "C",
-            "C++",
-            "RTOS",
-            "MATLAB",
-            "ARM Cortex"
+            {
+                "skill": "Embedded Systems",
+                "duration": 31557600000
+            },
+            {
+                "skill": "C",
+                "duration": 9460800000
+            },
+            {
+                "skill": "C++",
+                "duration": 15778800000
+            },
+            {
+                "skill": "RTOS",
+                "duration": 6307200000
+            },
+            {
+                "skill": "MATLAB",
+                "duration": 126230400000
+            },
+            {
+                "skill": "ARM Cortex",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "Embedded Software Engineer",
         "currentDepartment": "R&D",
@@ -1056,12 +1452,30 @@
         "gender": "female",
         "dateOfBirth": "1997-05-30",
         "skills": [
-            "Graphic Design",
-            "Illustration",
-            "Adobe Photoshop",
-            "Adobe Illustrator",
-            "UI Design",
-            "Prototyping"
+            {
+                "skill": "Graphic Design",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Illustration",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Adobe Photoshop",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Adobe Illustrator",
+                "duration": 6307200000
+            },
+            {
+                "skill": "UI Design",
+                "duration": 126230400000
+            },
+            {
+                "skill": "Prototyping",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "Graphic Designer",
         "currentDepartment": "Creative",
@@ -1098,12 +1512,30 @@
         "gender": "male",
         "dateOfBirth": "1992-06-18",
         "skills": [
-            "Supply Chain Management",
-            "Logistics",
-            "SAP",
-            "Inventory Management",
-            "Vendor Management",
-            "Data Analytics"
+            {
+                "skill": "Supply Chain Management",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Logistics",
+                "duration": 15778800000
+            },
+            {
+                "skill": "SAP",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Inventory Management",
+                "duration": 6307200000
+            },
+            {
+                "skill": "Vendor Management",
+                "duration": 126230400000
+            },
+            {
+                "skill": "Data Analytics",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "Logistics Manager",
         "currentDepartment": "Supply Chain",
@@ -1140,12 +1572,30 @@
         "gender": "female",
         "dateOfBirth": "1994-11-10",
         "skills": [
-            "Public Relations",
-            "Communication",
-            "Event Planning",
-            "Media Relations",
-            "Branding",
-            "Strategic Planning"
+            {
+                "skill": "Public Relations",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Communication",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Event Planning",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Media Relations",
+                "duration": 6307200000
+            },
+            {
+                "skill": "Branding",
+                "duration": 126230400000
+            },
+            {
+                "skill": "Strategic Planning",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "PR Specialist",
         "currentDepartment": "Public Relations",
@@ -1182,12 +1632,30 @@
         "gender": "male",
         "dateOfBirth": "1991-03-01",
         "skills": [
-            "DevOps",
-            "CI/CD",
-            "Docker",
-            "Kubernetes",
-            "AWS",
-            "Terraform"
+            {
+                "skill": "DevOps",
+                "duration": 31557600000
+            },
+            {
+                "skill": "CI/CD",
+                "duration": 15778800000
+            },
+            {
+                "skill": "Docker",
+                "duration": 9460800000
+            },
+            {
+                "skill": "Kubernetes",
+                "duration": 6307200000
+            },
+            {
+                "skill": "AWS",
+                "duration": 126230400000
+            },
+            {
+                "skill": "Terraform",
+                "duration": 3155760000
+            }
         ],
         "currentPosition": "DevOps Engineer",
         "currentDepartment": "IT",
@@ -1224,12 +1692,30 @@
         "gender": "female",
         "dateOfBirth": "1989-12-12",
         "skills": [
-            "Teaching",
-            "Educational Research",
-            "Curriculum Development",
-            "Online Learning",
-            "Mentoring",
-            "Public Speaking"
+            {
+                "skill": "Teaching",
+                "duration": 315576000000
+            },
+            {
+                "skill": "Educational Research",
+                "duration": 157788000000
+            },
+            {
+                "skill": "Curriculum Development",
+                "duration": 94608000000
+            },
+            {
+                "skill": "Online Learning",
+                "duration": 63072000000
+            },
+            {
+                "skill": "Mentoring",
+                "duration": 31557600000
+            },
+            {
+                "skill": "Public Speaking",
+                "duration": 2629800000
+            }
         ],
         "currentPosition": "Assistant Professor",
         "currentDepartment": "Education",

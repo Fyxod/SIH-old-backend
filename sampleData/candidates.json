@@ -8,8 +8,18 @@
         "dateOfBirth": "2004-11-04",
         "gender": "male",
         "skills": [
-            "javascript",
-            "react"
+            {
+                "skill": "java",
+                "duration": 81480222000
+            },
+            {
+                "skill": "spring",
+                "duration": 81480222000
+            },
+            {
+                "skill": "hibernate",
+                "duration": 81480222000
+            }
         ],
         "experience": [
             {
@@ -53,9 +63,18 @@
         "dateOfBirth": "1998-07-15",
         "gender": "male",
         "skills": [
-            "python",
-            "django",
-            "aws"
+            {
+                "skill": "python",
+                "duration": 31536000000
+            },
+            {
+                "skill": "django",
+                "duration": 63072000000
+            },
+            {
+                "skill": "aws",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -99,9 +118,18 @@
         "dateOfBirth": "2000-09-22",
         "gender": "female",
         "skills": [
-            "java",
-            "spring",
-            "microservices"
+            {
+                "skill": "java",
+                "duration": 31536000000
+            },
+            {
+                "skill": "spring",
+                "duration": 63072000000
+            },
+            {
+                "skill": "microservices",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -131,9 +159,18 @@
         "dateOfBirth": "1995-12-12",
         "gender": "male",
         "skills": [
-            "c++",
-            "algorithms",
-            "data structures"
+            {
+                "skill": "c++",
+                "duration": 31536000000
+            },
+            {
+                "skill": "algorithms",
+                "duration": 63072000000
+            },
+            {
+                "skill": "data structures",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -177,9 +214,18 @@
         "dateOfBirth": "1997-03-17",
         "gender": "female",
         "skills": [
-            "react",
-            "node.js",
-            "mongodb"
+            {
+                "skill": "react",
+                "duration": 31536000000
+            },
+            {
+                "skill": "node.js",
+                "duration": 63072000000
+            },
+            {
+                "skill": "mongodb",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -216,10 +262,22 @@
         "dateOfBirth": "2002-02-28",
         "gender": "female",
         "skills": [
-            "html",
-            "css",
-            "bootstrap",
-            "angular"
+            {
+                "skill": "html",
+                "duration": 2592000000
+            },
+            {
+                "skill": "css",
+                "duration": 31536000000
+            },
+            {
+                "skill": "bootstrap",
+                "duration": 63072000000
+            },
+            {
+                "skill": "angular",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -263,9 +321,18 @@
         "dateOfBirth": "1994-01-15",
         "gender": "male",
         "skills": [
-            "java",
-            "kotlin",
-            "android development"
+            {
+                "skill": "java",
+                "duration": 31536000000
+            },
+            {
+                "skill": "kotlin",
+                "duration": 63072000000
+            },
+            {
+                "skill": "android development",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -295,9 +362,18 @@
         "dateOfBirth": "1997-12-10",
         "gender": "female",
         "skills": [
-            "python",
-            "data analysis",
-            "machine learning"
+            {
+                "skill": "python",
+                "duration": 31536000000
+            },
+            {
+                "skill": "data analysis",
+                "duration": 63072000000
+            },
+            {
+                "skill": "machine learning",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -334,9 +410,18 @@
         "dateOfBirth": "1995-05-10",
         "gender": "male",
         "skills": [
-            "sql",
-            "oracle",
-            "data warehousing"
+            {
+                "skill": "sql",
+                "duration": 31536000000
+            },
+            {
+                "skill": "oracle",
+                "duration": 63072000000
+            },
+            {
+                "skill": "data warehousing",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -366,9 +451,18 @@
         "dateOfBirth": "1998-09-18",
         "gender": "female",
         "skills": [
-            "ui design",
-            "adobe xd",
-            "figma"
+            {
+                "skill": "ui design",
+                "duration": 31536000000
+            },
+            {
+                "skill": "adobe xd",
+                "duration": 63072000000
+            },
+            {
+                "skill": "figma",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -398,9 +492,18 @@
         "dateOfBirth": "1993-04-10",
         "gender": "male",
         "skills": [
-            "aws",
-            "kubernetes",
-            "terraform"
+            {
+                "skill": "aws",
+                "duration": 31536000000
+            },
+            {
+                "skill": "kubernetes",
+                "duration": 63072000000
+            },
+            {
+                "skill": "terraform",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -430,9 +533,18 @@
         "dateOfBirth": "1996-11-25",
         "gender": "female",
         "skills": [
-            "flutter",
-            "firebase",
-            "dart"
+            {
+                "skill": "flutter",
+                "duration": 31536000000
+            },
+            {
+                "skill": "firebase",
+                "duration": 63072000000
+            },
+            {
+                "skill": "dart",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -462,9 +574,18 @@
         "dateOfBirth": "1992-06-15",
         "gender": "male",
         "skills": [
-            "c#",
-            ".net",
-            "azure"
+            {
+                "skill": "c#",
+                "duration": 2592000000
+            },
+            {
+                "skill": ".net",
+                "duration": 31536000000
+            },
+            {
+                "skill": "azure",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -494,9 +615,18 @@
         "dateOfBirth": "1998-03-22",
         "gender": "female",
         "skills": [
-            "php",
-            "laravel",
-            "mysql"
+            {
+                "skill": "php",
+                "duration": 2592000000
+            },
+            {
+                "skill": "laravel",
+                "duration": 31536000000
+            },
+            {
+                "skill": "mysql",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -526,9 +656,18 @@
         "dateOfBirth": "1993-09-09",
         "gender": "male",
         "skills": [
-            "golang",
-            "grpc",
-            "kubernetes"
+            {
+                "skill": "golang",
+                "duration": 2592000000
+            },
+            {
+                "skill": "grpc",
+                "duration": 31536000000
+            },
+            {
+                "skill": "kubernetes",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -558,9 +697,18 @@
         "dateOfBirth": "2000-01-01",
         "gender": "female",
         "skills": [
-            "seo",
-            "digital marketing",
-            "content writing"
+            {
+                "skill": "seo",
+                "duration": 2592000000
+            },
+            {
+                "skill": "digital marketing",
+                "duration": 31536000000
+            },
+            {
+                "skill": "content writing",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -590,9 +738,18 @@
         "dateOfBirth": "1995-08-15",
         "gender": "male",
         "skills": [
-            "java",
-            "spring",
-            "hibernate"
+            {
+                "skill": "java",
+                "duration": 31536000000
+            },
+            {
+                "skill": "spring",
+                "duration": 63072000000
+            },
+            {
+                "skill": "hibernate",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -622,9 +779,18 @@
         "dateOfBirth": "1997-11-22",
         "gender": "female",
         "skills": [
-            "python",
-            "django",
-            "rest api"
+            {
+                "skill": "python",
+                "duration": 31536000000
+            },
+            {
+                "skill": "django",
+                "duration": 63072000000
+            },
+            {
+                "skill": "rest api",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -654,9 +820,18 @@
         "dateOfBirth": "1992-03-15",
         "gender": "male",
         "skills": [
-            "aws",
-            "terraform",
-            "kubernetes"
+            {
+                "skill": "aws",
+                "duration": 31536000000
+            },
+            {
+                "skill": "terraform",
+                "duration": 63072000000
+            },
+            {
+                "skill": "kubernetes",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -686,10 +861,22 @@
         "dateOfBirth": "1998-12-01",
         "gender": "female",
         "skills": [
-            "html",
-            "css",
-            "javascript",
-            "angular"
+            {
+                "skill": "html",
+                "duration": 2592000000
+            },
+            {
+                "skill": "css",
+                "duration": 31536000000
+            },
+            {
+                "skill": "javascript",
+                "duration": 63072000000
+            },
+            {
+                "skill": "angular",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -719,9 +906,18 @@
         "dateOfBirth": "1993-07-20",
         "gender": "male",
         "skills": [
-            "php",
-            "laravel",
-            "mysql"
+            {
+                "skill": "php",
+                "duration": 2592000000
+            },
+            {
+                "skill": "laravel",
+                "duration": 31536000000
+            },
+            {
+                "skill": "mysql",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -751,9 +947,18 @@
         "dateOfBirth": "1995-10-10",
         "gender": "female",
         "skills": [
-            "seo",
-            "content marketing",
-            "social media management"
+            {
+                "skill": "seo",
+                "duration": 2592000000
+            },
+            {
+                "skill": "content marketing",
+                "duration": 31536000000
+            },
+            {
+                "skill": "social media management",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -783,9 +988,18 @@
         "dateOfBirth": "1994-05-05",
         "gender": "male",
         "skills": [
-            "python",
-            "flask",
-            "sqlalchemy"
+            {
+                "skill": "python",
+                "duration": 31536000000
+            },
+            {
+                "skill": "flask",
+                "duration": 63072000000
+            },
+            {
+                "skill": "sqlalchemy",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -815,9 +1029,18 @@
         "dateOfBirth": "1999-03-15",
         "gender": "female",
         "skills": [
-            "react",
-            "node.js",
-            "graphql"
+            {
+                "skill": "react",
+                "duration": 2592000000
+            },
+            {
+                "skill": "node.js",
+                "duration": 31536000000
+            },
+            {
+                "skill": "graphql",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -847,9 +1070,18 @@
         "dateOfBirth": "1990-12-12",
         "gender": "male",
         "skills": [
-            "c++",
-            "algorithms",
-            "system design"
+            {
+                "skill": "c++",
+                "duration": 2592000000
+            },
+            {
+                "skill": "algorithms",
+                "duration": 31536000000
+            },
+            {
+                "skill": "system design",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {
@@ -879,9 +1111,18 @@
         "dateOfBirth": "1996-04-20",
         "gender": "female",
         "skills": [
-            "content writing",
-            "editing",
-            "copywriting"
+            {
+                "skill": "content writing",
+                "duration": 31536000000
+            },
+            {
+                "skill": "editing",
+                "duration": 63072000000
+            },
+            {
+                "skill": "copywriting",
+                "duration": 94608000000
+            }
         ],
         "experience": [
             {

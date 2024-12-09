@@ -11,5 +11,6 @@ const createStorage = (folder) => multer.diskStorage({
     filename: (_, file, cb) => cb(null, `${file.originalname}-${Date.now()}${path.extname(file.originalname)}`)
 });
 
-export const imageUpload = multer({ storage: createStorage('images') });
+export const expertImageUpload = multer({ storage: createStorage(config.paths.image.expert) });
+export const candidateImageUpload = multer({ storage: createStorage(config.paths.image.candidate) });
 export const resumeUpload = multer({ storage: createStorage(config.paths.resume.temporary) });

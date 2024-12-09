@@ -94,9 +94,13 @@ export const expertRegistrationSchema = z.object({
         .string({ required_error: 'Current department is required.' })
         .min(2, { message: 'Current department must be at least 2 characters long.' })
         .max(50, { message: 'Current department must be at most 50 characters long.' }),
-    skills: z
-        .array(z.string({ required_error: 'Skill is required.' }))
-        .min(1, { message: 'At least one skill is required.' }),
+    skills: z.array(
+        z.object({
+            skill: z.string({ required_error: 'Skill is required.' }).max(30, { message: 'Each skill must not exceed 30 characters.' }),
+            duration: z.number().optional(),
+        }),
+        { required_error: 'At least one skill is required.' }
+    ),
     bio: z
         .string()
         .max(500, { message: 'Bio must be at most 500 characters long.' })
@@ -287,8 +291,13 @@ export const candidateRegistrationSchema = z.object({
         invalid_type_error: "Invalid gender selection."
     }),
     dateOfBirth: z.string().date({ required_error: 'Date of birth is required.', invalid_type_error: 'Invalid date of birth.' }),
-    skills: z
-        .array(z.string().max(30, { message: 'Each skill must not exceed 30 characters.' }), { required_error: 'At least one skill is required.' }),
+    skills: z.array(
+        z.object({
+            skill: z.string({ required_error: 'Skill is required.' }).max(30, { message: 'Each skill must not exceed 30 characters.' }),
+            duration: z.number().optional(),
+        }),
+        { required_error: 'At least one skill is required.' }
+    ),
     bio: z
         .string({ required_error: 'Bio is required.' })
         .max(500, { message: 'Bio must not exceed 500 characters.' })
@@ -451,17 +460,17 @@ export const subjectRegistrationSchema = z.object({
         .trim()
         .min(3, { message: 'Title must be at least 3 characters long.' })
         .max(50, { message: 'Title must be at most 50 characters long.' }),
-    
+
     description: z.string({ required_error: 'Description is required.', invalid_type_error: 'Invalid description.' })
         .trim()
         .min(10, { message: 'Description must be at least 10 characters long.' })
         .max(500, { message: 'Description must be at most 500 characters long.' }),
-    
+
     department: z.string({ required_error: 'Department is required.', invalid_type_error: 'Invalid department.' })
         .trim()
         .min(3, { message: 'Department must be at least 3 characters long.' })
         .max(50, { message: 'Department must be at most 50 characters long.' }),
-    
+
     type: z.preprocess(
         (val) => (typeof val === "string" ? val.trim().toLowerCase() : val),
         z.enum(["full-time", "part-time", "research", "teaching", "project", "scholarship", "internship", "fellowship", "consultancy", "others"], {
@@ -470,7 +479,7 @@ export const subjectRegistrationSchema = z.object({
                 "Type must be either 'full-time', 'part-time', 'research', 'teaching', 'project', 'scholarship', 'internship', 'fellowship', or 'others'.",
         })
     ),
-    
+
     locationType: z.preprocess(
         (val) => (typeof val === "string" ? val.trim().toLowerCase() : val),
         z.enum(["remote", "onsite", "hybrid"], {
@@ -478,14 +487,17 @@ export const subjectRegistrationSchema = z.object({
             invalid_type_error: "Location type must be either 'remote', 'onsite', or 'hybrid'.",
         })
     ),
-    
+
     location: z.string().optional(),
     duration: z.string().optional(),
-    
+
     recommendedSkills: z.array(
-        z.string({ required_error: 'Skill is required.', invalid_type_error: 'Invalid skill type.' })
-            .max(40, { message: 'Each skill must be at most 40 characters long.' })
-    ).min(1, { message: 'At least one skill is required.' }),
+        z.object({
+            skill: z.string({ required_error: 'Skill is required.', invalid_type_error: 'Invalid skill type.' })
+                .max(40, { message: 'Skill must be at most 40 characters long.' }),
+            description: z.string().optional()
+        })
+    ).min(1, { message: 'At least one skill is required.' })
 });
 
 export const subjectUpdateSchema = z.object({

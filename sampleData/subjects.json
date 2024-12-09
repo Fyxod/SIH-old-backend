@@ -8,12 +8,26 @@
         "location": "New Delhi, India",
         "duration": "6 months",
         "recommendedSkills": [
-            "React",
-            "JavaScript",
-            "CSS",
-            "HTML",
-            "Redux",
-            "TypeScript"
+            {
+                "skill": "React",
+                "description": "React is a JavaScript library for building user interfaces."
+            },
+            {
+                "skill": "JavaScript",
+                "description": "JavaScript is a programming language that enables interactive web pages."
+            },
+            {
+                "skill": "CSS",
+                "description": "CSS is a style sheet language used for describing the presentation of a document written in HTML."
+            },
+            {
+                "skill": "HTML",
+                "description": "HTML is a markup language used for creating web pages."
+            },
+            {
+                "skill": "UI/UX Design",
+                "description": "UI/UX Design focuses on user experience and interface design."
+            }
         ]
     },
     {
@@ -25,12 +39,30 @@
         "location": "Mumbai, Maharashtra",
         "duration": "12 months",
         "recommendedSkills": [
-            "Python",
-            "pandas",
-            "scikit-learn",
-            "TensorFlow",
-            "SQL",
-            "Data Visualization"
+            {
+                "skill": "Python",
+                "description": "Python is a programming language that lets you work quickly and integrate systems more effectively."
+            },
+            {
+                "skill": "pandas",
+                "description": "pandas is a fast, powerful, flexible, and easy-to-use open-source data analysis and data manipulation library built on top of the Python programming language."
+            },
+            {
+                "skill": "scikit-learn",
+                "description": "scikit-learn is a free software machine learning library for the Python programming language."
+            },
+            {
+                "skill": "TensorFlow",
+                "description": "TensorFlow is an end-to-end open-source platform for machine learning."
+            },
+            {
+                "skill": "SQL",
+                "description": "SQL is a domain-specific language used in programming and designed for managing data held in a relational database management system."
+            },
+            {
+                "skill": "Data Visualization",
+                "description": "Data Visualization is the graphical representation of information and data."
+            }
         ]
     },
     {
@@ -40,13 +72,32 @@
         "type": "Internship",
         "locationType": "hybrid",
         "location": "Bengaluru, Karnataka",
+        "duration": "6 months",
         "recommendedSkills": [
-            "Java",
-            "Sping",
-            "Springboot",
-            "kafka",
-            "Docker",
-            "AWS"
+            {
+                "skill": "Java",
+                "description": "Java is a high-level, class-based, object-oriented programming language."
+            },
+            {
+                "skill": "Spring",
+                "description": "Spring is a comprehensive framework for enterprise Java development."
+            },
+            {
+                "skill": "Springboot",
+                "description": "Spring Boot is an extension of the Spring framework that simplifies the setup of new Spring applications."
+            },
+            {
+                "skill": "Kafka",
+                "description": "Kafka is a distributed event streaming platform capable of handling trillions of events a day."
+            },
+            {
+                "skill": "Docker",
+                "description": "Docker is a set of platform-as-a-service products that use OS-level virtualization to deliver software in packages called containers."
+            },
+            {
+                "skill": "AWS",
+                "description": "Amazon Web Services (AWS) is a comprehensive and widely adopted cloud platform."
+            }
         ]
     },
     {
@@ -58,12 +109,30 @@
         "location": "Chennai, Tamil Nadu",
         "duration": "4 months",
         "recommendedSkills": [
-            "CI/CD",
-            "Docker",
-            "Kubernetes",
-            "AWS",
-            "Terraform",
-            "Shell Scripting"
+            {
+                "skill": "CI/CD",
+                "description": "CI/CD is a method to frequently deliver apps to customers by introducing automation into the stages of app development."
+            },
+            {
+                "skill": "Docker",
+                "description": "Docker is a set of platform-as-a-service products that use OS-level virtualization to deliver software in packages called containers."
+            },
+            {
+                "skill": "Kubernetes",
+                "description": "Kubernetes is an open-source system for automating the deployment, scaling, and management of containerized applications."
+            },
+            {
+                "skill": "AWS",
+                "description": "Amazon Web Services (AWS) is a comprehensive and widely adopted cloud platform."
+            },
+            {
+                "skill": "Terraform",
+                "description": "Terraform is an open-source infrastructure as code software tool that provides a consistent CLI workflow to manage hundreds of cloud services."
+            },
+            {
+                "skill": "Shell Scripting",
+                "description": "Shell scripting is writing a series of command for the shell to execute."
+            }
         ]
     },
     {
@@ -72,13 +141,33 @@
         "department": "Ministry of Home Affairs",
         "type": "full-time",
         "locationType": "remote",
+        "location": "Remote",
+        "duration": "permanent",
         "recommendedSkills": [
-            "Firewalls",
-            "SIEM",
-            "Penetration Testing",
-            "Incident Response",
-            "Networking",
-            "Encryption"
+            {
+                "skill": "Firewalls",
+                "description": "Firewalls are network security systems that monitor and control incoming and outgoing network traffic."
+            },
+            {
+                "skill": "SIEM",
+                "description": "Security Information and Event Management (SIEM) provides real-time analysis of security alerts generated by applications and network hardware."
+            },
+            {
+                "skill": "Penetration Testing",
+                "description": "Penetration Testing is a simulated cyber attack against your computer system to check for exploitable vulnerabilities."
+            },
+            {
+                "skill": "Incident Response",
+                "description": "Incident Response is an organized approach to addressing and managing the aftermath of a security breach or cyberattack."
+            },
+            {
+                "skill": "Networking",
+                "description": "Networking involves connecting computers and other devices to share resources and information."
+            },
+            {
+                "skill": "Encryption",
+                "description": "Encryption is the process of converting information or data into a code to prevent unauthorized access."
+            }
         ]
     },
     {
@@ -90,12 +179,30 @@
         "location": "Bangalore, Karnataka",
         "duration": "2 years",
         "recommendedSkills": [
-            "Artificial Intelligence",
-            "Python",
-            "Deep Learning",
-            "Bioinformatics",
-            "R",
-            "Data Analysis"
+            {
+                "skill": "Artificial Intelligence",
+                "description": "Artificial Intelligence involves the simulation of human intelligence in machines."
+            },
+            {
+                "skill": "Python",
+                "description": "Python is a programming language that lets you work quickly and integrate systems more effectively."
+            },
+            {
+                "skill": "Deep Learning",
+                "description": "Deep Learning is a subset of machine learning involving neural networks with many layers."
+            },
+            {
+                "skill": "Bioinformatics",
+                "description": "Bioinformatics is an interdisciplinary field that develops methods and software tools for understanding biological data."
+            },
+            {
+                "skill": "R",
+                "description": "R is a programming language and free software environment for statistical computing and graphics."
+            },
+            {
+                "skill": "Data Analysis",
+                "description": "Data Analysis involves inspecting, cleansing, transforming, and modeling data to discover useful information."
+            }
         ]
     },
     {
@@ -106,11 +213,26 @@
         "locationType": "remote",
         "duration": "3 months",
         "recommendedSkills": [
-            "Content Writing",
-            "SEO",
-            "Copywriting",
-            "WordPress",
-            "Social Media Marketing"
+            {
+                "skill": "Content Writing",
+                "description": "Content Writing involves creating engaging and informative articles, blog posts, and other written materials."
+            },
+            {
+                "skill": "SEO",
+                "description": "SEO (Search Engine Optimization) is the practice of optimizing content to rank higher in search engine results."
+            },
+            {
+                "skill": "Copywriting",
+                "description": "Copywriting is the art of writing persuasive and compelling text for marketing and advertising purposes."
+            },
+            {
+                "skill": "WordPress",
+                "description": "WordPress is a popular content management system (CMS) used for creating and managing websites."
+            },
+            {
+                "skill": "Social Media Marketing",
+                "description": "Social Media Marketing involves promoting content and engaging with audiences on social media platforms."
+            }
         ]
     },
     {
@@ -122,12 +244,30 @@
         "location": "Pune, Maharashtra",
         "duration": "18 months",
         "recommendedSkills": [
-            "Machine Learning",
-            "Deep Learning",
-            "Python",
-            "TensorFlow",
-            "NLP",
-            "Cloud Computing"
+            {
+                "skill": "Machine Learning",
+                "description": "Machine Learning involves the use of algorithms and statistical models to enable computers to perform tasks without explicit instructions."
+            },
+            {
+                "skill": "Deep Learning",
+                "description": "Deep Learning is a subset of machine learning involving neural networks with many layers."
+            },
+            {
+                "skill": "Python",
+                "description": "Python is a programming language that lets you work quickly and integrate systems more effectively."
+            },
+            {
+                "skill": "TensorFlow",
+                "description": "TensorFlow is an end-to-end open-source platform for machine learning."
+            },
+            {
+                "skill": "NLP",
+                "description": "Natural Language Processing (NLP) is a field of AI that gives machines the ability to read, understand, and derive meaning from human languages."
+            },
+            {
+                "skill": "Cloud Computing",
+                "description": "Cloud Computing involves delivering computing services over the internet, including storage, processing, and networking."
+            }
         ]
     },
     {
@@ -137,13 +277,32 @@
         "type": "full-time",
         "locationType": "onsite",
         "location": "Kolkata, West Bengal",
+        "duration": "permanent",
         "recommendedSkills": [
-            "SQL",
-            "NoSQL",
-            "Database Optimization",
-            "Backup and Recovery",
-            "PostgreSQL",
-            "MongoDB"
+            {
+                "skill": "SQL",
+                "description": "SQL is a domain-specific language used in programming and designed for managing data held in a relational database management system."
+            },
+            {
+                "skill": "NoSQL",
+                "description": "NoSQL databases provide a mechanism for storage and retrieval of data that is modeled in means other than the tabular relations used in relational databases."
+            },
+            {
+                "skill": "Database Optimization",
+                "description": "Database Optimization involves techniques to improve the performance of a database system."
+            },
+            {
+                "skill": "Backup and Recovery",
+                "description": "Backup and Recovery are processes to ensure data is saved and can be restored in case of data loss."
+            },
+            {
+                "skill": "PostgreSQL",
+                "description": "PostgreSQL is a powerful, open-source object-relational database system."
+            },
+            {
+                "skill": "MongoDB",
+                "description": "MongoDB is a source-available cross-platform document-oriented database program."
+            }
         ]
     },
     {
@@ -155,11 +314,26 @@
         "location": "Hyderabad, Telangana",
         "duration": "9 months",
         "recommendedSkills": [
-            "AutoCAD",
-            "SolidWorks",
-            "Finite Element Analysis",
-            "Prototyping",
-            "Material Science"
+            {
+                "skill": "AutoCAD",
+                "description": "AutoCAD is a computer-aided design (CAD) software used for creating precise 2D and 3D drawings."
+            },
+            {
+                "skill": "SolidWorks",
+                "description": "SolidWorks is a solid modeling CAD and CAE software program."
+            },
+            {
+                "skill": "Finite Element Analysis",
+                "description": "Finite Element Analysis (FEA) is a computerized method for predicting how a product reacts to real-world forces, vibration, heat, and other physical effects."
+            },
+            {
+                "skill": "Prototyping",
+                "description": "Prototyping is the process of creating an early sample or model of a product to test a concept or process."
+            },
+            {
+                "skill": "Material Science",
+                "description": "Material Science involves the study of the properties and applications of materials of construction or manufacture."
+            }
         ]
     },
     {
@@ -170,12 +344,30 @@
         "locationType": "remote",
         "duration": "6 months",
         "recommendedSkills": [
-            "AWS",
-            "Azure",
-            "Cloud Security",
-            "DevOps",
-            "Microservices",
-            "Networking"
+            {
+                "skill": "AWS",
+                "description": "Amazon Web Services (AWS) is a comprehensive and widely adopted cloud platform."
+            },
+            {
+                "skill": "Azure",
+                "description": "Microsoft Azure is a cloud computing service for building, testing, deploying, and managing applications and services."
+            },
+            {
+                "skill": "Cloud Security",
+                "description": "Cloud Security involves protecting data, applications, and infrastructures involved in cloud computing."
+            },
+            {
+                "skill": "DevOps",
+                "description": "DevOps is a set of practices that combines software development and IT operations."
+            },
+            {
+                "skill": "Microservices",
+                "description": "Microservices is an architectural style that structures an application as a collection of loosely coupled services."
+            },
+            {
+                "skill": "Networking",
+                "description": "Networking involves connecting computers and other devices to share resources and information."
+            }
         ]
     },
     {
@@ -186,12 +378,30 @@
         "locationType": "remote",
         "duration": "3 months",
         "recommendedSkills": [
-            "Adobe Photoshop",
-            "Illustrator",
-            "InDesign",
-            "UI/UX Design",
-            "Creativity",
-            "Typography"
+            {
+                "skill": "Adobe Photoshop",
+                "description": "Adobe Photoshop is a raster graphics editor developed and published by Adobe Inc."
+            },
+            {
+                "skill": "Illustrator",
+                "description": "Adobe Illustrator is a vector graphics editor and design program developed and marketed by Adobe Inc."
+            },
+            {
+                "skill": "InDesign",
+                "description": "Adobe InDesign is a desktop publishing and page layout designing software application produced by Adobe Inc."
+            },
+            {
+                "skill": "UI/UX Design",
+                "description": "UI/UX Design focuses on user experience and interface design."
+            },
+            {
+                "skill": "Creativity",
+                "description": "Creativity involves the use of imagination or original ideas to create something."
+            },
+            {
+                "skill": "Typography",
+                "description": "Typography is the art and technique of arranging type to make written language legible, readable, and appealing when displayed."
+            }
         ]
     },
     {
@@ -203,11 +413,26 @@
         "location": "Jaipur, Rajasthan",
         "duration": "1 year",
         "recommendedSkills": [
-            "Renewable Energy",
-            "Project Management",
-            "Energy Modeling",
-            "Sustainability Analysis",
-            "Stakeholder Engagement"
+            {
+                "skill": "Renewable Energy",
+                "description": "Renewable Energy involves the generation of energy from natural resources such as sunlight, wind, and water."
+            },
+            {
+                "skill": "Project Management",
+                "description": "Project Management involves planning, executing, and overseeing projects to achieve specific goals within constraints."
+            },
+            {
+                "skill": "Energy Modeling",
+                "description": "Energy Modeling is the process of creating computer models to simulate the performance of energy systems."
+            },
+            {
+                "skill": "Sustainability Analysis",
+                "description": "Sustainability Analysis evaluates the environmental, social, and economic impacts of projects and practices."
+            },
+            {
+                "skill": "Stakeholder Engagement",
+                "description": "Stakeholder Engagement involves interacting with and gaining support from individuals or groups affected by a project."
+            }
         ]
     },
     {
@@ -219,11 +444,26 @@
         "location": "Lucknow, Uttar Pradesh",
         "duration": "2 years",
         "recommendedSkills": [
-            "Biomedical Engineering",
-            "Equipment Maintenance",
-            "Data Analysis",
-            "Regulatory Compliance",
-            "Prototyping"
+            {
+                "skill": "Biomedical Engineering",
+                "description": "Biomedical Engineering involves the application of engineering principles to the fields of biology and healthcare."
+            },
+            {
+                "skill": "Equipment Maintenance",
+                "description": "Equipment Maintenance involves the regular inspection and servicing of equipment to ensure it operates correctly."
+            },
+            {
+                "skill": "Data Analysis",
+                "description": "Data Analysis involves inspecting, cleansing, transforming, and modeling data to discover useful information."
+            },
+            {
+                "skill": "Regulatory Compliance",
+                "description": "Regulatory Compliance involves adhering to laws, regulations, guidelines, and specifications relevant to business processes."
+            },
+            {
+                "skill": "Prototyping",
+                "description": "Prototyping is the process of creating an early sample or model of a product to test a concept or process."
+            }
         ]
     },
     {
@@ -234,12 +474,30 @@
         "locationType": "remote",
         "duration": "permanent",
         "recommendedSkills": [
-            "User Experience Design",
-            "User Interface Design",
-            "Wireframing",
-            "Prototyping",
-            "Usability Testing",
-            "Adobe XD"
+            {
+                "skill": "User Experience Design",
+                "description": "User Experience Design focuses on the overall feel of the product and ensuring a positive user experience."
+            },
+            {
+                "skill": "User Interface Design",
+                "description": "User Interface Design involves designing the visual layout and interactive elements of a product."
+            },
+            {
+                "skill": "Wireframing",
+                "description": "Wireframing is the process of creating a blueprint or skeletal outline of a user interface."
+            },
+            {
+                "skill": "Prototyping",
+                "description": "Prototyping is the process of creating an early sample or model of a product to test a concept or process."
+            },
+            {
+                "skill": "Usability Testing",
+                "description": "Usability Testing involves evaluating a product by testing it with real users to identify any usability issues."
+            },
+            {
+                "skill": "Adobe XD",
+                "description": "Adobe XD is a vector-based user experience design tool for web apps and mobile apps."
+            }
         ]
     },
     {
@@ -250,11 +508,26 @@
         "locationType": "remote",
         "duration": "1 year",
         "recommendedSkills": [
-            "Python",
-            "Scikit-learn",
-            "TensorFlow",
-            "Data Visualization",
-            "ML Ops"
+            {
+                "skill": "Python",
+                "description": "Python is a programming language that lets you work quickly and integrate systems more effectively."
+            },
+            {
+                "skill": "Scikit-learn",
+                "description": "Scikit-learn is a free software machine learning library for the Python programming language."
+            },
+            {
+                "skill": "TensorFlow",
+                "description": "TensorFlow is an end-to-end open-source platform for machine learning."
+            },
+            {
+                "skill": "Data Visualization",
+                "description": "Data Visualization is the graphical representation of information and data."
+            },
+            {
+                "skill": "ML Ops",
+                "description": "ML Ops is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently."
+            }
         ]
     },
     {
@@ -266,11 +539,26 @@
         "location": "Ahmedabad, Gujarat",
         "duration": "6 months",
         "recommendedSkills": [
-            "Circuit Design",
-            "MATLAB",
-            "Power Systems",
-            "Embedded Systems",
-            "Renewable Energy"
+            {
+                "skill": "Circuit Design",
+                "description": "Circuit Design involves creating electrical circuits to perform specific functions."
+            },
+            {
+                "skill": "MATLAB",
+                "description": "MATLAB is a programming platform designed for engineers and scientists."
+            },
+            {
+                "skill": "Power Systems",
+                "description": "Power Systems involve the generation, transmission, and distribution of electricity."
+            },
+            {
+                "skill": "Embedded Systems",
+                "description": "Embedded Systems are computer systems with a dedicated function within a larger mechanical or electrical system."
+            },
+            {
+                "skill": "Renewable Energy",
+                "description": "Renewable Energy involves the generation of energy from natural resources such as sunlight, wind, and water."
+            }
         ]
     },
     {
@@ -282,11 +570,26 @@
         "location": "Bangalore, Karnataka",
         "duration": "9 months",
         "recommendedSkills": [
-            "Unity",
-            "Unreal Engine",
-            "C#",
-            "Game AI",
-            "3D Modeling"
+            {
+                "skill": "Unity",
+                "description": "Unity is a cross-platform game engine used to develop video games for PC, consoles, mobile devices, and websites."
+            },
+            {
+                "skill": "Unreal Engine",
+                "description": "Unreal Engine is a game engine developed by Epic Games, known for its high-quality graphics and performance."
+            },
+            {
+                "skill": "C#",
+                "description": "C# is a programming language developed by Microsoft that is widely used for developing games in Unity."
+            },
+            {
+                "skill": "Game AI",
+                "description": "Game AI involves creating intelligent behaviors and decision-making processes for non-player characters in games."
+            },
+            {
+                "skill": "3D Modeling",
+                "description": "3D Modeling is the process of creating a mathematical representation of a three-dimensional object using specialized software."
+            }
         ]
     },
     {
@@ -298,10 +601,22 @@
         "location": "Delhi, India",
         "duration": "2 years",
         "recommendedSkills": [
-            "AutoCAD",
-            "Structural Analysis",
-            "Project Management",
-            "Construction Materials"
+            {
+                "skill": "AutoCAD",
+                "description": "AutoCAD is a computer-aided design (CAD) software used for creating precise 2D and 3D drawings."
+            },
+            {
+                "skill": "Structural Analysis",
+                "description": "Structural Analysis involves determining the effects of loads on physical structures and their components."
+            },
+            {
+                "skill": "Project Management",
+                "description": "Project Management involves planning, executing, and overseeing projects to achieve specific goals within constraints."
+            },
+            {
+                "skill": "Construction Materials",
+                "description": "Construction Materials are the materials used in the construction of buildings, roads, and other infrastructure."
+            }
         ]
     },
     {
@@ -312,11 +627,26 @@
         "locationType": "remote",
         "duration": "4 months",
         "recommendedSkills": [
-            "Technical Writing",
-            "Markdown",
-            "API Documentation",
-            "SEO",
-            "Git"
+            {
+                "skill": "Technical Writing",
+                "description": "Technical Writing involves creating comprehensive documentation for software solutions."
+            },
+            {
+                "skill": "Markdown",
+                "description": "Markdown is a lightweight markup language for creating formatted text using a plain-text editor."
+            },
+            {
+                "skill": "API Documentation",
+                "description": "API Documentation involves writing detailed guides and references for using APIs."
+            },
+            {
+                "skill": "SEO",
+                "description": "SEO (Search Engine Optimization) is the practice of optimizing content to rank higher in search engine results."
+            },
+            {
+                "skill": "Git",
+                "description": "Git is a distributed version control system for tracking changes in source code during software development."
+            }
         ]
     },
     {
@@ -327,11 +657,26 @@
         "locationType": "remote",
         "duration": "5 months",
         "recommendedSkills": [
-            "Figma",
-            "Adobe XD",
-            "User Research",
-            "Prototyping",
-            "Interaction Design"
+            {
+                "skill": "Figma",
+                "description": "Figma is a web-based UI/UX design tool for creating user interfaces and prototypes."
+            },
+            {
+                "skill": "Adobe XD",
+                "description": "Adobe XD is a vector-based user experience design tool for web apps and mobile apps."
+            },
+            {
+                "skill": "User Research",
+                "description": "User Research involves understanding user behaviors, needs, and motivations through observation techniques, task analysis, and other feedback methodologies."
+            },
+            {
+                "skill": "Prototyping",
+                "description": "Prototyping is the process of creating an early sample or model of a product to test a concept or process."
+            },
+            {
+                "skill": "Interaction Design",
+                "description": "Interaction Design focuses on creating engaging interfaces with well-thought-out behaviors."
+            }
         ]
     },
     {
@@ -343,11 +688,26 @@
         "location": "Pune, Maharashtra",
         "duration": "3 years",
         "recommendedSkills": [
-            "ROS",
-            "Python",
-            "C++",
-            "Sensor Integration",
-            "Mechanical Design"
+            {
+                "skill": "ROS",
+                "description": "ROS (Robot Operating System) is a flexible framework for writing robot software."
+            },
+            {
+                "skill": "Python",
+                "description": "Python is a programming language that lets you work quickly and integrate systems more effectively."
+            },
+            {
+                "skill": "C++",
+                "description": "C++ is a general-purpose programming language created as an extension of the C programming language."
+            },
+            {
+                "skill": "Sensor Integration",
+                "description": "Sensor Integration involves combining data from multiple sensors to improve the accuracy and reliability of information."
+            },
+            {
+                "skill": "Mechanical Design",
+                "description": "Mechanical Design involves creating and developing mechanical systems and components."
+            }
         ]
     },
     {
@@ -359,11 +719,26 @@
         "location": "Mumbai, Maharashtra",
         "duration": "8 months",
         "recommendedSkills": [
-            "Marketing Strategy",
-            "Google Analytics",
-            "Content Marketing",
-            "CRM Tools",
-            "SEO"
+            {
+                "skill": "Marketing Strategy",
+                "description": "Marketing Strategy involves planning and executing marketing campaigns to achieve business goals."
+            },
+            {
+                "skill": "Google Analytics",
+                "description": "Google Analytics is a web analytics service that tracks and reports website traffic."
+            },
+            {
+                "skill": "Content Marketing",
+                "description": "Content Marketing involves creating and sharing valuable content to attract and engage a target audience."
+            },
+            {
+                "skill": "CRM Tools",
+                "description": "CRM Tools are software applications used to manage customer relationships and interactions."
+            },
+            {
+                "skill": "SEO",
+                "description": "SEO (Search Engine Optimization) is the practice of optimizing content to rank higher in search engine results."
+            }
         ]
     },
     {
@@ -375,11 +750,26 @@
         "location": "Lucknow, Uttar Pradesh",
         "duration": "2 years",
         "recommendedSkills": [
-            "Biotechnology",
-            "Genetics",
-            "Laboratory Skills",
-            "Data Analysis",
-            "Bioinformatics"
+            {
+                "skill": "Biotechnology",
+                "description": "Biotechnology involves the use of living systems and organisms to develop or make products."
+            },
+            {
+                "skill": "Genetics",
+                "description": "Genetics is the study of genes, genetic variation, and heredity in living organisms."
+            },
+            {
+                "skill": "Laboratory Skills",
+                "description": "Laboratory Skills involve the ability to perform experiments and procedures in a lab setting."
+            },
+            {
+                "skill": "Data Analysis",
+                "description": "Data Analysis involves inspecting, cleansing, transforming, and modeling data to discover useful information."
+            },
+            {
+                "skill": "Bioinformatics",
+                "description": "Bioinformatics is an interdisciplinary field that develops methods and software tools for understanding biological data."
+            }
         ]
     },
     {
@@ -391,11 +781,26 @@
         "location": "Hyderabad, Telangana",
         "duration": "6 months",
         "recommendedSkills": [
-            "Test Automation",
-            "Selenium",
-            "Manual Testing",
-            "Bug Tracking",
-            "Performance Testing"
+            {
+                "skill": "Test Automation",
+                "description": "Test Automation involves using software tools to execute pre-scripted tests on a software application before it is released into production."
+            },
+            {
+                "skill": "Selenium",
+                "description": "Selenium is a portable framework for testing web applications."
+            },
+            {
+                "skill": "Manual Testing",
+                "description": "Manual Testing involves manually executing test cases without the use of automation tools."
+            },
+            {
+                "skill": "Bug Tracking",
+                "description": "Bug Tracking is the process of capturing, reporting, and managing data on bugs that occur in software."
+            },
+            {
+                "skill": "Performance Testing",
+                "description": "Performance Testing is the practice of determining the speed, responsiveness, and stability of a computer, network, software program, or device under a workload."
+            }
         ]
     },
     {
@@ -407,12 +812,30 @@
         "location": "Delhi, India",
         "duration": "3 years",
         "recommendedSkills": [
-            "Artificial Intelligence",
-            "Machine Learning",
-            "Deep Learning",
-            "NLP",
-            "Python",
-            "Research Methodologies"
+            {
+                "skill": "Artificial Intelligence",
+                "description": "Artificial Intelligence involves the simulation of human intelligence in machines."
+            },
+            {
+                "skill": "Machine Learning",
+                "description": "Machine Learning involves the use of algorithms and statistical models to enable computers to perform tasks without explicit instructions."
+            },
+            {
+                "skill": "Deep Learning",
+                "description": "Deep Learning is a subset of machine learning involving neural networks with many layers."
+            },
+            {
+                "skill": "NLP",
+                "description": "Natural Language Processing (NLP) is a field of AI that gives machines the ability to read, understand, and derive meaning from human languages."
+            },
+            {
+                "skill": "Python",
+                "description": "Python is a programming language that lets you work quickly and integrate systems more effectively."
+            },
+            {
+                "skill": "Research Methodologies",
+                "description": "Research Methodologies involve systematic approaches to conducting research and analyzing data."
+            }
         ]
     },
     {
@@ -422,11 +845,26 @@
         "type": "full-time",
         "locationType": "remote",
         "recommendedSkills": [
-            "Blockchain",
-            "Ethereum",
-            "Solidity",
-            "Cryptography",
-            "Decentralized Applications"
+            {
+                "skill": "Blockchain",
+                "description": "Blockchain is a decentralized digital ledger that records transactions across many computers."
+            },
+            {
+                "skill": "Ethereum",
+                "description": "Ethereum is a decentralized platform that enables smart contracts and decentralized applications (DApps) to be built and run without any downtime, fraud, control, or interference."
+            },
+            {
+                "skill": "Solidity",
+                "description": "Solidity is a contract-oriented programming language for writing smart contracts on various blockchain platforms, most notably, Ethereum."
+            },
+            {
+                "skill": "Cryptography",
+                "description": "Cryptography is the practice and study of techniques for securing communication and data in the presence of adversaries."
+            },
+            {
+                "skill": "Decentralized Applications",
+                "description": "Decentralized Applications (DApps) are applications that run on a decentralized network, such as a blockchain, rather than being hosted on centralized servers."
+            }
         ]
     },
     {
@@ -438,11 +876,26 @@
         "location": "Jaipur, Rajasthan",
         "duration": "1 year",
         "recommendedSkills": [
-            "Environmental Science",
-            "Project Management",
-            "Energy Modeling",
-            "Data Analysis",
-            "Sustainability"
+            {
+                "skill": "Environmental Science",
+                "description": "Environmental Science is the study of the environment and solutions to environmental problems."
+            },
+            {
+                "skill": "Project Management",
+                "description": "Project Management involves planning, executing, and overseeing projects to achieve specific goals within constraints."
+            },
+            {
+                "skill": "Energy Modeling",
+                "description": "Energy Modeling is the process of creating computer models to simulate the performance of energy systems."
+            },
+            {
+                "skill": "Data Analysis",
+                "description": "Data Analysis involves inspecting, cleansing, transforming, and modeling data to discover useful information."
+            },
+            {
+                "skill": "Sustainability",
+                "description": "Sustainability involves meeting the needs of the present without compromising the ability of future generations to meet their own needs."
+            }
         ]
     },
     {
@@ -453,12 +906,30 @@
         "locationType": "remote",
         "duration": "6 months",
         "recommendedSkills": [
-            "Android",
-            "Java",
-            "Kotlin",
-            "UI/UX",
-            "Firebase",
-            "REST APIs"
+            {
+                "skill": "Android",
+                "description": "Android is an open-source operating system used for smartphones and tablet computers."
+            },
+            {
+                "skill": "Java",
+                "description": "Java is a high-level, class-based, object-oriented programming language."
+            },
+            {
+                "skill": "Kotlin",
+                "description": "Kotlin is a cross-platform, statically typed, general-purpose programming language with type inference."
+            },
+            {
+                "skill": "UI/UX",
+                "description": "UI/UX Design focuses on user experience and interface design."
+            },
+            {
+                "skill": "Firebase",
+                "description": "Firebase is a platform developed by Google for creating mobile and web applications."
+            },
+            {
+                "skill": "REST APIs",
+                "description": "REST APIs are a set of rules that allow programs to talk to each other using HTTP requests."
+            }
         ]
     },
     {
@@ -470,12 +941,30 @@
         "location": "Bangalore, Karnataka",
         "duration": "1 year",
         "recommendedSkills": [
-            "Big Data",
-            "ETL",
-            "Spark",
-            "Hadoop",
-            "SQL",
-            "Python"
+            {
+                "skill": "Big Data",
+                "description": "Big Data involves processing and analyzing large datasets to uncover patterns and insights."
+            },
+            {
+                "skill": "ETL",
+                "description": "ETL (Extract, Transform, Load) is a process in data warehousing responsible for pulling data out of source systems and placing it into a data warehouse."
+            },
+            {
+                "skill": "Spark",
+                "description": "Apache Spark is an open-source unified analytics engine for large-scale data processing."
+            },
+            {
+                "skill": "Hadoop",
+                "description": "Hadoop is an open-source framework that allows for the distributed processing of large data sets across clusters of computers."
+            },
+            {
+                "skill": "SQL",
+                "description": "SQL is a domain-specific language used in programming and designed for managing data held in a relational database management system."
+            },
+            {
+                "skill": "Python",
+                "description": "Python is a programming language that lets you work quickly and integrate systems more effectively."
+            }
         ]
     },
     {
@@ -487,12 +976,30 @@
         "location": "Hyderabad, Telangana",
         "duration": "2 years",
         "recommendedSkills": [
-            "AWS",
-            "Azure",
-            "Cloud Security",
-            "DevOps",
-            "Docker",
-            "Kubernetes"
+            {
+                "skill": "AWS",
+                "description": "Amazon Web Services (AWS) is a comprehensive and widely adopted cloud platform."
+            },
+            {
+                "skill": "Azure",
+                "description": "Microsoft Azure is a cloud computing service for building, testing, deploying, and managing applications and services."
+            },
+            {
+                "skill": "Cloud Security",
+                "description": "Cloud Security involves protecting data, applications, and infrastructures involved in cloud computing."
+            },
+            {
+                "skill": "DevOps",
+                "description": "DevOps is a set of practices that combines software development and IT operations."
+            },
+            {
+                "skill": "Docker",
+                "description": "Docker is a set of platform-as-a-service products that use OS-level virtualization to deliver software in packages called containers."
+            },
+            {
+                "skill": "Kubernetes",
+                "description": "Kubernetes is an open-source system for automating the deployment, scaling, and management of containerized applications."
+            }
         ]
     },
     {
@@ -502,12 +1009,28 @@
         "type": "full-time",
         "locationType": "hybrid",
         "location": "Mumbai, Maharashtra",
+        "duration": "permanent",
         "recommendedSkills": [
-            "Product Management",
-            "Agile Methodology",
-            "Market Research",
-            "UI/UX",
-            "Roadmap Planning"
+            {
+                "skill": "Product Management",
+                "description": "Product Management involves overseeing the development and launch of products."
+            },
+            {
+                "skill": "Agile Methodology",
+                "description": "Agile Methodology is an iterative approach to project management and software development."
+            },
+            {
+                "skill": "Market Research",
+                "description": "Market Research involves gathering, analyzing, and interpreting information about a market."
+            },
+            {
+                "skill": "UI/UX",
+                "description": "UI/UX Design focuses on user experience and interface design."
+            },
+            {
+                "skill": "Roadmap Planning",
+                "description": "Roadmap Planning involves creating a strategic plan that defines a goal or desired outcome."
+            }
         ]
     },
     {
@@ -519,11 +1042,26 @@
         "location": "Kolkata, West Bengal",
         "duration": "3 years",
         "recommendedSkills": [
-            "Economic Modeling",
-            "Data Analysis",
-            "Policy Analysis",
-            "Market Research",
-            "Statistical Tools"
+            {
+                "skill": "Economic Modeling",
+                "description": "Economic Modeling involves creating abstract representations of economic processes."
+            },
+            {
+                "skill": "Data Analysis",
+                "description": "Data Analysis involves inspecting, cleansing, transforming, and modeling data to discover useful information."
+            },
+            {
+                "skill": "Policy Analysis",
+                "description": "Policy Analysis involves evaluating and comparing public policies to provide recommendations."
+            },
+            {
+                "skill": "Market Research",
+                "description": "Market Research involves gathering, analyzing, and interpreting information about a market."
+            },
+            {
+                "skill": "Statistical Tools",
+                "description": "Statistical Tools are software and methodologies used for analyzing and interpreting data."
+            }
         ]
     },
     {
@@ -534,12 +1072,30 @@
         "locationType": "remote",
         "duration": "8 months",
         "recommendedSkills": [
-            "React",
-            "Node.js",
-            "MongoDB",
-            "Express",
-            "JavaScript",
-            "API Development"
+            {
+                "skill": "React",
+                "description": "React is a JavaScript library for building user interfaces."
+            },
+            {
+                "skill": "Node.js",
+                "description": "Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine."
+            },
+            {
+                "skill": "MongoDB",
+                "description": "MongoDB is a source-available cross-platform document-oriented database program."
+            },
+            {
+                "skill": "Express",
+                "description": "Express is a minimal and flexible Node.js web application framework."
+            },
+            {
+                "skill": "JavaScript",
+                "description": "JavaScript is a programming language that enables interactive web pages."
+            },
+            {
+                "skill": "API Development",
+                "description": "API Development involves creating and maintaining application programming interfaces."
+            }
         ]
     },
     {
@@ -551,11 +1107,26 @@
         "location": "Chennai, Tamil Nadu",
         "duration": "9 months",
         "recommendedSkills": [
-            "AI Ethics",
-            "Policy Development",
-            "Data Privacy",
-            "Bias Detection",
-            "Stakeholder Engagement"
+            {
+                "skill": "AI Ethics",
+                "description": "AI Ethics involves evaluating AI systems for fairness, accountability, and transparency."
+            },
+            {
+                "skill": "Policy Development",
+                "description": "Policy Development involves creating policies to guide the development and deployment of AI systems."
+            },
+            {
+                "skill": "Data Privacy",
+                "description": "Data Privacy involves protecting personal data from unauthorized access and ensuring compliance with privacy laws."
+            },
+            {
+                "skill": "Bias Detection",
+                "description": "Bias Detection involves identifying and mitigating biases in AI algorithms and datasets."
+            },
+            {
+                "skill": "Stakeholder Engagement",
+                "description": "Stakeholder Engagement involves interacting with and gaining support from individuals or groups affected by AI systems."
+            }
         ]
     }
 ]

@@ -2,7 +2,7 @@ import express from 'express';
 import checkAuth from '../middlewares/authMiddleware.js';
 import Expert from '../models/expert.js';
 import { safeHandler } from '../middlewares/safeHandler.js';
-import { resumeUpload } from '../utils/multer.js';
+import { expertImageUpload, resumeUpload } from '../utils/multer.js';
 import ApiError from '../utils/errorClass.js';
 import bcrypt from 'bcrypt';
 import fs from 'fs';
@@ -33,7 +33,7 @@ router.route('/')
         }
         return res.success(200, "All experts successfully retrieved", { experts });
     }))
-    .post(checkAuth("admin"), safeHandler(async (req, res) => {
+    .post(checkAuth("admin"), expertImageUpload.single('image'), safeHandler(async (req, res) => {
         const fields = expertRegistrationSchema.parse(req.body);
         // { name, email, mobileNo, gender, bio, dateOfBirth, education, experience, currentPosition, currentDepartment, skills, linkedin, resumeToken }
         // will apply multer for image later
@@ -78,6 +78,15 @@ router.route('/')
             } catch (error) {
                 console.log("Error processing resume during registration", error);
             }
+        }
+
+        if(req.file){
+            fields.image = `${fields.name.split(' ')[0]}_image_${new Date().getTime()}${path.extname(req.file.originalname)}`;
+
+            const destinationFolder = path.join(__dirname, `../public/${config.paths.image.expert}`);
+            const newFilePath = path.join(destinationFolder, fields.image);
+            await fs.promises.mkdir(destinationFolder, { recursive: true });
+            await fs.promises.rename(req.file.path, newFilePath);
         }
 
         const password = `${fields.name.split(' ')[0].toUpperCase()}@${new Date(fields.dateOfBirth).getFullYear()}`;
