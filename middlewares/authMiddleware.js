@@ -4,17 +4,31 @@ import config from '../config/config.js';
 export default function checkAuth(role) { // role = minimum access level required (optional field)
     return (req, res, next) => {
         let token = null;
+
         if (req.headers['ismobile'] === "true" || req.headers['ismobile'] === true) {
+            console.log("in the first block");
             const authHeader = req.headers['authorization'];
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
                 return res.error(401, 'Missing or malformed token', 'UNAUTHORIZED');
             }
             token = authHeader.split(' ')[1];
         }
+
         else if (req.cookies?.userToken) {
+            console.log("in the second block");
             token = req.cookies?.userToken;
         }
+
+        else if (req.headers['authorization']) {
+            const authHeader = req.headers['authorization'];
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                return res.error(401, 'Missing or malformed token', 'UNAUTHORIZED');
+            }
+            token = authHeader.split(' ')[1];
+        }
+
         else if (req.headers.cookie) {
+            console.log("in the third block");
             try {
                 const userToken = req.headers?.cookie
                     .split('; ')
@@ -25,15 +39,8 @@ export default function checkAuth(role) { // role = minimum access level require
                 return res.error(401, 'Missing or malformed token', 'UNAUTHORIZED');
             }
         }
-        else if (req.headers['authorization']) {
-            const authHeader = req.headers['authorization'];
-            if (!authHeader || !authHeader.startsWith('Bearer ')) {
-                return res.error(401, 'Missing or malformed token', 'UNAUTHORIZED');
-            }
-            token = authHeader.split(' ')[1];
-        }
 
-        console.log("Token printing here: ",token);
+        console.log("Token printing here: ", token);
 
         const payload = verifyToken(token);
         if (!payload) {
