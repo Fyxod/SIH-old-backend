@@ -6,6 +6,8 @@ import ApiError from '../utils/errorClass.js';
 import FormData from 'form-data';
 import axios from 'axios';
 import { generateToken } from '../utils/jwtFuncs.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
 
@@ -15,38 +17,38 @@ router.get('/parse', resumeUpload.single("resume"), safeHandler(async (req, res)
     }
     console.log(req.file);
     const formData = new FormData();
-    formData.append("resume", fs.createReadStream(req.file.path));
-    let response; // temp
+    formData.append("file", fs.createReadStream(req.file.path));
     try {
-        // const response = await axios.post('https://some-link-ig/parse', formData, {
-        //     headers: {
-        //         ...formData.getHeaders(),
-        //     },
-        //     timeout: 6000
-        // });
-        // const data = response.data;
-        // const filteredData = Object.fromEntries(
-        //     Object.entries(data).filter(([_, value]) => value != null)
-        // );
+        const response = await axios.post(`${process.env.RESUME_PARSER_URL}/resume/beta`, formData, {
+            headers: {
+                ...formData.getHeaders(),
+                "X-API-Key": process.env.RESUME_PARSER_API_KEY
+            },
+            timeout: 6000
+        });
+        const data = response.data;
+        const filteredData = Object.fromEntries(
+            Object.entries(data).filter(([_, value]) => value != null)
+        );
 
-        // if(filteredData.mobile_number) {
-        //     filteredData.mobileNo = filteredData.mobile_number;
-        //     delete filteredData.mobile_number;
-        // }
-        // if(filteredData.email) {
-        //     filteredData.email = filteredData.email.toLowerCase();
-        // }
-        // if(filteredData.college_name) {
-        //     filteredData.institute = filteredData.college_name;
-        //     delete filteredData.college_name;
-        // }
-        // if(filteredData.company_name){
-        //     filteredData.currentDepartment = filteredData.company_name;
-        //     delete filteredData.company_name;
-        // }
+        if(filteredData.mobile_number) {
+            filteredData.mobileNo = filteredData.mobile_number;
+            delete filteredData.mobile_number;
+        }
+        if(filteredData.email) {
+            filteredData.email = filteredData.email.toLowerCase();
+        }
+        if(filteredData.college_name) {
+            filteredData.institute = filteredData.college_name;
+            delete filteredData.college_name;
+        }
+        if(filteredData.company_name){
+            filteredData.currentDepartment = filteredData.company_name;
+            delete filteredData.company_name;
+        }
         const resumeToken = generateToken({ name: response?.data.name || "testname", email: response?.data.email || "testemail@gmail.com", resumeName: req.file.filename });
         res.cookie("resumeToken", resumeToken, { httpOnly: true });
-        res.success(200, "Resume parsed successfully", { name: response?.data.name || "testname", email: response?.data.email || "testemail@gmail.com", skills: response?.data.skills || ["nodejs", "express", "react"], resumeToken });
+        res.success(200, "Resume parsed successfully", { name: response?.data.name || "testname", email: response?.data.email || "testemail@gmail.com", skills: response?.data.skills || ["nodejs", "express", "react"], mobileNo: response.data.skills, resumeToken });
     } catch (error) {
         console.error(error); // temp log
         if (error.code === 'ECONNABORTED') {
