@@ -118,6 +118,18 @@ const expertSchema = new mongoose.Schema({
         unique: true,
         sparse: true
     },
+    averageProfileScore: {
+        type: Number,
+        default: 4
+    },
+    averageRelevancyScore: {
+        type: Number,
+        default: 4
+    },
+    averageFeedbackScore: {
+        type: Number,
+        default: 4
+    }
 },
     {
         timestamps: true

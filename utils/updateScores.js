@@ -406,3 +406,59 @@ export async function calculateAllCandidatesScoresMultipleSubjects(subjectIds) {
 
     await Promise.all(subjectPromises);
 }
+
+export async function calculateAverageScoresSingleExpert(expertId){
+    const expert = await Expert.findById(expertId).populate('subjects');
+    if(!expert){
+        console.log(`Expert not found for id ${expertId} in calculateAverageScores`);
+        return;
+    }
+    const subjects = expert.subjects;
+    if(!subjects || subjects.length === 0){
+        console.log(`No subjects found for expert ${expertId} in calculateAverageScores`);
+        return;
+    }
+    let totalProfileScore = 0;
+    let totalRelevancyScore = 0;
+    subjects.forEach(subject => {
+        const expertData = subject.experts.find(exp => exp.id.equals(expertId));
+        totalProfileScore += expertData.profileScore;
+        totalRelevancyScore += expertData.relevancyScore;
+    });
+    const averageProfileScore = totalProfileScore / subjects.length;
+    const averageRelevancyScore = totalRelevancyScore / subjects.length;
+    expert.averageProfileScore = averageProfileScore;
+    expert.averageRelevancyScore = averageRelevancyScore;
+    await expert.save();
+}
+
+// export async function calculateAverageScoresAllExperts(){     // Not needed right now but maybe of things break due to extra overhead of the above function
+//     const experts = await Expert.find().populate('subjects');
+//     if(!experts || experts.length === 0){
+//         console.log("No experts found in calculateAverageScoresAllExperts");
+//         return;
+//     }
+//     const expertPromises = experts.map(async expert => {
+//         const subjects = expert.subjects;
+//         if(!subjects || subjects.length === 0){
+//             console.log(`No subjects found for expert ${expert._id} in calculateAverageScoresAllExperts`);
+//             return;
+//         }
+//         let totalProfileScore = 0;
+//         let totalRelevancyScore = 0;
+//         subjects.forEach(subject => {
+//             const expertData = subject.experts.find(exp => exp.id.equals(expert._id));
+//             totalProfileScore += expertData.profileScore;
+//             totalRelevancyScore += expertData.relevancyScore;
+//         });
+//         const averageProfileScore = totalProfileScore / subjects.length;
+//         const averageRelevancyScore = totalRelevancyScore / subjects.length;
+//         expert.averageProfileScore = averageProfileScore;
+//         expert.averageRelevancyScore = averageRelevancyScore;
+//         await expert.save();
+//     });
+//     await Promise.all(expertPromises);
+// }
+
+// calcluate average relevancy for candidate
+// calculate average feeback for expert

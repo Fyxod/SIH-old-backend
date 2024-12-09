@@ -15,7 +15,7 @@ import getSelectedFields from '../utils/selectFields.js';
 import { isValidObjectId } from 'mongoose';
 import Subject from '../models/subject.js';
 import Application from '../models/application.js';
-import { calculateSingleExpertScoresMultipleSubjects } from '../utils/updateScores.js';
+import { calculateAverageScoresSingleExpert, calculateSingleExpertScoresMultipleSubjects } from '../utils/updateScores.js';
 const tempResumeFolder = config.paths.resume.temporary;
 const expertResumeFolder = config.paths.resume.expert;
 
@@ -80,7 +80,7 @@ router.route('/')
             }
         }
 
-        if(req.file){
+        if (req.file) {
             fields.image = `${fields.name.split(' ')[0]}_image_${new Date().getTime()}${path.extname(req.file.originalname)}`;
 
             const destinationFolder = path.join(__dirname, `../public/${config.paths.image.expert}`);
@@ -94,8 +94,19 @@ router.route('/')
         fields.password = await bcrypt.hash(password, 10);
         const expert = await Expert.create(fields);
 
-        return res.success(201, "Expert successfully created", { expert: { id: expert._id, email: expert.email, name: expert.name } });
+        res.success(201, "Expert successfully created", { expert: { id: expert._id, email: expert.email, name: expert.name } });
 
+        const subjects = await Subject.find();
+        expert.subjects.push(...subjects.map(s => s._id));
+        await Promise.all(subjects.map(async s => {
+            s.experts.push({ id: expert._id, relevancyScore: 0, profileScore: 0 });
+            await s.save();
+        }));
+
+        await expert.save();
+
+        await calculateSingleExpertScoresMultipleSubjects(expert._id);
+        calculateAverageScoresSingleExpert(expert._id);
     }))
 
     // i think we should not have this route it will deleate all experts which is not good - bugslayer01
@@ -233,11 +244,13 @@ router.route('/:id')
             throw new ApiError(404, "Expert not found", "EXPERT_NOT_FOUND");
         }
 
+        res.success(200, "Expert updated successfully", { expert });
+
         if (filteredUpdates.skills) {
-            calculateSingleExpertScoresMultipleSubjects(expert._id);
+           await calculateSingleExpertScoresMultipleSubjects(expert._id);
+           calculateAverageScoresSingleExpert(expert._id);
         }
 
-        return res.success(200, "Expert updated successfully", { expert });
     }))
 
     .delete(checkAuth("admin"), safeHandler(async (req, res) => {

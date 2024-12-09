@@ -93,7 +93,11 @@ things pending:
 17. Add a route to get all applications for an expert
 18. Do that encrypted pdf mail to expert thingy with password
 19. Add all experts to all subjects
-20. Update update schemas
+21. Remove all subjects from the queries while returning responses
+22. Candidate routes and application routes pending to be polluted by calculateAverageScores = also have to add calculcateAverageRelenvancyScores and calculateAverageFeedbackScore
+23. CDN and domain left to be setup
+24. Review pending applcation routes
+
 /*
 Problem Statement Title:
 Determining expert relevance with respect to interview board subject and candidates’ area of expertise

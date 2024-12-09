@@ -110,6 +110,10 @@ const candidateSchema = new mongoose.Schema({
         unique: true,
         sparse: true
     },
+    averageRelevancyScore: {
+        type: Number,
+        default: 6
+    }
     // status: {
     //     type: String,
     //     enum: ["active", "inactive"], 

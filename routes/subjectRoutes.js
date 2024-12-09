@@ -9,7 +9,7 @@ import Candidate from '../models/candidate.js';
 import { isValidObjectId } from 'mongoose';
 import Expert from '../models/expert.js';
 import getSelectedFields from '../utils/selectFields.js';
-import { calculateAllCandidateScoresSingleSubject, calculateAllExpertScoresSingleSubject, calculateSingleCandidateScoreSingleSubject, calculateSingleExpertScoresSingleSubject } from '../utils/updateScores.js';
+import { calculateAllCandidateScoresSingleSubject, calculateAllExpertScoresSingleSubject, calculateAverageScoresSingleExpert, calculateSingleCandidateScoreSingleSubject, calculateSingleExpertScoresSingleSubject } from '../utils/updateScores.js';
 import Application from '../models/application.js';
 
 const router = express.Router();
@@ -23,17 +23,22 @@ router.route('/')
         }
         return res.success(200, 'All subjects successfully retrieved', { subjects });
     }))
+
     .post(checkAuth('admin'), safeHandler(async (req, res) => {
         const fields = subjectRegistrationSchema.parse(req.body);
         // { title, description, department, type, location, locationType, recommendedSkills, duration }
+        const experts = await Expert.find();
         const subject = await Subject.create({
             ...fields,
             status: 'open',
             candidates: [],
-            experts: []
+            experts: experts.map(expert => ({ id: expert.id, profileScore: 0, relevancyScore: 0 })) || [],
         });
+        res.success(201, 'Subject successfully created', { subject });
 
-        return res.success(201, 'Subject successfully created', { subject });
+        await Expert.updateMany({}, { $push: { subjects: subject._id } });
+        await calculateAllExpertScoresSingleSubject(subject._id);
+        await Promise.all(experts.map(expert => calculateAverageScoresSingleExpert(expert._id)));
     }))
 
     .delete(checkAuth('admin'), safeHandler(async (req, res) => {
@@ -117,11 +122,13 @@ router.route('/:id')
         if (!subject) {
             throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');
         }
+        res.success(200, 'Subject updated successfully', { subject });
+
         if (filteredUpdates.skills) {
             calculateAllCandidateScoresSingleSubject(id);
-            calculateAllExpertScoresSingleSubject(id);
+            await calculateAllExpertScoresSingleSubject(id);
+            await Promise.all(subject.experts.map(expert => calculateAverageScoresSingleExpert(expert.id)));
         }
-        return res.success(200, 'Subject updated successfully', { subject });
     }))
 
     .put(checkAuth('admin'), safeHandler(async (req, res) => {
@@ -143,10 +150,12 @@ router.route('/:id')
             throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');
         }
 
-        calculateAllCandidateScoresSingleSubject(id);
-        calculateAllExpertScoresSingleSubject(id);
+        res.success(200, 'Subject updated successfully', { subject });
 
-        return res.success(200, 'Subject updated successfully', { subject });
+        calculateAllCandidateScoresSingleSubject(id);
+        await calculateAllExpertScoresSingleSubject(id);
+        await Promise.all(subject.experts.map(expert => calculateAverageScoresSingleExpert(expert.id)));
+
     }))
 
     .delete(checkAuth('admin'), safeHandler(async (req, res) => {
@@ -174,9 +183,9 @@ router.route('/:id')
         } catch (error) {
             console.error('Error deleting subject:', error);
         }
-        return res.success(200, 'Subject deleted successfully', { subject });
+        res.success(200, 'Subject deleted successfully', { subject });
+        await Promise.all(subject.experts.map(expert => calculateAverageScoresSingleExpert(expert.id)));
     }));
-
 
 router.route('/:id/candidate')
 
@@ -240,11 +249,12 @@ router.route('/:id/candidate')
         subject.applications.push(application._id);
 
         await Promise.all([candidate.save(), subject.save()]);
+        res.success(200, 'Successfully applied', { subject, application });
 
         calculateSingleCandidateScoreSingleSubject(id, candidateId);
-        calculateAllExpertScoresSingleSubject(id);
+        await calculateAllExpertScoresSingleSubject(id);
+        await Promise.all(subject.experts.map(expert => calculateAverageScoresSingleExpert(expert.id)));
 
-        return res.success(200, 'Successfully applied', { subject, application });
     }));
 
 router.route('/:id/expert')
@@ -295,8 +305,9 @@ router.route('/:id/expert')
         });
 
         await Promise.all([expert.save(), subject.save()]);
-        calculateSingleExpertScoresSingleSubject(id, expertId);
-        return res.success(200, 'Expert successfully added to the subject', { subject });
+        res.success(200, 'Expert successfully added to the subject', { subject });
+        await calculateSingleExpertScoresSingleSubject(id, expertId);
+        await calculateAverageScoresSingleExpert(expertId);
     }));
 
 export default router;
