@@ -62,38 +62,47 @@ router.route('/')
             try {
                 const payload = verifyToken(fields.resumeToken);
                 const resumeName = payload.resumeName;
-                const resumePath = path.join(__dirname, `../public/${tempResumeFolder}/${resumeName}`);
 
-                const fileExists = await fs.promises.access(resumePath).then(() => true).catch(() => false);
-
-                if (fileExists) {
                     newResumeName = `${fields.name.split(' ')[0]}_resume_${new Date().getTime()}.pdf`;
-                    const destinationFolder = path.join(__dirname, `../public/${expertResumeFolder}`);
-                    const newFilePath = path.join(destinationFolder, newResumeName);
-                    await fs.promises.mkdir(destinationFolder, { recursive: true });
-                    await fs.promises.rename(resumePath, newFilePath);
+
+                    try {
+                        axios.post(`${process.env.RESUME_UPLOAD_URL}/upload/resume/changename`, { newResumeName, oldResumeName: resumeName, person: "expert" })
+                    } catch (error) {
+                        console.log("Error while sending resume token to other server", error)
+                    }
                     fields.resume = newResumeName;
-                }
+                
                 delete fields.resumeToken;
             } catch (error) {
                 console.log("Error processing resume during registration", error);
             }
         }
-
+        // uploading image here
         if (req.file) {
+            const formData = new FormData();
+
             fields.image = `${fields.name.split(' ')[0]}_image_${new Date().getTime()}${path.extname(req.file.originalname)}`;
 
             const destinationFolder = path.join(__dirname, `../public/${config.paths.image.expert}`);
-            const newFilePath = path.join(destinationFolder, fields.image);
-            await fs.promises.mkdir(destinationFolder, { recursive: true });
+            const newFilePath = path.join(destinationFolder, fields.image)
             await fs.promises.rename(req.file.path, newFilePath);
+
+            formData.append("image", fs.createReadStream(newFilePath));
+
+            await axios.post(`${process.env.RESUME_UPLOAD_URL}/upload/image/expert`, formData,
+                {
+                    headers: {
+                        ...formData.getHeaders()
+                    }
+                }
+            )
+            fs.promises.unlink(newFilePath);
         }
 
         const password = `${fields.name.split(' ')[0].toUpperCase()}@${new Date(fields.dateOfBirth).getFullYear()}`;
-        console.log(password);
         fields.password = await bcrypt.hash(password, 10);
         const expert = await Expert.create(fields);
-
+        // send encrypted password pdf to email
         res.success(201, "Expert successfully created", { expert: { id: expert._id, email: expert.email, name: expert.name } });
 
         const subjects = await Subject.find();
@@ -213,9 +222,6 @@ router.route('/:id')
                     }
 
                     const newResumeName = `${expert.name.split(' ')[0]}_resume_${new Date().getTime()}.pdf`;
-                    const destinationFolder = path.join(__dirname, `../public/${expertResumeFolder}`);
-                    const newFilePath = path.join(destinationFolder, newResumeName);
-                    await fs.promises.mkdir(destinationFolder, { recursive: true });
                     await fs.promises.rename(resumePath, newFilePath);
 
                     filteredUpdates.resume = newResumeName;
@@ -247,8 +253,8 @@ router.route('/:id')
         res.success(200, "Expert updated successfully", { expert });
 
         if (filteredUpdates.skills) {
-           await calculateSingleExpertScoresMultipleSubjects(expert._id);
-           calculateAverageScoresSingleExpert(expert._id);
+            await calculateSingleExpertScoresMultipleSubjects(expert._id);
+            calculateAverageScoresSingleExpert(expert._id);
         }
 
     }))

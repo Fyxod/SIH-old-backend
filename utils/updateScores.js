@@ -432,33 +432,107 @@ export async function calculateAverageScoresSingleExpert(expertId){
     await expert.save();
 }
 
-// export async function calculateAverageScoresAllExperts(){     // Not needed right now but maybe of things break due to extra overhead of the above function
+export async function calculateAverageScoresAllExperts(){     
+    const experts = await Expert.find().populate('subjects');
+    if(!experts || experts.length === 0){
+        console.log("No experts found in calculateAverageScoresAllExperts");
+        return;
+    }
+    const expertPromises = experts.map(async expert => {
+        const subjects = expert.subjects;
+        if(!subjects || subjects.length === 0){
+            console.log(`No subjects found for expert ${expert._id} in calculateAverageScoresAllExperts`);
+            return;
+        }
+        let totalProfileScore = 0;
+        let totalRelevancyScore = 0;
+        subjects.forEach(subject => {
+            const expertData = subject.experts.find(exp => exp.id.equals(expert._id));
+            totalProfileScore += expertData.profileScore;
+            totalRelevancyScore += expertData.relevancyScore;
+        });
+        const averageProfileScore = totalProfileScore / subjects.length;
+        const averageRelevancyScore = totalRelevancyScore / subjects.length;
+        expert.averageProfileScore = averageProfileScore;
+        expert.averageRelevancyScore = averageRelevancyScore;
+        await expert.save();
+    });
+    await Promise.all(expertPromises);
+}
+
+// calcluate average relevancy for candidate
+
+export async function calculateAverageRelevancyScoreAllCandidates(){
+    const candidates = await Candidate.find().populate('subjects');
+    if(!candidates || candidates.length === 0){
+        console.log("No candidates found in calculateAverageRelevancyScoreAllCandidate");
+        return;
+    }
+    const candidatePromises = candidates.map(async candidate => {
+        const subjects = candidate.subjects;
+        if(!subjects || subjects.length === 0){
+            console.log(`No subjects found for candidate ${candidate._id} in calculateAverageRelevancyScoreAllCandidate`);
+            return;
+        }
+        let totalRelevancyScore = 0;
+        subjects.forEach(subject => {
+            const candidateData = subject.candidates.find(cand => cand.id.equals(candidate._id));
+            totalRelevancyScore += candidateData.relevancyScore;
+        });
+        const averageRelevancyScore = totalRelevancyScore / subjects.length;
+        candidate.averageRelevancyScore = averageRelevancyScore;
+        await candidate.save();
+    });
+    await Promise.all(candidatePromises);
+}
+
+export async function calculateAverageRelevancyScoreSingleCandidate(candidateId){
+    const candidate = await Candidate.findById(candidateId).populate('subjects');
+    if(!candidate){
+        console.log(`Candidate not found for id ${candidateId} in calculateAverageRelevancyScoreSingleCandidate`);
+        return;
+    }
+    const subjects = candidate.subjects;
+    if(!subjects || subjects.length === 0){
+        console.log(`No subjects found for candidate ${candidateId} in calculateAverageRelevancyScoreSingleCandidate`);
+        return;
+    }
+    let totalRelevancyScore = 0;
+    subjects.forEach(subject => {
+        const candidateData = subject.candidates.find(cand => cand.id.equals(candidateId));
+        totalRelevancyScore += candidateData.relevancyScore;
+    });
+    const averageRelevancyScore = totalRelevancyScore / subjects.length;
+    candidate.averageRelevancyScore = averageRelevancyScore;
+    await candidate.save();
+}
+
+// calculate average feedback score for expert
+
+// export async function calculateAverageFeedbackScoreAllExperts(){
 //     const experts = await Expert.find().populate('subjects');
 //     if(!experts || experts.length === 0){
-//         console.log("No experts found in calculateAverageScoresAllExperts");
+//         console.log("No experts found in calculateAverageFeedbackScoreAllExperts");
 //         return;
 //     }
 //     const expertPromises = experts.map(async expert => {
 //         const subjects = expert.subjects;
 //         if(!subjects || subjects.length === 0){
-//             console.log(`No subjects found for expert ${expert._id} in calculateAverageScoresAllExperts`);
+//             console.log(`No subjects found for expert ${expert._id} in calculateAverageFeedbackScoreAllExperts`);
 //             return;
 //         }
-//         let totalProfileScore = 0;
-//         let totalRelevancyScore = 0;
+//         let totalFeedbackScore = 0;
+//         let totalFeedbackCount = 0;
 //         subjects.forEach(subject => {
 //             const expertData = subject.experts.find(exp => exp.id.equals(expert._id));
-//             totalProfileScore += expertData.profileScore;
-//             totalRelevancyScore += expertData.relevancyScore;
+//             if(expertData.feedback){
+//                 totalFeedbackScore += expertData.feedback.score;
+//                 totalFeedbackCount++;
+//             }
 //         });
-//         const averageProfileScore = totalProfileScore / subjects.length;
-//         const averageRelevancyScore = totalRelevancyScore / subjects.length;
-//         expert.averageProfileScore = averageProfileScore;
-//         expert.averageRelevancyScore = averageRelevancyScore;
+//         const averageFeedbackScore = totalFeedbackScore / totalFeedbackCount;
+//         expert.averageFeedbackScore = averageFeedbackScore;
 //         await expert.save();
 //     });
 //     await Promise.all(expertPromises);
 // }
-
-// calcluate average relevancy for candidate
-// calculate average feeback for expert

@@ -112,7 +112,7 @@ const candidateSchema = new mongoose.Schema({
     },
     averageRelevancyScore: {
         type: Number,
-        default: 6
+        default: 0
     }
     // status: {
     //     type: String,

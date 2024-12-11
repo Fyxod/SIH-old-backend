@@ -538,7 +538,7 @@ export const subjectUpdateSchema = z.object({
     }).optional(),
 });
 
-export const applicationRegistrationSchema = z.object({
+export const interviewDetailsSchema = z.object({
     date: z.date().optional(),
     time: z.string().optional(),
     platform: z.enum(["zoom", "googleMeet", "microsoftTeams", "offline"]).optional(),

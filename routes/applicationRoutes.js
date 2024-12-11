@@ -8,8 +8,8 @@ import Expert from '../models/expert.js';
 import ApiError from '../utils/errorClass.js';
 import { isValidObjectId } from 'mongoose';
 import Feedback from '../models/feedback.js';
-import { applicationRegistrationSchema } from '../utils/zodSchemas.js';
-import { calculateAllExpertScoresSingleSubject, calculateAllExpertsScoresMultipleSubjects, calculateSingleCandidateScoreSingleSubject } from '../utils/updateScores.js';
+import { interviewDetailsSchema } from '../utils/zodSchemas.js';
+import { calculateAllExpertScoresSingleSubject, calculateAllExpertsScoresMultipleSubjects, calculateAverageRelevancyScoreSingleCandidate, calculateAverageScoresAllExperts, calculateSingleCandidateScoreSingleSubject } from '../utils/updateScores.js';
 // Also place the update functions here at appropriate places
 const router = express.Router();
 
@@ -60,10 +60,11 @@ router.route('/')
         candidate.applications.push(application._id);
 
         await Promise.all([subject.save(), candidate.save()]);
-        calculateSingleCandidateScoreSingleSubject(subjectId, candidateId);
-        calculateAllExpertScoresSingleSubject(subjectId);
 
-        return res.success(201, "Application created successfully", { application });
+        res.success(201, "Application created successfully", { application });
+        await Promise.all([calculateSingleCandidateScoreSingleSubject(subjectId, candidateId), calculateAllExpertScoresSingleSubject(subjectId)]);
+        await Promise.all([calculateAverageScoresAllExperts(), calculateAverageRelevancyScoreSingleCandidate(candidateId)]);
+
     }))
 
 // .delete(checkAuth('admin'), safeHandler(async (req, res) => {
@@ -122,6 +123,7 @@ router.route('/:id')
         await application.save();
         return res.success(200, "Application updated successfully", { application });
     }))
+    // following routes left to be reviewed
 
     .delete(checkAuth('admin'), safeHandler(async (req, res) => {
         const { id } = req.params;
@@ -146,12 +148,13 @@ router.route('/:id')
             }
         });
 
-        calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
+        res.success(200, "Application deleted successfully", { application });
 
-        return res.success(200, "Application deleted successfully", { application });
+        await calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
+        calculateAverageScoresAllExperts();
+        calculateAverageRelevancyScoreSingleCandidate(application.candidate);
+
     }));
-
-// following routes left to be reviewed
 
 router.route('/:id/panel')
     .get(checkAuth('admin'), safeHandler(async (req, res) => {
@@ -264,7 +267,7 @@ router.route('/:id/panel/:expertId')
         }
         const subject = await Subject.findById(application.subject);
         if (!subject) {
-            throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');  
+            throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');
         }
         const candidate = await Candidate.findById(application.candidate);
         if (!candidate) {
@@ -295,14 +298,15 @@ router.route('/:id/panel/:expertId')
             subject.feedbacks.push(newFeedback._id);
             candidate.feedbacks.push(newFeedback._id);
             await Promise.all[application.save(), expert.save(), subject.save(), candidate.save()];
-        }
+        } // see if panel.feedback updatiom works wotj applicatiom.save
 
         return res.success(200, "Feedback added/updated successfully", { panel: application.panel });
     }))
- //following left
+    //following left
     .delete(checkAuth('candidate'), safeHandler(async (req, res) => {
         const { id, expertId } = req.params;
-        if (!isValidObjectId(id) || !isValidObjectId(expertId)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');
+        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
+        if (!isValidObjectId(expertId)) throw new ApiError(400, 'Invalid expert id', 'INVALID_ID');
 
         const application = await Application.findById(id);
         if (!application) {
@@ -314,25 +318,47 @@ router.route('/:id/panel/:expertId')
             throw new ApiError(404, 'Panel member not found', 'EXPERT_NOT_FOUND');
         }
 
+        if (!panelMember.feedback) {
+            throw new ApiError(404, 'Feedback not found', 'FEEDBACK_NOT_FOUND');
+        }
+
+        const expert = await Expert.findById(expertId);
+        if (!expert) {
+            throw new ApiError(404, 'Expert not found', 'EXPERT_NOT_FOUND');
+        }
+        const subject = await Subject.findById(application.subject);
+        if (!subject) {
+            throw new ApiError(404, 'Subject not found', 'SUBJECT_NOT_FOUND');
+        }
+        const candidate = await Candidate.findById(application.candidate);
+        if (!candidate) {
+            throw new ApiError(404, 'Candidate not found', 'CANDIDATE_NOT_FOUND');
+        }
+
+        expert.feedbacks = expert.feedbacks.filter(feedback => !feedback.equals(panelMember.feedback));
+        subject.feedbacks = subject.feedbacks.filter(feedback => !feedback.equals(panelMember.feedback));
+        candidate.feedbacks = candidate.feedbacks.filter(feedback => !feedback.equals(panelMember.feedback));
+
         await Feedback.findByIdAndDelete(panelMember.feedback);
         panelMember.feedback = null;
-        await application.save();
+        await Promise.all([application.save(), expert.save(), subject.save(), candidate.save()]);
 
         return res.success(200, "Feedback deleted successfully", { panel: application.panel });
     }));
 
-router.route('/:id/panel/:expertId/note')
+router.route('/:id/panel/:expertIdP/note')
 
     .get(checkAuth('expert'), safeHandler(async (req, res) => {
-        const { id, expertId } = req.params;
-        if (!isValidObjectId(id) || !isValidObjectId(expertId)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');
+        const { id, expertIdP } = req.params;
+        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
+        if (!isValidObjectId(expertIdP)) throw new ApiError(400, 'Invalid expert id', 'INVALID_ID');
 
         const application = await Application.findById(id);
         if (!application) {
             throw new ApiError(404, 'Application not found', 'APPLICATION_NOT_FOUND');
         }
 
-        const panelMember = application.panel.find(panel => panel.expert.equals(expertId));
+        const panelMember = application.panel.find(panel => panel.expert.equals(expertIdP));
         if (!panelMember) {
             throw new ApiError(404, 'Panel member not found', 'EXPERT_NOT_FOUND');
         }
@@ -372,7 +398,7 @@ router.route('/:id/panel/:expertId/note')
 router.route(':id/interviewdetails')
     .get(checkAuth('candidate'), safeHandler(async (req, res) => {
         const { id } = req.params;
-        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');
+        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
 
         const application = await Application.findById(id);
         if (!application) {
@@ -384,9 +410,9 @@ router.route(':id/interviewdetails')
 
     .patch(checkAuth('expert'), safeHandler(async (req, res) => {
         const { id } = req.params;
-        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');
+        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
 
-        const updates = applicationRegistrationSchema.parse(req.body);
+        const updates = interviewDetailsSchema.parse(req.body);
 
         const filteredUpdates = Object.fromEntries(
             Object.entries(updates).filter(([_, value]) => value != null)

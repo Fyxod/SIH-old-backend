@@ -97,6 +97,7 @@ things pending:
 22. Candidate routes and application routes pending to be polluted by calculateAverageScores = also have to add calculcateAverageRelenvancyScores and calculateAverageFeedbackScore
 23. CDN and domain left to be setup
 24. Review pending applcation routes
+25. delete images when deleting candidate or expert
 
 /*
 Problem Statement Title:

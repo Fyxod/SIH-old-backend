@@ -11,10 +11,11 @@ import { candidateLoginSchema, candidateRegistrationSchema, candidateUpdateSchem
 import path from 'path';
 import config from '../config/config.js';
 import getSelectedFields from '../utils/selectFields.js';
-import { calculateAllExpertsScoresMultipleSubjects, calculateSingleCandidateScoreMultipleSubjects } from '../utils/updateScores.js';
+import { calculateAllExpertsScoresMultipleSubjects, calculateAverageRelevancyScoreSingleCandidate, calculateAverageScoresAllExperts, calculateSingleCandidateScoreMultipleSubjects } from '../utils/updateScores.js';
 import Application from '../models/application.js';
 import Expert from '../models/expert.js';
 import { isValidObjectId } from 'mongoose';
+import axios from 'axios';
 const tempResumeFolder = config.paths.resume.temporary;
 const candidateResumeFolder = config.paths.resume.candidate;
 
@@ -37,7 +38,6 @@ router.route('/')
     .post(candidateImageUpload.single('image'), safeHandler(async (req, res) => {
         const fields = candidateRegistrationSchema.parse(req.body);
         // { name, email, password, mobileNo, dateOfBirth, education, skills, experience, linkedin, resumeToken, gender }
-        // will apply multer for image later
 
         const findArray = [
             { email: fields.email },
@@ -64,22 +64,41 @@ router.route('/')
             try {
                 const payload = verifyToken(fields.resumeToken);
                 const resumeName = payload.resumeName;
-                const resumePath = path.join(__dirname, `../public/${tempResumeFolder}/${resumeName}`);
 
-                const fileExists = await fs.promises.access(resumePath).then(() => true).catch(() => false);
-
-                if (fileExists) {
                     newResumeName = `${fields.name.split(' ')[0]}_resume_${new Date().getTime()}.pdf`;
-                    const destinationFolder = path.join(__dirname, `../public/${candidateResumeFolder}`);
-                    const newFilePath = path.join(destinationFolder, newResumeName);
-                    await fs.promises.mkdir(destinationFolder, { recursive: true });
-                    await fs.promises.rename(resumePath, newFilePath);
+
+                    try {
+                        axios.post(`${process.env.RESUME_UPLOAD_URL}/upload/resume/changename`, { newResumeName, oldResumeName: resumeName, person: "candidate" })
+                    } catch (error) {
+                        console.log("Error while sending resume token to other server", error)
+                    }
                     fields.resume = newResumeName;
-                }
+                
                 delete fields.resumeToken; // try removing this if any error occurs
             } catch (error) {
                 console.log("Error processing resume during registration", error);
             }
+        }
+        // uploading image here
+        if (req.file) {
+            const formData = new FormData();
+
+            fields.image = `${fields.name.split(' ')[0]}_image_${new Date().getTime()}${path.extname(req.file.originalname)}`;
+
+            const destinationFolder = path.join(__dirname, `../public/${config.paths.image.candidate}`);
+            const newFilePath = path.join(destinationFolder, fields.image);
+            await fs.promises.rename(req.file.path, newFilePath);
+
+            formData.append("image", fs.createReadStream(newFilePath));
+
+            await axios.post(`${process.env.RESUME_UPLOAD_URL}/upload/image/candidate`, formData,
+                {
+                    headers: {
+                        ...formData.getHeaders()
+                    }
+                }
+            )
+            fs.promises.unlink(newFilePath);
         }
 
         fields.password = await bcrypt.hash(fields.password, 10);
@@ -110,10 +129,11 @@ router.route('/')
             Expert.updateMany({}, { $set: { applications: [] } }),
             // Add if remember more
         ]);
+        res.success(200, "All candidates successfully deleted", { candidates });
 
-        calculateAllExpertsScoresMultipleSubjects(candidates.map(c => c.subjects).flat());
+        await calculateAllExpertsScoresMultipleSubjects(candidates.map(c => c.subjects).flat());
+        await calculateAverageScoresAllExperts();
 
-        return res.success(200, "All candidates successfully deleted", { candidates });
     }));
 
 router.route('/:id')
@@ -218,11 +238,13 @@ router.route('/:id')
         if (!candidate) {
             throw new ApiError(404, "Candidate not found", "CANDIDATE_NOT_FOUND");
         }
+
+        res.success(200, "Candidate updated successfully", { candidate });
+
         if (filteredUpdates.skills) {
-            calculateSingleCandidateScoreMultipleSubjects(candidate._id);
-            calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
+            await Promise.all([calculateSingleCandidateScoreMultipleSubjects(candidate._id), calculateAllExpertsScoresMultipleSubjects(candidate.subjects)]);
+            await Promise.all([calculateAverageRelevancyScoreSingleCandidate(candidate._id), calculateAverageScoresAllExperts()]);
         }
-        return res.success(200, "Candidate updated successfully", { candidate });
     }))
 
     .delete(checkAuth("admin"), safeHandler(async (req, res) => {
@@ -253,9 +275,10 @@ router.route('/:id')
             console.error('Error occurred while deleting candidate', error);
         }
 
-        calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
+        res.success(200, "Candidate deleted successfully", { candidate });
+        await calculateAllExpertsScoresMultipleSubjects(candidate.subjects);
+        await calculateAverageScoresAllExperts();
 
-        return res.success(200, "Candidate deleted successfully", { candidate });
     }));
 
 router.post('/signin', safeHandler(async (req, res) => {

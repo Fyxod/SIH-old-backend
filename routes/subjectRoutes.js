@@ -9,7 +9,7 @@ import Candidate from '../models/candidate.js';
 import { isValidObjectId } from 'mongoose';
 import Expert from '../models/expert.js';
 import getSelectedFields from '../utils/selectFields.js';
-import { calculateAllCandidateScoresSingleSubject, calculateAllExpertScoresSingleSubject, calculateAverageScoresSingleExpert, calculateSingleCandidateScoreSingleSubject, calculateSingleExpertScoresSingleSubject } from '../utils/updateScores.js';
+import { calculateAllCandidateScoresSingleSubject, calculateAllExpertScoresSingleSubject, calculateAverageRelevancyScoreAllCandidates, calculateAverageRelevancyScoreSingleCandidate, calculateAverageScoresAllExperts, calculateAverageScoresSingleExpert, calculateSingleCandidateScoreSingleSubject, calculateSingleExpertScoresSingleSubject } from '../utils/updateScores.js';
 import Application from '../models/application.js';
 
 const router = express.Router();
@@ -38,7 +38,7 @@ router.route('/')
 
         await Expert.updateMany({}, { $push: { subjects: subject._id } });
         await calculateAllExpertScoresSingleSubject(subject._id);
-        await Promise.all(experts.map(expert => calculateAverageScoresSingleExpert(expert._id)));
+        await calculateAverageScoresAllExperts();
     }))
 
     .delete(checkAuth('admin'), safeHandler(async (req, res) => {
@@ -51,7 +51,7 @@ router.route('/')
             Expert.updateMany({}, { $set: { subjects: [] } }),
             Candidate.updateMany({}, { $set: { subjects: [] } }),
         ]);
-        return res.success(200, 'All subjects successfully deleted', { subjects });
+        res.success(200, 'All subjects successfully deleted', { subjects });
     }));
 
 router.route('/:id')
@@ -125,9 +125,8 @@ router.route('/:id')
         res.success(200, 'Subject updated successfully', { subject });
 
         if (filteredUpdates.skills) {
-            calculateAllCandidateScoresSingleSubject(id);
-            await calculateAllExpertScoresSingleSubject(id);
-            await Promise.all(subject.experts.map(expert => calculateAverageScoresSingleExpert(expert.id)));
+            await Promise.all([calculateAllCandidateScoresSingleSubject(id), calculateAllExpertScoresSingleSubject(id)]);
+            await Promise.all([calculateAverageRelevancyScoreAllCandidates(), calculateAverageScoresAllExperts()]);
         }
     }))
 
@@ -152,9 +151,10 @@ router.route('/:id')
 
         res.success(200, 'Subject updated successfully', { subject });
 
-        calculateAllCandidateScoresSingleSubject(id);
+        await calculateAllCandidateScoresSingleSubject(id);
         await calculateAllExpertScoresSingleSubject(id);
-        await Promise.all(subject.experts.map(expert => calculateAverageScoresSingleExpert(expert.id)));
+        await calculateAverageScoresAllExperts();
+        await calculateAverageRelevancyScoreAllCandidates();
 
     }))
 
@@ -184,7 +184,7 @@ router.route('/:id')
             console.error('Error deleting subject:', error);
         }
         res.success(200, 'Subject deleted successfully', { subject });
-        await Promise.all(subject.experts.map(expert => calculateAverageScoresSingleExpert(expert.id)));
+        await Promise.all([calculateAverageScoresAllExperts(), calculateAverageRelevancyScoreAllCandidates()]);
     }));
 
 router.route('/:id/candidate')
@@ -251,9 +251,8 @@ router.route('/:id/candidate')
         await Promise.all([candidate.save(), subject.save()]);
         res.success(200, 'Successfully applied', { subject, application });
 
-        calculateSingleCandidateScoreSingleSubject(id, candidateId);
-        await calculateAllExpertScoresSingleSubject(id);
-        await Promise.all(subject.experts.map(expert => calculateAverageScoresSingleExpert(expert.id)));
+        await Promise.all([calculateSingleCandidateScoreSingleSubject(id, candidateId), calculateAllExpertScoresSingleSubject(id)]);
+        await Promise.all([calculateAverageRelevancyScoreSingleCandidate(candidateId), calculateAverageScoresAllExperts()]);
 
     }));
 
