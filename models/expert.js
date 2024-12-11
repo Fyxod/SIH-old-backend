@@ -120,15 +120,15 @@ const expertSchema = new mongoose.Schema({
     },
     averageProfileScore: {
         type: Number,
-        default: 4
+        default: 0
     },
     averageRelevancyScore: {
         type: Number,
-        default: 4
+        default: 0
     },
     averageFeedbackScore: {
         type: Number,
-        default: 4
+        default: 0
     }
 },
     {
