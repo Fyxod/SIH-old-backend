@@ -302,7 +302,7 @@ router.route('/:id/panel/:expertId')
 
         return res.success(200, "Feedback added/updated successfully", { panel: application.panel });
     }))
-    //following left
+    
     .delete(checkAuth('candidate'), safeHandler(async (req, res) => {
         const { id, expertId } = req.params;
         if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
@@ -367,12 +367,17 @@ router.route('/:id/panel/:expertIdP/note')
     }))
     .patch(checkAuth('expert'), safeHandler(async (req, res) => {
         const { id, expertIdP } = req.params;
-        const expertIdR = req.user.id;
+        let expertId;
 
-        if (!isValidObjectId(id) || !isValidObjectId(expertIdP) || !isValidObjectId(expertIdR)) throw new ApiError(400, 'Invalid id', 'INVALID_ID');
-        if (expertIdP !== expertIdR) throw new ApiError(403, 'Unauthorized', 'UNAUTHORIZED');
+        if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
 
-        const expertId = expertIdP;
+        if(req.user.id && isValidObjectId(req.user.id)){
+            if(expertIdP && expertIdP !== req.user.id) throw new ApiError(403, 'Unauthorized', 'UNAUTHORIZED');
+            expertId = req.user.id;
+        }
+        else if(!isValidObjectId(expertIdP)) throw new ApiError(400, 'Invalid expert id', 'INVALID_ID');
+        else expertId = expertIdP;
+
         const { note } = req.body;
 
         const application = await Application.findById(id);
@@ -395,7 +400,7 @@ router.route('/:id/panel/:expertIdP/note')
 
     }));
 
-router.route(':id/interviewdetails')
+router.route('/:id/interviewdetails')
     .get(checkAuth('candidate'), safeHandler(async (req, res) => {
         const { id } = req.params;
         if (!isValidObjectId(id)) throw new ApiError(400, 'Invalid application id', 'INVALID_ID');
