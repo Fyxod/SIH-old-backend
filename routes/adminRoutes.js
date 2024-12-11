@@ -33,7 +33,7 @@ router.post('/signin', safeHandler(async (req, res) => {
     return res.success(200, "Successfully logged in", { userToken, id: admin._id, role: admin.role });
 }));
 
-router.post('/signup', safeHandler(async (req, res) => {
+router.post('/signup', checkAuth('superadmin'), safeHandler(async (req, res) => {
     const { username, password } = registerAdminSchema.parse(req.body);
     const admin = await Admin.findOne({ username });
     if (admin) {
